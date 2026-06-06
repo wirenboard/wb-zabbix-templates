@@ -1,0 +1,365 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 90f421c35de84445a890eb63aa1f5586
+    name: Templates/Wiren Board
+  templates:
+  - uuid: ca2b78447e4d43a69b7cf172b184370e
+    template: WB-MAI2-mini CC by MQTT
+    name: WB-MAI2-mini/CC by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 53e4e9dc2b384953a1740b632c976218
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 1b81025e09ef41bc8974fd5306617f79
+      name: Input 1 Current
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8ffc9690e709490ba202fe353da094f9
+      name: Input 1 Current (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 121378761afe4318ad952dcb2aacbcca
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Input 1 Current"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: be27d8c80a7d4284927e7e21c544276a
+      name: Input 1 Value
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b517472228a04ebf8c67dfd88f4af77d
+      name: Input 1 Value (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1f2686bec5564e97ab8b0b7e54f3b6a6
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Input 1 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a2e241b7a6864264b6c5b3bbb7e453e2
+      name: Input 2 Current
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a1d6f5b13d8849f6a953e84ea1aec5a0
+      name: Input 2 Current (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 70e41e8d40c3412a8319dff7c790ba18
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Input 2 Current"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c3e0633e391d4883b5197e6f391ae84c
+      name: Input 2 Value
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0b837f4802024051a3f8cececcec27cb
+      name: Input 2 Value (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 454913786ddc43939b5f5db4c057e11a
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Input 2 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 70ee74cf74534785836068a1fd046c86
+      name: Serial NO
+      type: DEPENDENT
+      key: wb.ctrl["Serial NO"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9bd0dc8e7a604334990f9a1f489ebdec
+      name: Serial NO (error)
+      type: DEPENDENT
+      key: wb.err["Serial NO"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 43e0871cd2f548f4b5036a0cc44323a0
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Serial NO"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial NO" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 863bdd13f6234b33886af616597d1488
+      name: HW Batch Number
+      type: DEPENDENT
+      key: wb.ctrl["HW Batch Number"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3469f959d63448b19777bf4298ca8ba7
+      name: HW Batch Number (error)
+      type: DEPENDENT
+      key: wb.err["HW Batch Number"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 95152597ca184cf4b669fb251a011133
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["HW Batch Number"]))>0
+        name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 027135ea13fa48c38e64f0d66c994325
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3d97fdd060494fafb2f32e202eeb6249
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0748c229f2b7491aa16fed1571db4e66
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 74b32d586e104313826cb9d64f2c6645
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 190c6269710448eba70b4b5d73a01e57
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b0b2409b02ab4941a6c70c299b640533
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d3e52cc12d8240f694ba841e4168e651
+      name: Minimum MCU Voltage Since Startup
+      type: DEPENDENT
+      key: wb.ctrl["Minimum MCU Voltage Since Startup"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum MCU Voltage Since Startup']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a3853c24b2c14e64b5fb624551d3b728
+      name: Minimum MCU Voltage Since Startup (error)
+      type: DEPENDENT
+      key: wb.err["Minimum MCU Voltage Since Startup"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum MCU Voltage Since Startup/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8dc746580f674f8cac91c57902f4f41e
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Minimum MCU Voltage Since Startup"]))>0
+        name: 'WB {HOST.HOST}: error on "Minimum MCU Voltage Since Startup" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 61b46337480341d99709c349fb2c6d77
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: da047e1f528b483f982ddd049433bd35
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a1587c7b13f94ff5b87dbcd57cf860fb
+        expression: length(last(/WB-MAI2-mini CC by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mai2-mini

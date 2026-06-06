@@ -1,0 +1,2434 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 7ccba7d8c306456b815c822c74fd3e98
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 71b478cbf0db4f7f9df35d9754d04dd5
+    template: WB-MCM8 by MQTT
+    name: WB-MCM8 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: c75070dd1fc04f38bf46e9425ba7c3db
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: c43c3b425fde4014a1557e32fbd14886
+      name: Input 1
+      type: DEPENDENT
+      key: wb.ctrl["Input 1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b075960d1efc4d6b92090c7fee064bab
+      name: Input 1 (error)
+      type: DEPENDENT
+      key: wb.err["Input 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9fbb40b3a5d24851ab2615283c6ebf1b
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a5ef057ee62442dfaefb61240ea0cad6
+      name: Input 1 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 41cd9f4a289f47f6b1b6e6566f8a27d6
+      name: Input 1 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b72ac1ce241f4930bffc41f6f229a23d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5ecc061ca5c049cd904c07029e785066
+      name: Input 1 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8105801bbf0743d68582895f13d6cb0b
+      name: Input 1 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e4693ac825da4649ba0a4c48c0478dc3
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 29193372f07f48f18b6c179e109795e2
+      name: Input 1 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7061b79803664ff19b027ed729ae3b48
+      name: Input 1 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 283f3958a4ff4283a0ff0b8e27325db1
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1db6cb4fa0154e70b9cb239ff8e372eb
+      name: Input 1 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 96a640f2fd1f4090a63b2cf06bede6e7
+      name: Input 1 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 11bb768b5b4c449896ff5f4a85b54f53
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 65fc0f23f5d94a3d9fb928c21455d851
+      name: Input 1 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 65459ba9d8984d0580ff8054558e72de
+      name: Input 1 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a995132419de4a5597e27162f1934d9a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fe51c34d8da24fc6ad6f741d06e3bb84
+      name: Input 1 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b7189f8b95c8463fb3aa916afae09174
+      name: Input 1 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5bae0958f6d2404e8b362f13c56fd2a6
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 1 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d2d27e05cfd64e7e9ed8d0e45060b0ce
+      name: Input 2
+      type: DEPENDENT
+      key: wb.ctrl["Input 2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae661ed39b6e4ce1801c179c2b18a3b1
+      name: Input 2 (error)
+      type: DEPENDENT
+      key: wb.err["Input 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a10b928bba02474c8db96a9dd6a77d8b
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a14dcd553d994e38874bb678aee711e2
+      name: Input 2 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 75463192cddf4aa48b7d775b63b7c6ab
+      name: Input 2 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 57b0a446e5284170b7142c7918235af2
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0d4e20eb563e4aa89ab3cc740f3925f9
+      name: Input 2 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 44bb9578521f4e09ade7df7b172bb264
+      name: Input 2 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a1583c3310f94e2aa83968fc61ef3e7d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9c3c558519214765b588924199ee9351
+      name: Input 2 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7f7c54d3907e483586ffa049bd54b7ab
+      name: Input 2 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 89ee5143f23240869c428041310adb13
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f81e521d8776408b8fd9945865f08406
+      name: Input 2 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1c4409c2b1b941e0a7520aa891ad40ae
+      name: Input 2 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a27117ef68f449409fd56cfe68a258d4
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 356e61eae99148c1ae1aff572e6960f1
+      name: Input 2 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d20a7592f6f44ca3a052bc829f3d1c5e
+      name: Input 2 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e028c141bdaa40da80eafef15fd000fb
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5c2d6c8e81244b478a651378d2d77318
+      name: Input 2 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ddbbb45f0e9f4d9d9d94a619651149ef
+      name: Input 2 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2342cccb58774b5e9d299b3f95d51f3f
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 2 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a3bd6c71724e43e892c220aa8516efc2
+      name: Input 3
+      type: DEPENDENT
+      key: wb.ctrl["Input 3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d93824b2a65c4433bf818ac7f3d23959
+      name: Input 3 (error)
+      type: DEPENDENT
+      key: wb.err["Input 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9564d0e6933d40ec9534e164d0406725
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 625398ddb2a24cc294f252255eed19dd
+      name: Input 3 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c594a85651e341b19d51753713b31ec2
+      name: Input 3 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6ecd3cf0bec648ac93bca7b7cee30adc
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3bba57e215974c61854294f2d08df186
+      name: Input 3 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fec88ac817574d6f9d7141f7b7518a45
+      name: Input 3 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 57c937f8c6834a5691746dcfd6fe829a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ceecd4b4db714e07b930be3c0503dc76
+      name: Input 3 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 857ef6a393f24eafbae665099c29a2ff
+      name: Input 3 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 49f0b28d6a074f4b8455bc70d2d5552c
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 174ec4f7b92542aca9ae3d9d12fb55d2
+      name: Input 3 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d81778dbc5064b3283e9bd41d82e40d3
+      name: Input 3 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c59b350ead144c159b0e2e1c6884e26a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 26ee9b1b99764edfa263ddb97a201540
+      name: Input 3 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f689b891d2dd4471844cb57b54732809
+      name: Input 3 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0a5f9d3bc50a47469cacad05a63b0394
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9dc88742ed3843a58a5ac2bfd0dcab21
+      name: Input 3 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cedfeaf719d84eb38b5731bfa3e2d242
+      name: Input 3 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dfd8f57a97fd463b8a24161648e9cfa0
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 3 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1c858ffde1904649ab005eac115feb81
+      name: Input 4
+      type: DEPENDENT
+      key: wb.ctrl["Input 4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cd644f6294ec422bb4e0047bd39c1e21
+      name: Input 4 (error)
+      type: DEPENDENT
+      key: wb.err["Input 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1871b8cd68674a8bb9d4dd1c2c36a86c
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6842bd252994b56a2894d5af1c42b50
+      name: Input 4 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3983a72277a6473fb497cbbd226f3f77
+      name: Input 4 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e9cd12c8cf9a47bbbfccaba5445bcd7d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d2fe53af92ff4d23bb8be24a901a114e
+      name: Input 4 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7f52d9f7a1864e69a1aa507216285bff
+      name: Input 4 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c236e0e1db934f62ae8d093e6ac42385
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aeb028d920104efeba6fe3cd4bcaf71b
+      name: Input 4 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5230587b43ad48dfb0a2d4cc673684ad
+      name: Input 4 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a944f74d03b54e2a9748053ece853d1d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d6317d50b26c4546abd9d83ea673df80
+      name: Input 4 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 21f0afd536d94fb88e60a2642d659e43
+      name: Input 4 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3baf3db7d21f42eab9c74b5b61268b76
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d51735542a9b4a75ac569eaee6a12768
+      name: Input 4 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fc248133c6ee4302bb4f43db7404529c
+      name: Input 4 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 40aa4c67ad1d42de881f2ffd1e453761
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cf86348a608a4247805715ae5d924292
+      name: Input 4 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 48b4382db8344b12b21576df721354b3
+      name: Input 4 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 654101763d2f4ed5b2716a7b92057a52
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 4 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f678e429e2894342b9a5d4fcea004ba9
+      name: Input 5
+      type: DEPENDENT
+      key: wb.ctrl["Input 5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dcb1ce63476a448f8e06cbd391a91bec
+      name: Input 5 (error)
+      type: DEPENDENT
+      key: wb.err["Input 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f19a10730af74eacbf2696465c9377d5
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ca7a7dbaf91c410d87ccc6eb3505bf5e
+      name: Input 5 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b72177ff863140f0afe71c335080ccce
+      name: Input 5 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4eb4644202544d08b391327762d4164d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 98ed174f967643f0b54935d0f6045756
+      name: Input 5 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf63f1258f1b45c0b5c4a889895804f7
+      name: Input 5 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ad47a09b63cb499b8e0702eb12be0761
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2b8a0a83113547f8bb20546fd0844c1a
+      name: Input 5 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7653fa96695a44da8968fd7f10e2c54f
+      name: Input 5 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: af2562288cc3401aa4f826d765bd8b39
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 535aa13409054655b374010ef131b59c
+      name: Input 5 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0a338e5993e74c99b6c134b1bb8f54a9
+      name: Input 5 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 63ec5bf1e4604c2eb2734369a3099d3a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4de72f23e19846549330233a0a77c7e6
+      name: Input 5 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f9f0f5be279d4e5884ae2815e54b4640
+      name: Input 5 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0e7abe7b6f2b4e55852c601b19a04191
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a35d9b130cf04d87a7080ea0c6269982
+      name: Input 5 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f6c95a781a054647bd98c7bbd007e5f3
+      name: Input 5 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1746462c558b4c2b8013e2e8b6242672
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 5 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 39461d750e4b4ca88a915ea3f19be31a
+      name: Input 6
+      type: DEPENDENT
+      key: wb.ctrl["Input 6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dcfeed7150244110bada4213b1f33cb4
+      name: Input 6 (error)
+      type: DEPENDENT
+      key: wb.err["Input 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f32cb285269547c0bd1fdf843f1cab95
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b5e06b6b0cf0435c87147371cd7b2735
+      name: Input 6 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7a5b274bb668430985b1836c39006474
+      name: Input 6 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c6d782037d484202aeb21e8ca21f984f
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a6988b6102a14529ac0aa8c47f4006b4
+      name: Input 6 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 811ce88b91e84b82b2ef3dd62675b7b0
+      name: Input 6 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ccb05d1bdfa543a2a5aaba1d981f125d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ceb8c2526c9048e4ab6edb46093601b7
+      name: Input 6 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4ffe4b503f5e40c39b644d7eabd547fb
+      name: Input 6 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 20b2be6ea836428f994ad8a635f147ff
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3ccee5838e984127914611d1e1235b99
+      name: Input 6 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0e6cfce69dd14c62b2d4586e3aacaef4
+      name: Input 6 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 03320fae02e546beab50370343cea6d8
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a72b88df9fd4ef9a6cd47d3c2622f9c
+      name: Input 6 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 701e85eab4134a0da16356d11cd9b620
+      name: Input 6 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eaab8ddd11a14c2eb2635c7b4380c99b
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ba10264986d54ed1856d7f5b1233865b
+      name: Input 6 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ab496d7847ae4900b457a4f2c55e14de
+      name: Input 6 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed04435369b14ae9a2ed12c98fe5b080
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 6 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 65fc1c23c2d24c1b956252293e73c049
+      name: Input 7
+      type: DEPENDENT
+      key: wb.ctrl["Input 7"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 07779098d9484856b199de81d71207ae
+      name: Input 7 (error)
+      type: DEPENDENT
+      key: wb.err["Input 7"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 972199d3a0254c93ad6b0d8bb2504894
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 787a4cdd5b654a3d9dac83b52a341b6c
+      name: Input 7 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e3c2de277c144d26a05090d90410dd0d
+      name: Input 7 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fe8b0b283e0c49558b72a8e7409567b0
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c8c1c7aeafa14aa2bfb5598476291eff
+      name: Input 7 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8316d0b7b0fb431080058600bc2ba7b3
+      name: Input 7 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 42fd1491d3d74950b81d761aac205065
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dc6b0480008d4018b1d264e7ca9dcabd
+      name: Input 7 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a7e616cb219148cf9e3e9249f1984e9f
+      name: Input 7 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc0792297bdc4e09b774136bd9dddec2
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3929dde42da744da975fef8c0a5c8b55
+      name: Input 7 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 77fe2d8b60014230a1082f04fc77023a
+      name: Input 7 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: df114c31771a4ae0a5984f6cb9e31054
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 894bc42898404fd7ac95389e3f160860
+      name: Input 7 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0c6ba32d24f84d9f9e50b07a646be561
+      name: Input 7 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 09e7c7c1c9364aeabf782dae2f17f7aa
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1f2e244e6e72475bbf3e53401f7b58b1
+      name: Input 7 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 7 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dc5788528d034fdf95daf08f189fd7b4
+      name: Input 7 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 7 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 7 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6a03a5ca3548466baaa206faba86b418
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 7 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 7 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a855e55224de45a88e4d019fea6093f9
+      name: Input 8
+      type: DEPENDENT
+      key: wb.ctrl["Input 8"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b0f5ff5f845a4977b81d01134a74e8e6
+      name: Input 8 (error)
+      type: DEPENDENT
+      key: wb.err["Input 8"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 51d36d4151034213a851c87afb2bec97
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6181ea5939e54efb9fc624cc0b7bbf11
+      name: Input 8 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0813d0e68f2d4a77a2e1cace70e4a287
+      name: Input 8 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 96ad7c3104464189910af7506066066c
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a6aa7efac6284ae7a98c945e4680f6d2
+      name: Input 8 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 193b6cc887a14c79b0889e05f255e5aa
+      name: Input 8 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 95b81bfa4a86404286b9ffb23160140a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a0df9ff7b8304b86997aabba51899b40
+      name: Input 8 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 917ebb9932164e82996452e05d4c948b
+      name: Input 8 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: db4f326932614877b8ddd941b3166ece
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 75e71ee4563c4e6780e803e1802e28d2
+      name: Input 8 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: deb792e3abab445ba53d842718a54036
+      name: Input 8 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eb507896e0bb441eb5c6204d73e41d33
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bb009d58f26d4ca29d23e06271fdbf0a
+      name: Input 8 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f97600b8183b4a33a0e30990c89f8efe
+      name: Input 8 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d5227160386d447cb267d79779f7d949
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 704731769c6b4f8db6f2f0fd40c98658
+      name: Input 8 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 8 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 796c4e7af9774ee8a1cfd42e34d6e922
+      name: Input 8 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 8 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 8 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 772e9202de994fca9d664a7b4d2464a0
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Input 8 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 8 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2d3d0435c4c24feca6d9b145c9494937
+      name: Encoder 1 position
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 1 position"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 position']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3a0abfa66b9c426c91532b8b1970b4cb
+      name: Encoder 1 position (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 1 position"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 position/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fc597acf521545ebaf33de1bac63692c
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 1 position"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 1 position" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3c1e24789bc46dd95e5ad4ee2824497
+      name: Encoder 1 revolutions
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 1 revolutions"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 revolutions']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 515e43eaf8494775b6edba1fad796943
+      name: Encoder 1 revolutions (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 1 revolutions"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 revolutions/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 61699594efa94d3ea9a86d3e71341f1d
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 1 revolutions"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 1 revolutions" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 77ac638e93ca4890be984ab33a1cc58c
+      name: Encoder 1 angle
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 1 angle"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 angle']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 31a1d894d3b3423cb34feb5306733e6d
+      name: Encoder 1 angle (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 1 angle"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 1 angle/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d5e604821cdf4267854b5787498d9b0e
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 1 angle"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 1 angle" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 311306e3b3f142b9b68f365c6212c0ac
+      name: Encoder 2 position
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 2 position"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 position']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 920b68f464c94381abf6ba31b0e3748a
+      name: Encoder 2 position (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 2 position"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 position/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e25c2dd673cb4ed797bc10f0a501d472
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 2 position"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 2 position" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 672dfc8c3d93445bb65d7a3b66b500a5
+      name: Encoder 2 revolutions
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 2 revolutions"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 revolutions']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1db25ca306a04606bbcbb30b771dbf4c
+      name: Encoder 2 revolutions (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 2 revolutions"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 revolutions/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ab3f873ccbe1411e836ec8d6634dd4c8
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 2 revolutions"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 2 revolutions" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0e6ddc3da6ed46ea9a097e91073551a1
+      name: Encoder 2 angle
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 2 angle"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 angle']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 775345f9ea1c442f9041cddccb4201b2
+      name: Encoder 2 angle (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 2 angle"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 2 angle/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 183e518be25e4447b4080b3e8533acd8
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 2 angle"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 2 angle" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f5f7e1b67a304763a8485836607f7c7e
+      name: Encoder 3 position
+      type: DEPENDENT
+      key: wb.ctrl["Encoder 3 position"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 3 position']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 88d37521a8134c3c9e46e5ac9aac5691
+      name: Encoder 3 position (error)
+      type: DEPENDENT
+      key: wb.err["Encoder 3 position"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Encoder 3 position/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5fecd900b0ea4cf9966912850a733590
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Encoder 3 position"]))>0
+        name: 'WB {HOST.HOST}: error on "Encoder 3 position" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d8b3934527fd4cec9e9e0d860f31d787
+      name: Bit mask of input states
+      type: DEPENDENT
+      key: wb.ctrl["Bit mask of input states"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Bit mask of input states']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 59a97f7edad04c4e91526726309f2a6a
+      name: Bit mask of input states (error)
+      type: DEPENDENT
+      key: wb.err["Bit mask of input states"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Bit mask of input states/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 42a8a697a3604e5ebd7ce1322d475b34
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Bit mask of input states"]))>0
+        name: 'WB {HOST.HOST}: error on "Bit mask of input states" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 315775b76eae4fe5ab44b991e6bdc111
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c1db5fb29bc54920a9c1353de4d46cdb
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 92c1bae163034dc29b5bfca7e28a5e40
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 64ce66cd59254be896d629d128172afa
+      name: HW Batch Number
+      type: DEPENDENT
+      key: wb.ctrl["HW Batch Number"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 547a14ce1566407bb95b99161a078655
+      name: HW Batch Number (error)
+      type: DEPENDENT
+      key: wb.err["HW Batch Number"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8cb151113954c4da65c3aac463c27d4
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["HW Batch Number"]))>0
+        name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 760c6efc14df491d8ff470921997e2b6
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e45da8bc2ca242febee7065b0622017b
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0355196a2cd943f5861b6e198749bb95
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4384459645d348bcb1f138fac5473241
+      name: Supply voltage
+      type: DEPENDENT
+      key: wb.ctrl["Supply voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c0c7bbabe51e489f9cd64e48fab20e15
+      name: Supply voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 553bae5a653b4516b71a1237e4241114
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Supply voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9ccac95a049449fc965c544bd303b10a
+      name: Uptime (s)
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6783c10752964a32910aafe7425fb395
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: be8490879f7844c6b7ed4ae06b4a789c
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5bb796f38f564171871d84bdacd33260
+      name: Minimum Voltage Since Startup
+      type: DEPENDENT
+      key: wb.ctrl["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3650b93d4dd9455686ae1ba254e1138d
+      name: Minimum Voltage Since Startup (error)
+      type: DEPENDENT
+      key: wb.err["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c1f7239f44214f74bbadcad761d78c9a
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["Minimum Voltage Since Startup"]))>0
+        name: 'WB {HOST.HOST}: error on "Minimum Voltage Since Startup" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b4b6e03025d6464dbc235e40bae4f39b
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6f79afb9538b4ac99baee7f2bcf53e15
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ea83bce3e9254f7e8c2c8dbb905d38bc
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 68c4c8168cb741b39401fb0c6f3e5724
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d037be35c481417186ec5cfdd9b04c8f
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9bb9179b9fd64b0b80f8465c83b6b538
+        expression: length(last(/WB-MCM8 by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mcm8
+    valuemaps:
+    - uuid: 31a3518b3ac948daaa6b4f9bc132f136
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
