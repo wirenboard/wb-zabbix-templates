@@ -1,0 +1,238 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 9dc8bb87eefa4580a8feedbd997453ad
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 7039b28a945d4a5e8000c9c56be9c5c6
+    template: WB-MRGB by MQTT
+    name: WB-MRGB by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: da29e184fca747ee899930b378391d56
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 393efa986ff74b548b82937f25b127ac
+      name: RGB
+      type: DEPENDENT
+      key: wb.ctrl["RGB"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RGB']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d435731ae9b944659f5558c3777d4cef
+      name: RGB (error)
+      type: DEPENDENT
+      key: wb.err["RGB"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RGB/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c544b06dcf9a44029e2ef6a9f68cbd81
+        expression: length(last(/WB-MRGB by MQTT/wb.err["RGB"]))>0
+        name: 'WB {HOST.HOST}: error on "RGB" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 380bfd8ecfe347a1a77341bf84335c21
+      name: Button 1
+      type: DEPENDENT
+      key: wb.ctrl["Button 1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b2047bb56ae547308881b4299a73595e
+      name: Button 1 (error)
+      type: DEPENDENT
+      key: wb.err["Button 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a70805a678274ffe8d344c3cfc28987c
+        expression: length(last(/WB-MRGB by MQTT/wb.err["Button 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Button 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3357b63601724907b211952e7bc1b700
+      name: Button 2
+      type: DEPENDENT
+      key: wb.ctrl["Button 2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cee66e887d7a41bda4dc51e714ef4f70
+      name: Button 2 (error)
+      type: DEPENDENT
+      key: wb.err["Button 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0544f3429ccc4a21bd9b5188ab7bc51f
+        expression: length(last(/WB-MRGB by MQTT/wb.err["Button 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Button 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5b849b750101401a94dec63ae49aa54a
+      name: Button 1 counter
+      type: DEPENDENT
+      key: wb.ctrl["Button 1 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 1 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a1b3c1e6ad6140efae5d6ae51b384189
+      name: Button 1 counter (error)
+      type: DEPENDENT
+      key: wb.err["Button 1 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 1 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 97f8e7e4e74b4184b13d3f04490d744a
+        expression: length(last(/WB-MRGB by MQTT/wb.err["Button 1 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Button 1 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f15631f2e7774afba8ebc8df81ad391a
+      name: Button 2 counter
+      type: DEPENDENT
+      key: wb.ctrl["Button 2 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 2 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 28cdc28f9a42454495495bc550da250d
+      name: Button 2 counter (error)
+      type: DEPENDENT
+      key: wb.err["Button 2 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Button 2 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5b733f1d1142488db6b929f65585516c
+        expression: length(last(/WB-MRGB by MQTT/wb.err["Button 2 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Button 2 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c78673094cfb4e109a56f9f3d6e9b1f5
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b72e508e609a4740a35afb101a4d65cf
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 850ac72ece58475aae4abaa84e4c69b7
+        expression: length(last(/WB-MRGB by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mrgb
+    valuemaps:
+    - uuid: e885dd81a3364c6586ae22664e4a552b
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
