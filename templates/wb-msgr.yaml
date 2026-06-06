@@ -1,0 +1,303 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: ea74c1ff63a7408f86cbf1492dd66c45
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 7317123cd7674c1b8e74ae6fba891f0e
+    template: WB-MSGR by MQTT
+    name: WB-MSGR by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: daa314a8991f48bfa9f7d969e2963a40
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 1ad38a79a44b4cf0aab39fd99b432b96
+      name: Relay
+      type: DEPENDENT
+      key: wb.ctrl["Relay"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Relay']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f946cac7f5d94fe48bfd7697f9fe40a1
+      name: Relay (error)
+      type: DEPENDENT
+      key: wb.err["Relay"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Relay/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0f0934dc9e424100919f299198ea5d55
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Relay"]))>0
+        name: 'WB {HOST.HOST}: error on "Relay" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 788c464e6cc24e6dbaafa861ba51c36b
+      name: Rs
+      type: DEPENDENT
+      key: wb.ctrl["Rs"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ac14726063d6484a9e868d99a4e64838
+      name: Rs (error)
+      type: DEPENDENT
+      key: wb.err["Rs"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc5172584c41481f82d5e3af8bfbc78c
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Rs"]))>0
+        name: 'WB {HOST.HOST}: error on "Rs" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 14b48cb686134a39ba518526817685a9
+      name: Rs0
+      type: DEPENDENT
+      key: wb.ctrl["Rs0"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs0']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6612523f4e0d47dba5e91e8fadb7f6b1
+      name: Rs0 (error)
+      type: DEPENDENT
+      key: wb.err["Rs0"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs0/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2f83de14c9d740b79efd4daa4792f0f3
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Rs0"]))>0
+        name: 'WB {HOST.HOST}: error on "Rs0" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 423c37ec670f422bbab5f39a95e9d5ce
+      name: Rs ratio
+      type: DEPENDENT
+      key: wb.ctrl["Rs ratio"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs ratio']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 92a3079bfcc3431cab18db37d4337c22
+      name: Rs ratio (error)
+      type: DEPENDENT
+      key: wb.err["Rs ratio"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Rs ratio/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 53568a71f1314b68b647c40375618f9c
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Rs ratio"]))>0
+        name: 'WB {HOST.HOST}: error on "Rs ratio" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f8debad7f6ba4496a34acb6ce24c96b6
+      name: High threshold
+      type: DEPENDENT
+      key: wb.ctrl["High threshold"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/High threshold']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d6af63d3c616482b9a87f6bf29cf7c70
+      name: High threshold (error)
+      type: DEPENDENT
+      key: wb.err["High threshold"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/High threshold/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e838c43d1bb34bc7815143679ec9dbd8
+        expression: length(last(/WB-MSGR by MQTT/wb.err["High threshold"]))>0
+        name: 'WB {HOST.HOST}: error on "High threshold" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 792e1fd08960479293a48ea12c113b24
+      name: Low threshold
+      type: DEPENDENT
+      key: wb.ctrl["Low threshold"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Low threshold']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7e0655e513f440ce8770e3a6eba5503b
+      name: Low threshold (error)
+      type: DEPENDENT
+      key: wb.err["Low threshold"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Low threshold/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e37ec0e2613c4e2788592b3efa2c2372
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Low threshold"]))>0
+        name: 'WB {HOST.HOST}: error on "Low threshold" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c1545a34ecff4e83b1e837f8ff11e989
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0a29ba8aa4ab40208c8e2cb58211c62e
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fd266b2da1734ec98f8229d40e96f9fc
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6f0d1eef8d344334a6b29c6e611c2c37
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4f36641ba7d145daa336c45c9356a5cf
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 88327619556f4de786b9ef565dc444a4
+        expression: length(last(/WB-MSGR by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-msgr
+    valuemaps:
+    - uuid: aaf24c27e85344019f1e3a6f134cafeb
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'

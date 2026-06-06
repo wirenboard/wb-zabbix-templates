@@ -1,0 +1,297 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: f56fc5fd95a14552b057119d85158cae
+    name: Templates/Wiren Board
+  templates:
+  - uuid: e85db7fd10624314aa4d76a6b56e041a
+    template: WB-MS WB-MSW by MQTT
+    name: WB-MS / WB-MSW by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 89b0ab0c04fd46698d955f5acf098740
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 359b6bab0a204795a3b70ddedf6382f7
+      name: Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 73d89595006a4d74b0a1f9dc30ff4737
+      name: Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 398dcab7d2a84c80bbb253f2ce137baf
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2e03529cb7ee4f529cf77e6adc05a206
+      name: Humidity
+      type: DEPENDENT
+      key: wb.ctrl["Humidity"]
+      history: 7d
+      value_type: FLOAT
+      units: '%RH'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 96594b29c8c249168ebe9cc3c7f2e437
+      name: Humidity (error)
+      type: DEPENDENT
+      key: wb.err["Humidity"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7c27aff1f5b84cc5a2115cc0aaf932d5
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Humidity"]))>0
+        name: 'WB {HOST.HOST}: error on "Humidity" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f3bf8918ad5d437fa341c46314233f7c
+      name: Illuminance
+      type: DEPENDENT
+      key: wb.ctrl["Illuminance"]
+      history: 7d
+      value_type: FLOAT
+      units: lx
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ce470b21aa92428ea0126b9c69963101
+      name: Illuminance (error)
+      type: DEPENDENT
+      key: wb.err["Illuminance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a3f55d421c4f4cce82dcd4bf00d61a53
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Illuminance"]))>0
+        name: 'WB {HOST.HOST}: error on "Illuminance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d8c999115b2a43259538de784b52f1fc
+      name: Sound Level
+      type: DEPENDENT
+      key: wb.ctrl["Sound Level"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e6fdb50e0cff473093134ec5fe8fd1d9
+      name: Sound Level (error)
+      type: DEPENDENT
+      key: wb.err["Sound Level"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4de4a20b36f244eabcfe03589d62f81f
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Sound Level"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound Level" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ed5d0a6d62c94696b58436142f925866
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e5be7bd180f9412881886fcfdb8ba2b7
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 060088c33457431f89ede7ba9b89b3b0
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c042cbdd3e1b498baa89907cafcb81ca
+      name: External Sensor 1
+      type: DEPENDENT
+      key: wb.ctrl["External Sensor 1"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Sensor 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aea258991fb64f878ef767c1c03c1985
+      name: External Sensor 1 (error)
+      type: DEPENDENT
+      key: wb.err["External Sensor 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Sensor 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9e73b1077ddc4377af6b7b6d582d4dc7
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["External Sensor 1"]))>0
+        name: 'WB {HOST.HOST}: error on "External Sensor 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 32ef176c9cf24b28aa284e793a2971ff
+      name: External Sensor 2
+      type: DEPENDENT
+      key: wb.ctrl["External Sensor 2"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Sensor 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 62dfcc91c1454a7fb30fbda5a1f9dab6
+      name: External Sensor 2 (error)
+      type: DEPENDENT
+      key: wb.err["External Sensor 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Sensor 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b80e393f3b9f42488ff3d0e83e392de8
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["External Sensor 2"]))>0
+        name: 'WB {HOST.HOST}: error on "External Sensor 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e05280f78eaf4288b0b9af22a3b2d106
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 18f3de5f20774471a1d7f06a4c2af1f9
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5532e9c8b28f424ea688ce93a20be8fc
+        expression: length(last(/WB-MS WB-MSW by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-ms-thls-v2

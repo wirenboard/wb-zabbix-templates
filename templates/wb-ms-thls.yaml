@@ -1,0 +1,229 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 8083f07841b24d25bd6b758ea88e4b48
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 721a6a75d5c441df960dbb1a95dd7b1f
+    template: WB-MS-THLS by MQTT
+    name: WB-MS-THLS by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 5f9f83bc0bda46ad8e2aeb63e8e07c05
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 03ae9a0f6f7341e5a647a00d88adbbf1
+      name: Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6a9946cd4e444770808c9d3e3f20fcea
+      name: Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 74e56e4492c24d7aac7b27282629e155
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 17567b5d55f94d1fb7540766a0b91d8e
+      name: Humidity
+      type: DEPENDENT
+      key: wb.ctrl["Humidity"]
+      history: 7d
+      value_type: FLOAT
+      units: '%RH'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3f4f75f65d6945219f6732b37d23d836
+      name: Humidity (error)
+      type: DEPENDENT
+      key: wb.err["Humidity"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d7f3e5f246a0418791639a706ce11ed1
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Humidity"]))>0
+        name: 'WB {HOST.HOST}: error on "Humidity" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 21c64a8ebc904ffd98650ca73ad71331
+      name: Illuminance
+      type: DEPENDENT
+      key: wb.ctrl["Illuminance"]
+      history: 7d
+      value_type: FLOAT
+      units: lx
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5feeaf730043473baf1ab2ed15d16381
+      name: Illuminance (error)
+      type: DEPENDENT
+      key: wb.err["Illuminance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a8f68a8f0bbc49f59d14832d426ebd45
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Illuminance"]))>0
+        name: 'WB {HOST.HOST}: error on "Illuminance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f313ed9595434c6588849bcf1855994d
+      name: Sound Level
+      type: DEPENDENT
+      key: wb.ctrl["Sound Level"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ccef5773c671473bbb2a61a70fc1c904
+      name: Sound Level (error)
+      type: DEPENDENT
+      key: wb.err["Sound Level"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bb0459f5ca55411098b592a9e3c8c050
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Sound Level"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound Level" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 69d51a46b16c41e4b1b2506dc70ac60a
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 18d45173b9e44c9dbd66db9993f3fe6c
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1d34faf3436842778ea6372308df38ef
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4510b18ef48244d6b4b23d8c659b1bec
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c7b4465ca4fb4b3e8c67c45e1cc4de2c
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7e5440f49ffd4b508ee51557b5dd2bc3
+        expression: length(last(/WB-MS-THLS by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-ms-thls
