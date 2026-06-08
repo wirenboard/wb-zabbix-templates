@@ -1,0 +1,4796 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: fa5833206fe04525b426d805d644db2b
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 06cc11d78e274b3295dd61eef8cb1551
+    template: WB-MIR v2 buttons by MQTT
+    name: WB-MIR v2 buttons by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: ddb8b8518909466c8f520d0604893c7d
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 78ffebe1c79f483bb49bb91683425cef
+      name: Record to RAM
+      type: DEPENDENT
+      key: wb.ctrl["Record to RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Record to RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae832d443278469087b70636daad2d3d
+      name: Record to RAM (error)
+      type: DEPENDENT
+      key: wb.err["Record to RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Record to RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 08e165d368a04b95954229cacef73214
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Record to RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Record to RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c573f44d1c4d4b31baef2e1d81e83c6d
+      name: Editing command 1 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 1 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 1 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae00ec521f864982a224192931c88de2
+      name: Editing command 1 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 1 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 1 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8672f2612d0e4ecea03bc3f4b7ec3d54
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 1 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 1 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d47e2e1d282346489f53c03c77ad1100
+      name: Command 1 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 1 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 1 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2692d0405db04395981fc540ab4a6afa
+      name: Command 1 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 1 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 1 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d98e8cf1a7d24bb9a51367e6bacd88cd
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 1 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 1 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1914507cc92c4f748b87d7adccea2b16
+      name: Command 1 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 1 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 1 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8a8c0414b1b64fa88182a645d6e19fd8
+      name: Command 1 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 1 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 1 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8047d996ce484b76a0c27aea5804831f
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 1 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 1 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ea0cc8d932154fb3860c05f86fd3e075
+      name: Editing command 2 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 2 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 2 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7b5d1ffc1fb04b4e9c6d861ab3f319c6
+      name: Editing command 2 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 2 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 2 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fe66d273a4274b99914428db48a5a9e0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 2 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 2 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 747e91540a614bc2ba469ea83265e4a4
+      name: Command 2 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 2 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 2 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0485ea6c7bb64e92bf59208205d8b3ea
+      name: Command 2 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 2 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 2 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1c976290082d4c2ebe70eb1d0aef27ec
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 2 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 2 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 40a06724c8b44ce9b2ec93fbfaab8774
+      name: Command 2 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 2 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 2 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d1016b663711484f896f8709fe32b85a
+      name: Command 2 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 2 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 2 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed537096beff453a991bc7ec098f64b7
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 2 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 2 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4f1252caa1294142a7ad28de4e7f4641
+      name: Editing command 3 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 3 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 3 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6fbedb835da848cab4f6059298dbdb9e
+      name: Editing command 3 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 3 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 3 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 29bc1a53ca7d4cadb5a59e81120edd04
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 3 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 3 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8afc491bd6814b3baed9ccbdd355a4ad
+      name: Command 3 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 3 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 3 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 692c2c87b4684517ac9ceddc09defb09
+      name: Command 3 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 3 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 3 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 811f332b716b448fa67d16b6749faefc
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 3 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 3 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e934b9738e8a437ab27f3a4d1b059a88
+      name: Command 3 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 3 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 3 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f9360042743042ad9fed15561894f43e
+      name: Command 3 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 3 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 3 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ab1844441ffe4f5c9e2bd0005c0d6949
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 3 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 3 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0ca9c139166d4da59ac6476411b96c83
+      name: Editing command 4 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 4 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 4 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5949a4b1661246fc9dc0e7ff0a080013
+      name: Editing command 4 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 4 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 4 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c4c5f6345aa243a1ac98142fbaa476b0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 4 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 4 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5475c9fd33e4444aa1967ee28c157091
+      name: Command 4 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 4 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 4 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4029c5ecf5e94343bd0acfa20e1ffe15
+      name: Command 4 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 4 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 4 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 25a73034c99f4239b508bd3a8b402811
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 4 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 4 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bf471be425ad48dc827cd52e7d3c7f56
+      name: Command 4 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 4 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 4 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1fee1f9e535a436dbdf6f9e807a2d820
+      name: Command 4 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 4 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 4 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1581d1e50701475ab0319c58eca5a8af
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 4 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 4 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bd90d38c9d5641679c86b8cc16c6f909
+      name: Editing command 5 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 5 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 5 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 233adf18de394325a1d683d04f04ccc8
+      name: Editing command 5 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 5 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 5 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 25f688c6a5f649bcb281c7f31e24e160
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 5 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 5 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 56396c1cbe7348e286a28dae5b647772
+      name: Command 5 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 5 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 5 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea89ff943e9047e981380fec4b9866a5
+      name: Command 5 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 5 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 5 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 064c7bb9f32449de87caf272b87ae4b5
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 5 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 5 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 266a4bd237e943f1bfa57bed48fd29d5
+      name: Command 5 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 5 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 5 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9bd2a963c3ce4eb0b37ea456acd182a7
+      name: Command 5 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 5 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 5 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0780b7045d824e59ae9466664a488bb8
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 5 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 5 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a60ff95b147e4ce58160f8dd865bf5a5
+      name: Editing command 6 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 6 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 6 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8fe8cbd1e6aa4559874c344da20a2595
+      name: Editing command 6 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 6 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 6 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 122aa237354045009cc0bcd7e3582de9
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 6 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 6 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 96d574cf6b994aca88a0c9accf1870f1
+      name: Command 6 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 6 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 6 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fa2d5539b7e8431d8906b23d64cf8d7d
+      name: Command 6 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 6 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 6 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e97d1e1b467340eeb1e9c65f3a381b02
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 6 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 6 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8db670da610b4e4b9afcd7292202c171
+      name: Command 6 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 6 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 6 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 69a8c05852054040a668441a1d4e4d97
+      name: Command 6 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 6 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 6 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ddc77972af2d459db59b2e18af49a7dd
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 6 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 6 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e7df8508d2224c14b0e0a2b42b8ecbf0
+      name: Editing command 7 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 7 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 7 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d45c7919cf7446ee860d27d5a37a7990
+      name: Editing command 7 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 7 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 7 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a1e5cb93320f477b917e2a7a063c3d58
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 7 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 7 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 403d9446bde843899c68020dcbf387b5
+      name: Command 7 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 7 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 7 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 55f67694eac84c5f9b6e8c8777e4adb8
+      name: Command 7 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 7 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 7 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cb49b6d1dabd4b9596b876588cc7d2e6
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 7 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 7 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 06e922ea70ff46288098c647467a63c1
+      name: Command 7 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 7 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 7 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0e194d7341b643aeba7677272a9bc382
+      name: Command 7 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 7 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 7 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 96e38f0b64534c7da9622cb03d4fa7a5
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 7 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 7 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9b00beb3f89e4103af571825b75b3d83
+      name: Editing command 8 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 8 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 8 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 254e7dfbdeee4c2194435bbc908ba6bd
+      name: Editing command 8 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 8 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 8 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c34bc031a70b4c7dbf6205c3fccb7937
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 8 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 8 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1591d9282edc4828b8cd90b091f7021e
+      name: Command 8 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 8 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 8 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cbf7b8b6774744a48902ade540ab7d91
+      name: Command 8 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 8 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 8 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d92dc08a0693474db0f34df8429bf1ef
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 8 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 8 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f4d011a696af46abb165da49e39bd922
+      name: Command 8 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 8 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 8 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3dfdc063251b49aa8ae69504a7a12394
+      name: Command 8 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 8 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 8 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 961715a292804206b17f2fbd7db2233e
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 8 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 8 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 997a2086e465407db24546fc97b2e3cf
+      name: Editing command 9 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 9 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 9 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1796769dbdad4baa8b2dbc69067132b8
+      name: Editing command 9 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 9 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 9 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 94a80375dc8843729f8458dd557b867b
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 9 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 9 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 01541f1106104904b766715c5ae2b458
+      name: Command 9 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 9 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 9 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5b827b61b81d4e92b1ca8c53b8677ebc
+      name: Command 9 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 9 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 9 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 00916347d7234c90b3dcabd0b1492aaf
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 9 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 9 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 51073e39dd9c461c8ba37629776b5e3a
+      name: Command 9 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 9 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 9 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 108dfcf5562f4ecb856e4ab2bcbe3ff1
+      name: Command 9 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 9 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 9 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4e0e38a386e34b088f8c05fce15c5013
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 9 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 9 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ad54c16c14e34544accafdaefa0b49fa
+      name: Editing command 10 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 10 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 10 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ebc50816c82249d9b760b3011ecf12cb
+      name: Editing command 10 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 10 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 10 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8464abf185854b5baf04fd90d27b2a06
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 10 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 10 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8b8c1d4129a7485a82e0d8d4eac01410
+      name: Command 10 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 10 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 10 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 84dbd923013a425ba5f151c52af93b05
+      name: Command 10 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 10 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 10 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4cc200a6fc06442f8bf7105462384701
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 10 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 10 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 39fe5b3eeaf44b10aef9870f011bce0d
+      name: Command 10 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 10 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 10 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0e50cfe28c5c4cc2b0b33a8e426bb665
+      name: Command 10 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 10 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 10 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1124b8ef5305423098f4e6f2433c58b5
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 10 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 10 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a065151d8d564c6682c2d1a82c91f1ba
+      name: Editing command 11 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 11 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 11 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8c18cde4dc1d4fdcbb21de0f50774331
+      name: Editing command 11 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 11 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 11 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7134206cc65d495d85d19f2194e97474
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 11 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 11 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 66ed7ce573be45d4a9e80da24b9afda5
+      name: Command 11 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 11 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 11 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0686e9e2d45043d191f193a6b150de9e
+      name: Command 11 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 11 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 11 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6272858519ce450fb0ce760629288efa
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 11 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 11 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: accb842c0e1446e88e7098140fb8e02b
+      name: Command 11 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 11 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 11 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bd6349292fa44a1081965ddaea04f691
+      name: Command 11 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 11 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 11 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 829b13e4263c48369a0585b702b9b890
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 11 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 11 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2fda302523c245e3bc70895977c5e10c
+      name: Editing command 12 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 12 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 12 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: af317de5ff8b4784abfdba535cbdc1be
+      name: Editing command 12 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 12 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 12 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2b0ec348e5a9449dad4e69d5da1abc07
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 12 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 12 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 73c12bab35ef433b99a659993ba52d84
+      name: Command 12 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 12 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 12 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3e242d47ae344ffabba9223cfbfb0ade
+      name: Command 12 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 12 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 12 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fd50455e3b794d98b1f7766391a410c4
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 12 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 12 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 486dc4ac40da4a47af73994d0f631e75
+      name: Command 12 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 12 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 12 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 61a52582186c4571a0791a4d63fded0a
+      name: Command 12 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 12 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 12 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fba45e5fa21c4cb7897431cd4b9457cb
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 12 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 12 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2556d603d0104cc7b251079fd8704b00
+      name: Editing command 13 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 13 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 13 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a014a3d735f5458783087d6fd19d4585
+      name: Editing command 13 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 13 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 13 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f96f67637a8a485dad180f8d0d7baaab
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 13 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 13 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d66a5c04244e48cbbdb1ce7f990770a7
+      name: Command 13 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 13 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 13 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7cf6d04b23ac4559b1746c43bde300e7
+      name: Command 13 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 13 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 13 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eb22cff8939640b3a56f55140f1f0b28
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 13 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 13 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 62d87afd12bd4b188df81eeee4333ea7
+      name: Command 13 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 13 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 13 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d6eccf149b842f0a436ce1fde54a7d6
+      name: Command 13 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 13 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 13 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 65615d513ecb47d4a5c81c291daeeeb6
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 13 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 13 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 74e27eddc0654761bee806db7d986f6c
+      name: Editing command 14 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 14 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 14 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 391e486bb2114b72bdd6d46885bcae4d
+      name: Editing command 14 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 14 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 14 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3825406da18d4f1d91eafbb90bd0785c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 14 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 14 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 970c29960b7f4ac9be38d581190dcfd7
+      name: Command 14 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 14 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 14 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: acbab031192442b7be3a5ab17a280777
+      name: Command 14 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 14 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 14 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1559000f225b434b882d561938423ce0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 14 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 14 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e09b93a90b2f4e4fb8f519a273edd4a9
+      name: Command 14 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 14 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 14 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf04e32b5e444b558f2dd11f74fb3d8e
+      name: Command 14 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 14 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 14 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 11b7611cc33840c194a016a61ca7bde4
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 14 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 14 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 19462388477b498b877eca9b8c6f9ff1
+      name: Editing command 15 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 15 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 15 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f6553685d6184742818d20b215de021d
+      name: Editing command 15 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 15 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 15 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7eb2b5c8b4b547d3af774370f0469b04
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 15 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 15 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 31d0a886d21b4277acf3907b5c68c64c
+      name: Command 15 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 15 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 15 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6ceae1392ef64f1bbd2252a41280cb4a
+      name: Command 15 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 15 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 15 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 19a8dddf2cf5425f8c99f6872342562f
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 15 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 15 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 655a578707674cbbad6a16873c7105a7
+      name: Command 15 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 15 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 15 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bb528d6f541e4b369f5f5c39b0e8ad79
+      name: Command 15 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 15 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 15 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9036c95628b449ccabfd9071a8db6195
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 15 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 15 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0630b339a80b48c5ab5168bb0f3b949f
+      name: Editing command 16 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 16 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 16 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 03c646e54bde4646a3ebdf32dc181aaa
+      name: Editing command 16 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 16 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 16 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 46a751b0660040558e41f5f08bcc692c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 16 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 16 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8665d2b912d34e52b247e07492974595
+      name: Command 16 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 16 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 16 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4c1cc8e0ae474a14a52112dd0213ba35
+      name: Command 16 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 16 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 16 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 911bced509fa49598ed6b4bc454e98cf
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 16 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 16 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 81c21671a0be425f92678824d4e57ded
+      name: Command 16 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 16 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 16 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 94d38c05e995466b8cd38aea81a3bd5e
+      name: Command 16 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 16 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 16 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 712fdcaab7994d8481c6d4f9b49455b3
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 16 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 16 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5ab472930a1c452eb1003aef3e890e30
+      name: Editing command 17 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 17 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 17 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fb2583df121946f0bddd184c0e5b674f
+      name: Editing command 17 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 17 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 17 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2512f5bec612483eb9b0e1d6bc285bc3
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 17 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 17 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 54afbd3be77f487f8726e4fe4e2a6b4d
+      name: Command 17 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 17 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 17 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bc9d6d6962f04428a5f6b3a8c2296e10
+      name: Command 17 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 17 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 17 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 000c361660144c7da247ef06757ab385
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 17 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 17 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7400abe5037f4390af94cc0b3179a133
+      name: Command 17 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 17 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 17 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: de321f6ec10e4d2291e7073f0d772b7b
+      name: Command 17 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 17 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 17 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2b53490d49b743beb8a4411c6b9c995c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 17 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 17 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 85277b2a0efc4b7ea4299a91d3403529
+      name: Editing command 18 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 18 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 18 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b018b44ab5414a89a0b850dbc75d4ae9
+      name: Editing command 18 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 18 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 18 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ba1c81c85e1e4c60aed8cad71aa2442d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 18 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 18 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d8e19e745eba4553bbf7a3e43160c668
+      name: Command 18 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 18 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 18 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 814edc095a304493bf98734217fbdc17
+      name: Command 18 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 18 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 18 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9af4043d5b52448489a1949d0c537425
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 18 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 18 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 96c4412c86f0406590d4768a45f9e811
+      name: Command 18 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 18 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 18 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1dc8c527228e408da73bb2c039944e5b
+      name: Command 18 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 18 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 18 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: be0a98536ffc494281560d75eb1e5876
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 18 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 18 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e3775ac23b5b4ebaba8670cbf0eaf022
+      name: Editing command 19 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 19 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 19 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 41f99464a10b4c3480f384c17d8e7fcf
+      name: Editing command 19 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 19 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 19 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 26084335e0684577b58dda46144a2e04
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 19 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 19 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e5df6d4f2318415681c161ba72d07c1a
+      name: Command 19 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 19 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 19 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cc951646e1864ada8366936e4b31dbdb
+      name: Command 19 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 19 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 19 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0dfb2eadf39e4ad0b32d25e093ffa184
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 19 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 19 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7270dad0f230487789789266ffd678c0
+      name: Command 19 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 19 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 19 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e2591c595fc047618ba8f2d7a4e87c35
+      name: Command 19 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 19 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 19 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 57396bfe63a64e69b2b0a4f12a736876
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 19 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 19 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1155121fbe384d919f0f265463c2278f
+      name: Editing command 20 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 20 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 20 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 131505f6406f4d609a4ab89d90ea4004
+      name: Editing command 20 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 20 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 20 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9717c609ba8f42eb88a9d95b2b49318d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 20 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 20 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e19f7696669344348ae6df31a62aafde
+      name: Command 20 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 20 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 20 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 43e4f51478df4d7db29f8abba1279a6d
+      name: Command 20 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 20 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 20 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 210e10f9b9e749d1b4f9bcb654735600
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 20 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 20 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e12a56155164f8396591c427e317b29
+      name: Command 20 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 20 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 20 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d6e4429114834b74a729d091010a3791
+      name: Command 20 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 20 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 20 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e0074b781f784172b309a3ca2b72d91f
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 20 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 20 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 669d374d5bbe4d10b34ca78942ec71f5
+      name: Editing command 21 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 21 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 21 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f9cb734aee544215ade36899f193a8b5
+      name: Editing command 21 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 21 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 21 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 884beb01a07a45d1bda2a88c97b5a7c0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 21 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 21 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 318a16e85c174f78a32263c48b5c8058
+      name: Command 21 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 21 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 21 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4b9b380a136f4d2a93cbd71539ad044e
+      name: Command 21 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 21 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 21 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e1ba21eab0e1495d9153276545e77869
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 21 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 21 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6fe473704bd54abc97ed77579b753e8f
+      name: Command 21 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 21 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 21 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 80bf86dd57974bc49cd037300a359388
+      name: Command 21 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 21 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 21 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 433b303632ca4c7689c8b7e7875cbaba
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 21 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 21 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bb64ce9eda674b0d8eb1a3c9792c36e1
+      name: Editing command 22 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 22 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 22 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9062200d68de42b7bdb613dd4d85392e
+      name: Editing command 22 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 22 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 22 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 97da4093c00c46549b42aa18b72ab598
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 22 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 22 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 782460be76704f40a5313d01ecfb5765
+      name: Command 22 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 22 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 22 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9856b2baa99640f69b5844e61972ab36
+      name: Command 22 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 22 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 22 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4420a38eec394fe18c309a916e6ef5c1
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 22 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 22 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5650f38cdc73420b91425e806a65400a
+      name: Command 22 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 22 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 22 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d123a7f936c9486290d7dc3f34a11bdb
+      name: Command 22 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 22 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 22 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 382a5be71eef48ada30d6f3d804472c8
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 22 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 22 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 162221d1984b42f5a0720f272b0b3ed8
+      name: Editing command 23 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 23 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 23 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a1d443dff68143a1becf557b9c82aa5b
+      name: Editing command 23 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 23 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 23 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e9025a6ed1e944a4ad05273f7e792640
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 23 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 23 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 16d175561cca46e78cb239c17379bd41
+      name: Command 23 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 23 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 23 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a672dfced29e4442ab64e3d70bac9333
+      name: Command 23 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 23 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 23 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e52968d7164f49e5b786f3fe513d3783
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 23 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 23 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1abf3fb3b7a14f1d9388639b259085a2
+      name: Command 23 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 23 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 23 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 43874587185f447cbb2110b5bfebe9ec
+      name: Command 23 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 23 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 23 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 71ef33f3a56f4e25aa26efb95e740848
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 23 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 23 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 96c0eff1f93d4fd49a31d5f490ca9aab
+      name: Editing command 24 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 24 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 24 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4e7fc327b31f472b901c76ed67fe1f1b
+      name: Editing command 24 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 24 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 24 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ef3bb3c4da8d45ecb14e61d0d6bb7c7b
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 24 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 24 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: abac502b39764f53a93d68ebad354b97
+      name: Command 24 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 24 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 24 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0d06bdb6a8144fdaa02f03f7821671bc
+      name: Command 24 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 24 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 24 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7235114e7cf646ffa3153a74a62ee6e8
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 24 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 24 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e62904efcf2447a2a2a3d4807038532d
+      name: Command 24 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 24 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 24 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9349a67742dd44e889b3d200adbee165
+      name: Command 24 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 24 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 24 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ef589190b75d45798f4c182f74fa28c1
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 24 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 24 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fd503e34166149279b0ee001ff8cc636
+      name: Editing command 25 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 25 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 25 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1289b48de2804f02a458cd4d90ffa8cd
+      name: Editing command 25 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 25 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 25 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 90fda1f10fa9426fbd93829ccff84454
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 25 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 25 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9080e6c99e874489a9c9f80b5a446d1a
+      name: Command 25 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 25 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 25 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cfb3c185997e4efdb5e5cdac16d57add
+      name: Command 25 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 25 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 25 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 006d891b3bc74bb4bb0693843786e702
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 25 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 25 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f92451cc255a4573bc2a05f6917d5d45
+      name: Command 25 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 25 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 25 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 144aa98cd1a8446b956f2277d77515d8
+      name: Command 25 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 25 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 25 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ab8ed8370acd48b791434a63b453403d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 25 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 25 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e256a75a4f84fad924c6161bd77def0
+      name: Editing command 26 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 26 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 26 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 49f38583af7a493ab65ff82c80f6da0d
+      name: Editing command 26 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 26 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 26 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9a6f2e31a45d4640ab65c293f9258c82
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 26 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 26 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 02a9b44277dd42e08666442c8af3bb30
+      name: Command 26 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 26 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 26 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 88b685b0c1a14f06b9a93304a225343b
+      name: Command 26 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 26 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 26 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0547df6abef2454da877ababccf7f8af
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 26 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 26 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 875a049ee72e424ea53742c1b9882b0b
+      name: Command 26 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 26 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 26 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d43028ab67a7408589325514985ad588
+      name: Command 26 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 26 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 26 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 86f83436862845698d4380e2822ac00c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 26 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 26 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3530c57561b0419e870c51dad523f902
+      name: Editing command 27 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 27 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 27 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4b6773ee00464f76b1edabb3a6cad3d8
+      name: Editing command 27 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 27 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 27 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8ee62e07b004d27b30f937ca5a83f12
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 27 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 27 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e14bc2e08f034593b000afd5a808652a
+      name: Command 27 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 27 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 27 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 69e879f0901d4a07b018fbc3bae39ba3
+      name: Command 27 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 27 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 27 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5309817cb05b4a02af46a8d60d0b4591
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 27 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 27 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 52b8f14d9b9f43c6b0b319106d17a1fa
+      name: Command 27 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 27 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 27 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: feb0d29107da44ae8b382efc02e2466a
+      name: Command 27 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 27 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 27 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c8dae9cbb9d6404b9f2880d1b20a1bef
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 27 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 27 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a699f37296b843dfbf64b8cbb241f283
+      name: Editing command 28 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 28 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 28 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 70f0c80a4f934e59b52d1ebeddf20f69
+      name: Editing command 28 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 28 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 28 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7de2d62b336447d58967c5ee59f789c5
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 28 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 28 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 576ff488487f4e19bd3a1fb617c74b43
+      name: Command 28 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 28 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 28 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f3a8674743144f99895db242e086a178
+      name: Command 28 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 28 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 28 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d93c4c21eb224c258b4041717b1f6795
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 28 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 28 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1978ae09003c444e813a287d441ecefe
+      name: Command 28 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 28 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 28 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1196c163f50643e09d3922bfcbdcbd96
+      name: Command 28 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 28 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 28 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8427965562144dbadb23cb9c525e18f
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 28 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 28 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7a57c8627850464dbf494f203ade7344
+      name: Editing command 29 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 29 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 29 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 411d6a25fdc14c36ae25e97498ba2b52
+      name: Editing command 29 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 29 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 29 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 956737390ec6470b8ab8f84e29895e34
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 29 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 29 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e27facc7e85543c3a45fff883bfddb6e
+      name: Command 29 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 29 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 29 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1caf658af5c6445ba2ff48fd4768a5a6
+      name: Command 29 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 29 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 29 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fb2969ed2df5457c9b313c459a20483c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 29 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 29 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7ab64b769c8f4267b2276fd96353dff4
+      name: Command 29 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 29 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 29 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1e4369773c334402997bcb6b0bb8d92a
+      name: Command 29 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 29 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 29 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d37f1cd7d86a4486a3f0e0e0ff6334ab
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 29 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 29 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2435bc171e954038ae8f31d2c6cdbda0
+      name: Editing command 30 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 30 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 30 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9b7c1c10890d436ea515ce210eeeccb7
+      name: Editing command 30 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 30 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 30 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9f97bfda476e46ad876cf01075851f9a
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 30 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 30 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 30684bac580f45a6bd66451b1da9171b
+      name: Command 30 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 30 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 30 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 629a7cab7cc34a5794bf283b74d1bfe8
+      name: Command 30 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 30 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 30 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7f7872dd005d425bbfad51953abb5f60
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 30 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 30 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: de08a140963f472b837aebf646e31d8d
+      name: Command 30 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 30 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 30 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 305e5d0034324cb595b42c528103891a
+      name: Command 30 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 30 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 30 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b3153fb316684bea81116ee4bb1332f7
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 30 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 30 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6aea74c348144097a46cc312bb9bec4a
+      name: Editing command 31 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 31 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 31 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d737c48822e141f9888c9b3a2fb283c9
+      name: Editing command 31 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 31 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 31 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 43dd3a21700e40c9a150c21b68900f42
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 31 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 31 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 90c1fbe288584a85bba61a01d0089103
+      name: Command 31 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 31 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 31 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7fe5bf84b6214d4cbea0925f26f229cd
+      name: Command 31 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 31 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 31 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dcab6e29461e42068b16237d884a071d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 31 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 31 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 36c479a152d5407ca23bbc9fc9af11de
+      name: Command 31 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 31 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 31 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1d143a78585641b0bcb6715e295f93c8
+      name: Command 31 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 31 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 31 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 53f8e7e1f85e4e298a408865776725dd
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 31 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 31 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5f64bde614174fbdb6076bb0d3a02a6e
+      name: Editing command 32 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 32 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 32 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c339a7343f2f47bd9c7080d92ab7aa7a
+      name: Editing command 32 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 32 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 32 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 524fddeaccd840918ec0a3f716cbfe69
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 32 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 32 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cb91e2b0a4c84c8084e3c2614048b94b
+      name: Command 32 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 32 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 32 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b05243c0c5f6449b857f788043823945
+      name: Command 32 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 32 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 32 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 51a76681fec14c2e9764899f6e6f6651
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 32 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 32 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f4e1329fcdba4b9cb37337169b466395
+      name: Command 32 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 32 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 32 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 73f035a76ca94cf0b188739e1b9e50ae
+      name: Command 32 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 32 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 32 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0cb47d65fe104b138b2fbf288d6cd1f8
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 32 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 32 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4ca414b559df4ca59da97dad51627a63
+      name: Editing command 33 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 33 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 33 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 07f0d4bea0a44ee0874b057b7ab45987
+      name: Editing command 33 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 33 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 33 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8ee4d5b5adb6432989bbedf628f94d5b
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 33 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 33 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9b5164d8b29449b5813da6414a9581f6
+      name: Command 33 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 33 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 33 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 317ff8cef2494e3d948ffe0329f5374c
+      name: Command 33 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 33 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 33 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d033e8758d214c449f20988239fee5a8
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 33 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 33 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9d3df877c8fb47648d8119623b2d1f90
+      name: Command 33 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 33 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 33 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf697800aab14ca2a147316559c9c6cc
+      name: Command 33 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 33 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 33 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cf07f49eb9354a5695ffc6f1f3fb73ca
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 33 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 33 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 39159f22dcec46ea89d282770464ad84
+      name: Editing command 34 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 34 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 34 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 979531ecb90347b7bc1d99cd71e9ecef
+      name: Editing command 34 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 34 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 34 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ea97c32436784ff5836bca59febedf36
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 34 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 34 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bccca099a4ad4d1e95fa6cc5c23223c2
+      name: Command 34 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 34 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 34 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d1e1878bf2264c06b9829b49cf72f7e7
+      name: Command 34 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 34 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 34 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5039decff8ed412fa39c30e9e793e53f
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 34 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 34 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6e746b3ad1344dd8bd0ccf1eb25264a0
+      name: Command 34 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 34 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 34 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e62dec154b634494b53973dcd2e432e2
+      name: Command 34 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 34 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 34 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8ccf2b35d0234069a36af5d64ccd868e
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 34 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 34 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 672bccf0a43c4b2cb3af7df90bfe909c
+      name: Editing command 35 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 35 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 35 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 076fa9b8b9cf410cb36f6830aeffe036
+      name: Editing command 35 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 35 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 35 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 20a7339c370f4e0caa6d18b0535a2d49
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 35 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 35 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a77235a775b94f06b90f06039d89ccb8
+      name: Command 35 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 35 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 35 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5d53eed335d5481faf421a9040db55c5
+      name: Command 35 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 35 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 35 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 107826839a3441b69fc3758ecb80cdbb
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 35 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 35 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b8f8defd996e4b588db5045a2b3f6fc6
+      name: Command 35 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 35 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 35 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ac01b02b9cc34b8aab70b2453d948c03
+      name: Command 35 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 35 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 35 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0f98646be4684b25a261f24a55a85885
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 35 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 35 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2f27f8ba10404dd1b5321982b7c62644
+      name: Editing command 36 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 36 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 36 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: df7be73f6ec748ed8a75d7e7c4110efd
+      name: Editing command 36 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 36 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 36 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e9153c107f2a4ba4a5948d2cde399c1b
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 36 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 36 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 157b7e1cdccb4499ad580d0116aeb421
+      name: Command 36 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 36 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 36 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 24ff13a6934044938fcc6c70438e30dd
+      name: Command 36 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 36 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 36 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ab5591a94e6d4057b7275bdac46b1da7
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 36 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 36 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ddb41456091747f7b48fca6050c2c93b
+      name: Command 36 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 36 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 36 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: de863a565df744968522d3759c86a30b
+      name: Command 36 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 36 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 36 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dbd506bb923d4c07a90094cdb9e7f74d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 36 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 36 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2fbb9f99dc01457baf1c2a02ad3365f1
+      name: Editing command 37 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 37 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 37 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: df156ecf7e6a4d00ae718c499c571568
+      name: Editing command 37 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 37 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 37 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a215f1adbe624b11ba39f1b0d1c2c4ad
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 37 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 37 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e9d6571ac81640aab5835cecea115d29
+      name: Command 37 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 37 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 37 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: efd09e23e01f4c20bc4e78f7afef3207
+      name: Command 37 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 37 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 37 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 47780977f4814d56a8f72d789b91a0fe
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 37 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 37 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cfad87cd4aa943beab643e2b47797927
+      name: Command 37 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 37 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 37 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5aefdd697f1e4507b2e34fa2c87d0b4d
+      name: Command 37 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 37 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 37 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dcef4132f75f436bac9245a393eb14fa
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 37 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 37 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e1ca84a073c041de91b76134adbed189
+      name: Editing command 38 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 38 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 38 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ec068f1515b347ef9e9343e573002894
+      name: Editing command 38 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 38 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 38 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 83fa6931768f43b99d151432fb38ae6d
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 38 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 38 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cf678583cda74ee8a6546523e5f65fda
+      name: Command 38 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 38 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 38 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3792909d7e144fa2a29deeecb91082bb
+      name: Command 38 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 38 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 38 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 379ed2785d5749d89bd25de89393dce0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 38 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 38 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 10368fbb2b27433dbdfae2153845b2ff
+      name: Command 38 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 38 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 38 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b67016976cf94cb1ab54ced48135733c
+      name: Command 38 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 38 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 38 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d45bc596094544afbbaba521a00f1b08
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 38 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 38 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 019d32cb276f4a45a64fe5bf6a184f87
+      name: Editing command 39 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 39 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 39 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8957c231d4474392b579192b40911b47
+      name: Editing command 39 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 39 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 39 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: baa613723e914a5e826f22ce90075cb4
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 39 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 39 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d14ded6a3f9b4c28a7f8ff43ce192919
+      name: Command 39 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 39 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 39 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 97ae83ef02804bb585542f754b30003e
+      name: Command 39 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 39 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 39 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 94ebd6b4b77e4fb080e451e3b2e9bcab
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 39 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 39 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9630149c4a544d42a8bee6e494488709
+      name: Command 39 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 39 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 39 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fe6b441e605e4dbea2b38a9a0e78620f
+      name: Command 39 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 39 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 39 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8182df8b86b5423d970e1d92290da2dd
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 39 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 39 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5662a1a968a5411b9d718d2dfbca9070
+      name: Editing command 40 in RAM
+      type: DEPENDENT
+      key: wb.ctrl["Editing command 40 in RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 40 in RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 82c3f54ac8034243ad83807ed86bac86
+      name: Editing command 40 in RAM (error)
+      type: DEPENDENT
+      key: wb.err["Editing command 40 in RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing command 40 in RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4e484c9db2f246a1b91223756b95084e
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing command 40 in RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing command 40 in RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fd9f42198f804695a69be22ebabb1d7a
+      name: Command 40 recording
+      type: DEPENDENT
+      key: wb.ctrl["Command 40 recording"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 40 recording']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4f8a7c8bbf9c4c2dae3b8db0cdfb5553
+      name: Command 40 recording (error)
+      type: DEPENDENT
+      key: wb.err["Command 40 recording"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 40 recording/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0bba12b2c9004c1e9c640c2949456655
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 40 recording"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 40 recording" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eb4df50406a248fcb361f1ea39c5455a
+      name: Command 40 size
+      type: DEPENDENT
+      key: wb.ctrl["Command 40 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 40 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cbf52b5185dc4b008a0d9717e0a30cb4
+      name: Command 40 size (error)
+      type: DEPENDENT
+      key: wb.err["Command 40 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command 40 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eda676f7034347f38e1b171a451592d0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Command 40 size"]))>0
+        name: 'WB {HOST.HOST}: error on "Command 40 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 675ffb4ace4240ecb7caf7e9e1005e32
+      name: Play a command
+      type: DEPENDENT
+      key: wb.ctrl["Play a command"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Play a command']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d49917c479024f7c82dfc3fe083ee12b
+      name: Play a command (error)
+      type: DEPENDENT
+      key: wb.err["Play a command"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Play a command/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4641246474d74116a7ccf82ea712ac49
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Play a command"]))>0
+        name: 'WB {HOST.HOST}: error on "Play a command" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 66466eeb54cf49418f873def11688bb9
+      name: Editing a command
+      type: DEPENDENT
+      key: wb.ctrl["Editing a command"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing a command']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d7e93a74cdaf4d06979c7bae8378c02e
+      name: Editing a command (error)
+      type: DEPENDENT
+      key: wb.err["Editing a command"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Editing a command/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 42821960874a4a4bb052bc55b9739805
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Editing a command"]))>0
+        name: 'WB {HOST.HOST}: error on "Editing a command" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0cfb244ba51f40f099923f285a3c97d2
+      name: Recording a command
+      type: DEPENDENT
+      key: wb.ctrl["Recording a command"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Recording a command']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e9afa6e1abb7469a912ebdca6e17f56e
+      name: Recording a command (error)
+      type: DEPENDENT
+      key: wb.err["Recording a command"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Recording a command/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cbd93b4340564481a601016368f9a854
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Recording a command"]))>0
+        name: 'WB {HOST.HOST}: error on "Recording a command" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b16bc00b230f4441ad89876912bb1e6b
+      name: Input 1
+      type: DEPENDENT
+      key: wb.ctrl["Input 1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a8ebccbadddb488089df52f94a943e66
+      name: Input 1 (error)
+      type: DEPENDENT
+      key: wb.err["Input 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 32dc7ebc1512402b903a2c3bff7f2013
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3e9e1f06b144c248732b87a5182cd21
+      name: Input 1 Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6eb8cb04a36a4c5c84f6e5ef8a0f93e0
+      name: Input 1 Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8241bc4d6c514188ad647bbdec96164e
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1 Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d8dc082f298a41d98749c48b4b67b156
+      name: Input 1 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0f022e19c6f14bd7940afca88e1ae655
+      name: Input 1 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7180b130444b49f483291fb2d0166885
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c0c4023259ac490d83b008fdf793436d
+      name: Input 1 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 89ff021aa476458299f958ffa89cacc7
+      name: Input 1 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc3db21e90dc4b7cb82a5f4f860fc009
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 43d6433b50744f5b937af8920fcd2b33
+      name: Input 1 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 61aa5a534dc2487f8fa3ee560c6553df
+      name: Input 1 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7764c5e58ade4d26892f6b110a8ef2ba
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a22172180c0e4e3f838e3d673e8147b3
+      name: Input 1 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2d8bfa98a733401c8ee72fe41a03a042
+      name: Input 1 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bb019275888f4935b8b270e32002ea76
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input 1 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 82ea1cc7d2584d3697b3ac908dc51746
+      name: External Temperature Sensor
+      type: DEPENDENT
+      key: wb.ctrl["External Temperature Sensor"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3701bc12bf114f77a3a3802101cc5cf5
+      name: External Temperature Sensor (error)
+      type: DEPENDENT
+      key: wb.err["External Temperature Sensor"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 24970a54eb96494db3bde2067fbbdaa9
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["External Temperature Sensor"]))>0
+        name: 'WB {HOST.HOST}: error on "External Temperature Sensor" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8b10cb4382fc4a28b3d9f2f1fb693634
+      name: External Temperature Sensor OK
+      type: DEPENDENT
+      key: wb.ctrl["External Temperature Sensor OK"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor OK']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 87df2024c3c24571a4ff96446ebaf6c9
+      name: External Temperature Sensor OK (error)
+      type: DEPENDENT
+      key: wb.err["External Temperature Sensor OK"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor OK/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 22660342aba74de58d04fa167d5cb179
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["External Temperature Sensor OK"]))>0
+        name: 'WB {HOST.HOST}: error on "External Temperature Sensor OK" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1eaafa59da724bfcaa583e8f487cba34
+      name: Serial NO
+      type: DEPENDENT
+      key: wb.ctrl["Serial NO"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e3237dbdb7594cac9c76c03a45aaeb7c
+      name: Serial NO (error)
+      type: DEPENDENT
+      key: wb.err["Serial NO"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 34cfcd0b2cc5495f84e8bde573cb0a32
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Serial NO"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial NO" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 437e17c5b4bf4f6fb112600e43b9e03e
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: da95e214de924384be552555e518dfe8
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 36bcdd0576b741739f2bf758d3c4ed1e
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 74260fb2a98949ed83f7999105633aa7
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3b0a98ecb9cd48d8a1a36cf2bbc5e2a9
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 41b9a73e3447415fa6a43215eac259a0
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a6a4bae581c74e56baf517b48dd0bc10
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9f32c58c98bb4f3cbf483cc453cd4ba1
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 93fa596bc3f6402ba0f3fcd8b32d070b
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eb0ae6418bfd493d8f1b75888387a4a7
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 452231c6adb944a6948151dc8c3f4f11
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6fe1e72a3a6847c0abc1c3c3748eb2a7
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 89c24418d6674da3a24933354b006112
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 45a1e7aa2f0b4638a776adc2073948a9
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 628d28d46d2b4b879f7aa4c5f0b19c4c
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2423cc1d968e48be87185dc19e007c4e
+      name: Minimum MCU Voltage Since Startup
+      type: DEPENDENT
+      key: wb.ctrl["Minimum MCU Voltage Since Startup"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum MCU Voltage Since Startup']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3211b9986fe345d6bff95c8bd21b58a6
+      name: Minimum MCU Voltage Since Startup (error)
+      type: DEPENDENT
+      key: wb.err["Minimum MCU Voltage Since Startup"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum MCU Voltage Since Startup/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fc0d6e94715e40dd9ba83a17c51b7daf
+        expression: length(last(/WB-MIR v2 buttons by MQTT/wb.err["Minimum MCU Voltage Since Startup"]))>0
+        name: 'WB {HOST.HOST}: error on "Minimum MCU Voltage Since Startup" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mir_v2
+    valuemaps:
+    - uuid: 1ad5535bfb16439f828a8a6446fb3c59
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'

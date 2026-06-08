@@ -1,0 +1,172 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 67d2a21f15cd479d889191a0a76b3636
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 5bbde59590b344098214f402ee539768
+    template: WB-MIR simple by MQTT
+    name: WB-MIR (simple) by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 374c232e67d34eddbc3c810b20626219
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: b0a8963041884cd28287724aa728d02d
+      name: Input Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Input Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b546a203542349639b49a5ba2f037371
+      name: Input Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Input Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ecc05c4c865c400b916b7db3c8193d65
+        expression: length(last(/WB-MIR simple by MQTT/wb.err["Input Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 749fcb1068144e1e8355f4ea9b629edb
+      name: Learn to RAM
+      type: DEPENDENT
+      key: wb.ctrl["Learn to RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5990b07f4642417c817b24cc4fd1f8c9
+      name: Learn to RAM (error)
+      type: DEPENDENT
+      key: wb.err["Learn to RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 90aa01b330e340f6a90465e3d50eb91a
+        expression: length(last(/WB-MIR simple by MQTT/wb.err["Learn to RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0a368771223e4d89a1c54bcd2588d5cd
+      name: Internal Temperature Sensor
+      type: DEPENDENT
+      key: wb.ctrl["Internal Temperature Sensor"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal Temperature Sensor']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2bbde03e54aa432c96800a0d29f4a808
+      name: Internal Temperature Sensor (error)
+      type: DEPENDENT
+      key: wb.err["Internal Temperature Sensor"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal Temperature Sensor/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aceb0a017a0e4104aea512639e7843ec
+        expression: length(last(/WB-MIR simple by MQTT/wb.err["Internal Temperature Sensor"]))>0
+        name: 'WB {HOST.HOST}: error on "Internal Temperature Sensor" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 42768d2090584bf79e766ca3ea0daa87
+      name: External Temperature Sensor
+      type: DEPENDENT
+      key: wb.ctrl["External Temperature Sensor"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 47fcf48547b647cf91498a544afc3fba
+      name: External Temperature Sensor (error)
+      type: DEPENDENT
+      key: wb.err["External Temperature Sensor"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/External Temperature Sensor/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4fa9b5d0fd9d4cc19892569b51897174
+        expression: length(last(/WB-MIR simple by MQTT/wb.err["External Temperature Sensor"]))>0
+        name: 'WB {HOST.HOST}: error on "External Temperature Sensor" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mir-simple
+    valuemaps:
+    - uuid: b6d5f044a7a747239749110ccd8d7507
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
