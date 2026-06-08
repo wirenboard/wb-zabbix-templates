@@ -1,0 +1,3215 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: a86be371e23c4499897fd3e5ec18c0fd
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 035ed2652d1b4051aa2869d34d0fdd17
+    template: WB-MR6C v.3 by MQTT
+    name: WB-MR6C v.3 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 4897bb66071d4f80b96a65e578b0aeec
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: b28443bed747498bb654ea4753f60bfb
+      name: Input 0
+      type: DEPENDENT
+      key: wb.ctrl["Input 0"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 96efabe7990443aba1eef21cd2ba1040
+      name: Input 0 (error)
+      type: DEPENDENT
+      key: wb.err["Input 0"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8820c901ef9a404e9fbd8a177e248d4a
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f64e493116054e1096fc0163c5bdebd2
+      name: Input 0 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8aba1c1083f84ffdb3d52d8e182701ad
+      name: Input 0 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c01e2416e11b40d38eb69b3c4d08ea3f
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4a2830dda78e4174bf4cdc8680f5feea
+      name: Input 0 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf4fab76d3744be685f919f1fb692283
+      name: Input 0 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c5165725fce347eaadc2e5a42f190118
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c1086b477cd649da982d8553c3ffc257
+      name: Input 0 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 61cae90db8714b099e08b11523ec8d18
+      name: Input 0 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1af22d64025548ec93cc213461191b06
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1733ac1261f645eab4bb89e2d6892083
+      name: Input 0 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 57474e57e3e5419ea6c1a8920ad570ee
+      name: Input 0 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a6b2eb580994cd785db564fdec8bc04
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c218ac0dcae04e61bb9008f21d7bbde0
+      name: Input 0 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cda4097ccca64cfb9b7615273869963f
+      name: Input 0 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5ac301e29c1b4601906bd458f6687ac7
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5d10dcfb468e4a808cd6846bd5d243fa
+      name: Input 0 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 0 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d01eee938864ea589bd1a49aa8b71f6
+      name: Input 0 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 0 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 0 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 73135422546e4c6a9f96e9a84980224e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 0 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 0 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7c9d5c0c9b2f4ff180cfb0741fb6dca6
+      name: Input 1
+      type: DEPENDENT
+      key: wb.ctrl["Input 1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 27cef8a580754e998c05e4f17e792f94
+      name: Input 1 (error)
+      type: DEPENDENT
+      key: wb.err["Input 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 744eed6d38d948ea8e0fbcb82a7569ea
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0c14774a211944f4ae917740e5c0f90b
+      name: Input 1 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a3fa2a2f2df34aaa9f20adbd61291f62
+      name: Input 1 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8ac96a52196245c8bb087fedc043642b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3dc66863d9d423f980521b37e1313bd
+      name: Input 1 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8062ce06e3274876bcf84d02a5a76f56
+      name: Input 1 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6f0e33d5afa84792b5784ee25b3c2289
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a23d5181275a4bd69b14dcb16d4d7a5b
+      name: Input 1 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 43949ce411ff47a79ede8ee14381af2d
+      name: Input 1 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e5f63246bf1d49468bb72f3483b95dfc
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 166f06c5d78341459c768c4d8a30152c
+      name: Input 1 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dd0c3c758a91426aacdf04c25e760eef
+      name: Input 1 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3ae6a3b1d5854e50a66612ccc1c919f7
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 160fd30957e7495b8e20c86212667afa
+      name: Input 1 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4703a10d464d40caa8c7ec388324877d
+      name: Input 1 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1c9e5b772eca4d17b1df530b3309f231
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9fe7c3e4902243b6a23f552c1f071d6f
+      name: Input 1 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5596cfefe5c6424190f673508f6ba083
+      name: Input 1 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 1 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 1 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 311607a8f3f54044bdd4b1205ad83d60
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 1 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 1 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aba9ca27ac684ffda1a000afc9203763
+      name: Input 2
+      type: DEPENDENT
+      key: wb.ctrl["Input 2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b30b764b9e52488db56c7d353ec98ef9
+      name: Input 2 (error)
+      type: DEPENDENT
+      key: wb.err["Input 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc7b1900e6194af2a5c485a44111d06d
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7803fbf8c19645dfbd5ca5bef306c35a
+      name: Input 2 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 545d6041dceb4db58a6a28934ca4f448
+      name: Input 2 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d8ecf70f6c90430b8e7fd3499bab559b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 839002d2a7834c2f9196ca82e66660c5
+      name: Input 2 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 51b2507245fb43b1b7a2705842b58410
+      name: Input 2 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8fd7a88ed33548ac850d51457add4ce3
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 05ff9567dbf544c88ac80762bfc77753
+      name: Input 2 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 386071e3d8a7403d99c80a910cdfa878
+      name: Input 2 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 520c82f08e9e48a7a1dd39e85827923f
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e3826d055f0d4b649e6f0383af6a94c7
+      name: Input 2 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c7876aa9c390464c9144d1c20ebb7b7b
+      name: Input 2 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bf8c97de57e64ec281edf0e1bd9163a0
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cd39e2e4c40740428f99717c4073c4e3
+      name: Input 2 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a3c0602a77f54b9eb6d70e59b79d0344
+      name: Input 2 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 24949b85aa3947f0bd9cafd77ec3ef0e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f206ed821c0c48cbb26c7a1541dd1bd2
+      name: Input 2 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 2 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 08272a023e52452db7b7f27a5785cf7c
+      name: Input 2 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 2 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 2 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b8d66c677a18435593aca7711e41ffe3
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 2 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 2 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 109cf2e1f0674a9b8736cef4109ea868
+      name: Input 3
+      type: DEPENDENT
+      key: wb.ctrl["Input 3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 179fa060964e48eba1e3b18784a3cbea
+      name: Input 3 (error)
+      type: DEPENDENT
+      key: wb.err["Input 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2b80feec1e4b4ee3b8349a3ce635f6fe
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bdf58df1f916493db304e9d6a83e3b44
+      name: Input 3 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bd5d915b229b48488969ed1a9008e8a4
+      name: Input 3 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9da90ee1db364bffba3ff3c088b47f0c
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 48cb4b5a663440f3ab11ffed108233d5
+      name: Input 3 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bd09bb3112f74adbbbb78b4f7be91c2b
+      name: Input 3 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3568d3f98a844df1bbd00638e30a2125
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ed3309574d4a4f16819af6e51fca7453
+      name: Input 3 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e4dd5d16097f471aa9abc2403ed9e1b9
+      name: Input 3 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4cf53c2c07cf4c208a6cd72795317ebb
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 823f130ee0614ba2917a111942cc2721
+      name: Input 3 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dd5327d9a88d404f9d7012df4f79f960
+      name: Input 3 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 382aae7028424fb5b43f2ece60d717e5
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ae8cfac112b94512b8e36f24fc589e71
+      name: Input 3 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 25dfbe9b7c8a40e2b9007089b19f1f8f
+      name: Input 3 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f1ea3035e0104fe096657559d127df44
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b65669b2283f415eaeedb566266e92de
+      name: Input 3 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 3 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1f91068bf76a4d4dba6388b6bdc3ee63
+      name: Input 3 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 3 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 3 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 76f44bc7dc5d412eb456a4039a582c83
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 3 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 3 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c35f7d8b41264304a5174c1a14e3ca43
+      name: Input 4
+      type: DEPENDENT
+      key: wb.ctrl["Input 4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a40fec1659b84eb7ab068533a9a47bc9
+      name: Input 4 (error)
+      type: DEPENDENT
+      key: wb.err["Input 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fc31c2b4127c4ca6bac0e7557390353b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a2878cb6b08479791fbc730a894e02a
+      name: Input 4 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e09110d0494940a3be89f8593a796e6f
+      name: Input 4 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: df52254e2af24c07902fb9ed3269d795
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8205bc40efbb41ee9b7aa711bf5ac8b1
+      name: Input 4 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7721f8e5fd114b91b5aaf09ee8464cb1
+      name: Input 4 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 056d0fd2e49e4329bc4b2c400699a902
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 917bf916df354782abf41ce7e71bcc90
+      name: Input 4 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e38f7d68ab2c462385b1942040ba0eba
+      name: Input 4 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 585282754d4648e48ca5fc320ee9afb5
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 59c6182160944480877e9f62374117e8
+      name: Input 4 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fbffacf427604489a754e20430c612c0
+      name: Input 4 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3efed8df1f214c87aa0f7a3d4ae1d8f9
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cde83c8e828d41bb8a87259e7bb79373
+      name: Input 4 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f02c3f503ee947ca8d5043c54667b579
+      name: Input 4 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 21c66b9c4d014fdba0f67358785fd86e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 88154a3a0d734bfdbca29aa7599d0c5c
+      name: Input 4 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 4 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 18ac6973bb2b4f47b162c867fc8701d0
+      name: Input 4 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 4 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 4 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1786d28bc82c480297decf2ecf540b1a
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 4 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 4 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 22f56f87dffc440f89a6ce1e5f2a8e6e
+      name: Input 5
+      type: DEPENDENT
+      key: wb.ctrl["Input 5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d53d09a15988414ba5c6255e45db0f94
+      name: Input 5 (error)
+      type: DEPENDENT
+      key: wb.err["Input 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e8610f5255f2432f9c62f6da31af6542
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5e373fc2513f4315818ce04bf1994a3a
+      name: Input 5 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1e841b23082442379f77d91b536b7a63
+      name: Input 5 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1f24481bbc3a4588b6975d2973c5c007
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6f43f749fc640b7a1bfb50f4eaa6450
+      name: Input 5 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b207d7ef6a9f4e5faca9d9356a845546
+      name: Input 5 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 64d2c28f0301497581ee1c252d241645
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1db82f0c368e471582d8e20c24dd7f19
+      name: Input 5 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ba047fcccca342b1bea0a6a9c627a2e2
+      name: Input 5 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0a03f38773cc4261958faad163d92418
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8eab43b91c394920a84c6ec30b68813c
+      name: Input 5 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7857205fd9544361942e4889b7bd3643
+      name: Input 5 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f6639938f3174369a2b0fb503fa84a06
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3a41ade627a4313851ccc24ddcb28d4
+      name: Input 5 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9e01ae6489374315a68fbb84aad42edf
+      name: Input 5 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c23f7dcfd6a947b5a4c8099491adf8c5
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1b1daf36790548839cd47a3797472e5a
+      name: Input 5 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 5 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 631bb86e252e40959667e04a7ebdd0d9
+      name: Input 5 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 5 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 5 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 77cf6a0a041f4d6f81689ce2010a5a48
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 5 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 5 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a67f615251e4955935666576dcd87f1
+      name: Input 6
+      type: DEPENDENT
+      key: wb.ctrl["Input 6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 51380afd5af2402a9160b6f2011b6539
+      name: Input 6 (error)
+      type: DEPENDENT
+      key: wb.err["Input 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f294bf304dc54240a78aad275836642e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 09a291310ba34baf81041e57628b10c2
+      name: Input 6 counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 26d4ddd6685141e5a8116806326580ea
+      name: Input 6 counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a5572c77d0fe4b35896760d44723f1c8
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a5ba007df7a4e4f8a0fe6831ce0c6a8
+      name: Input 6 freq
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 freq"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 freq']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 70ed6c25d06f430a8dd591aa6b3a3b4c
+      name: Input 6 freq (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 freq"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 freq/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 83e73ed372a041b893dacabd4cba422b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 freq"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 freq" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 33a321123acb4f0b94b6f4b3922762ea
+      name: Input 6 Single Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Single Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Single Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1c18b4967e2b48fcbb8aaf35ab70909b
+      name: Input 6 Single Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Single Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Single Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 75485764dc764bb9b095fe7e38fa6254
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 Single Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Single Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9806e5c471fc424085723a690a3ffd36
+      name: Input 6 Long Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Long Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Long Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 555eba13fc754e3db363a3448a572858
+      name: Input 6 Long Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Long Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Long Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1bcac6e8752f4f5e86a3850637545b46
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 Long Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Long Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3ab600baa658442a9e640b0908491d31
+      name: Input 6 Double Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Double Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Double Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c1a941ea9a27489ea3158388a0bbd126
+      name: Input 6 Double Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Double Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Double Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a087814967db4ff58f1295169a0b8c32
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 Double Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Double Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f3ab3e76dd9744399462bcbc40570833
+      name: Input 6 Shortlong Press Counter
+      type: DEPENDENT
+      key: wb.ctrl["Input 6 Shortlong Press Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Shortlong Press Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d19d9a579eae40b9b6101c7a7d2479d6
+      name: Input 6 Shortlong Press Counter (error)
+      type: DEPENDENT
+      key: wb.err["Input 6 Shortlong Press Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Input 6 Shortlong Press Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 89124e15a674472392f302c3718fccc4
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Input 6 Shortlong Press Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "Input 6 Shortlong Press Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 90e1f0b21661474387e214bc5fece33b
+      name: Command K1
+      type: DEPENDENT
+      key: wb.ctrl["K1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a440f4708a8146e2aa0176d19e8dd9a1
+      name: K1 (error)
+      type: DEPENDENT
+      key: wb.err["K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2dab6fa53bac44c3b6f5a28c91f32a4d
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K1"]))>0
+        name: 'WB {HOST.HOST}: error on "K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8dddb3425e6c4d9388e7d458ac759a7c
+      name: Real State K1
+      type: DEPENDENT
+      key: wb.ctrl["Real State K1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2def990acc6c4001a0ae3a70dd0aa206
+      name: Real State K1 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e70b0560f2d24fc789b48014b379c624
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K1"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b564071c8f794b8895614154878f38d9
+      name: Startup Delay K1
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K1"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f92dc0096ae24387bdf6c018f9a8c0e5
+      name: Startup Delay Countdown K1 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d066f22b388c44cdadcb2e359491d1f4
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K1"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7bac573c4528474ea0fd92e5a0dad5f4
+      name: Restart Delay K1
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K1"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 013a1d0657184e84bdb52b941c876ab5
+      name: Restart Delay Countdown K1 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 62c1cf88ac7f4310b5d7a7c89e2e9916
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K1"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b54ec38544bb4c2ebd4e15c4f9e542b4
+      name: Timer K1
+      type: DEPENDENT
+      key: wb.ctrl["Timer K1"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7a6b8264da914d478e1caf69171b012b
+      name: Timer K1 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 11817d8bdc5f46709107f6934a48302e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K1"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c6624c5dd3704ce7b9de7c42516797a9
+      name: Command K2
+      type: DEPENDENT
+      key: wb.ctrl["K2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b863ff1642ee4242af100767ae7fd26e
+      name: K2 (error)
+      type: DEPENDENT
+      key: wb.err["K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8a1ecd4f8d544b1e89e887b3cd5adfcc
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K2"]))>0
+        name: 'WB {HOST.HOST}: error on "K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8ba6750e04e044d7946fb998792c2d0b
+      name: Real State K2
+      type: DEPENDENT
+      key: wb.ctrl["Real State K2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5a1bf3ce07ac4cdf92c7b8d1e0a4bfe4
+      name: Real State K2 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 146376db099b4de294a2c4f200b4bc2c
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K2"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e7aad280bc9f440cbfde60b4962823ee
+      name: Startup Delay K2
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K2"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 56fc286223b745b9a5aaf3837121a5cf
+      name: Startup Delay Countdown K2 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 226faa16180240bc910ea840045ce73d
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K2"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 32a4079b9df748b6b3dd61883009141a
+      name: Restart Delay K2
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K2"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7faff9f333104ce58a864d12fbf9f045
+      name: Restart Delay Countdown K2 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a93f2ae7d26c4e278a8411cef993a8fd
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K2"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 49329d541cf0466795721a3dd056a5ae
+      name: Timer K2
+      type: DEPENDENT
+      key: wb.ctrl["Timer K2"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b745a56e5dce474fa074d82863c129a6
+      name: Timer K2 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9cf2935db69a463fa1457914e6fcb4be
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K2"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cab1e2baa59c432e820cd203ec6f6b7b
+      name: Command K3
+      type: DEPENDENT
+      key: wb.ctrl["K3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 15fa2a8baa524ddaabba6ec6c3456571
+      name: K3 (error)
+      type: DEPENDENT
+      key: wb.err["K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e13d59c66e3649f889b0a823e876b6c5
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K3"]))>0
+        name: 'WB {HOST.HOST}: error on "K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eb977394408044dd8749c91097c52570
+      name: Real State K3
+      type: DEPENDENT
+      key: wb.ctrl["Real State K3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 484243e3914845d38b2ee95f2dd1adbe
+      name: Real State K3 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 907afa5b8df047b487b39ecf4c54bebc
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K3"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f86369cacf8e48eca9ffb7dc48c9bce9
+      name: Startup Delay K3
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K3"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 50ead79cf7ee48e990dc48667e2c74df
+      name: Startup Delay Countdown K3 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d7f288fc4a7a4239854c9c9e0a09b9c9
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K3"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2e414cb2220843e8b074e5330a2658f6
+      name: Restart Delay K3
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K3"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 089672a9aff44ea584934c9f84a56f6e
+      name: Restart Delay Countdown K3 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0772ac65ff7e468a871eb62a6a100a9b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K3"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eea9e3451731449f996a775e6254dabb
+      name: Timer K3
+      type: DEPENDENT
+      key: wb.ctrl["Timer K3"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1ef5384077414ce28056dacc5f40dd14
+      name: Timer K3 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 39387bee2b4d45f094015d14e80e2203
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K3"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bc7357ea2fd74f8189b1bd383c7b1dfc
+      name: Command K4
+      type: DEPENDENT
+      key: wb.ctrl["K4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6858ece5fc1f4fcca62de66c4ceb5145
+      name: K4 (error)
+      type: DEPENDENT
+      key: wb.err["K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ff0a03c19274458e8ae209117ae7f096
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K4"]))>0
+        name: 'WB {HOST.HOST}: error on "K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8748381e86e246aeaaf4c11c97164854
+      name: Real State K4
+      type: DEPENDENT
+      key: wb.ctrl["Real State K4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 922ba22e000e494ebed8874aa368bd0d
+      name: Real State K4 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 75eb8a34e3044cee9b831ffea9e4bb9d
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K4"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e8468eef57e745e9a21e7b03013be5df
+      name: Startup Delay K4
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K4"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7ba3d19137454a37937608659bfd9214
+      name: Startup Delay Countdown K4 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 382d033c5a564fb8b8629a3ebebddda0
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K4"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9e79f1b24eae4d8f922558711320258a
+      name: Restart Delay K4
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K4"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f5f48622ed8d46d6a8cc75ba81bc7213
+      name: Restart Delay Countdown K4 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c96c543c5d0146c9a13293933163dd15
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K4"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5ee8a8386fab41b3959aca18626f5707
+      name: Timer K4
+      type: DEPENDENT
+      key: wb.ctrl["Timer K4"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8f1456c930c34fddabb99cd2ccef1572
+      name: Timer K4 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c56c8c857e214ceb86fc5df42824a03c
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K4"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8c0312f1c33a41ef8af37e0d52f65301
+      name: Command K5
+      type: DEPENDENT
+      key: wb.ctrl["K5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e7b78d2658104aeda0426bc133a8d91f
+      name: K5 (error)
+      type: DEPENDENT
+      key: wb.err["K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 651fe39cd05b438e8a217848a116a178
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K5"]))>0
+        name: 'WB {HOST.HOST}: error on "K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c165391c48c142809231df01cdc9ac27
+      name: Real State K5
+      type: DEPENDENT
+      key: wb.ctrl["Real State K5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4538e01411714fe8a4cfe9d50462efd3
+      name: Real State K5 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 667160b3a79c4fab986dcdf7f1a1bf1a
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K5"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8412932a2afc4394bed21b20cce73a3a
+      name: Startup Delay K5
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K5"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 500da3d5b3184a3195f536b8d0cce846
+      name: Startup Delay Countdown K5 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e6caaf865eac40f98b4dfef865df4657
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K5"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dc6e383269344fc1abb108d6f18166dd
+      name: Restart Delay K5
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K5"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf8ff03260da40af85a1420f833e8270
+      name: Restart Delay Countdown K5 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: deeddf7ff049426196e0a3db3f0603a8
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K5"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ea7a9f8ec5154eaea6cea179de304c47
+      name: Timer K5
+      type: DEPENDENT
+      key: wb.ctrl["Timer K5"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 32f4abf267b3411da5884fb7ab0327c5
+      name: Timer K5 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 44c6359ab32c4532a5bd9d8a88fa3482
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K5"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5136efe8f87748cfa3d8f3dbfae8ce34
+      name: Command K6
+      type: DEPENDENT
+      key: wb.ctrl["K6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a97ddc32b5604999a9671cc8eca28bfa
+      name: K6 (error)
+      type: DEPENDENT
+      key: wb.err["K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b176bc1f54c54f0b9d1487688fc492de
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["K6"]))>0
+        name: 'WB {HOST.HOST}: error on "K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 76796651a68a46b5820db9cbf2c99017
+      name: Real State K6
+      type: DEPENDENT
+      key: wb.ctrl["Real State K6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d3fbf724fe6b488c8eec528c7dc2d5fe
+      name: Real State K6 (error)
+      type: DEPENDENT
+      key: wb.err["Real State K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Real State K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bb8ff383ceed47788ff633ac22acfa7d
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Real State K6"]))>0
+        name: 'WB {HOST.HOST}: error on "Real State K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2a4adcaa75d74dc88a323f309ce90e64
+      name: Startup Delay K6
+      type: DEPENDENT
+      key: wb.ctrl["Startup Delay Countdown K6"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b0410c8475e945f8a1da8b8ef60e916c
+      name: Startup Delay Countdown K6 (error)
+      type: DEPENDENT
+      key: wb.err["Startup Delay Countdown K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Startup Delay Countdown K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6af3155f6a894ef8b2b524f46c250a2b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Startup Delay Countdown K6"]))>0
+        name: 'WB {HOST.HOST}: error on "Startup Delay Countdown K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a9cb7c40d03e4b4d840c15665d85182d
+      name: Restart Delay K6
+      type: DEPENDENT
+      key: wb.ctrl["Restart Delay Countdown K6"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3c913b07bbf7479bba93dbfd09518568
+      name: Restart Delay Countdown K6 (error)
+      type: DEPENDENT
+      key: wb.err["Restart Delay Countdown K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Restart Delay Countdown K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 977d90d3c36f4b14ac6c1c9d10965e9e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Restart Delay Countdown K6"]))>0
+        name: 'WB {HOST.HOST}: error on "Restart Delay Countdown K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a1c42a788eff4478a3da940e962e52e5
+      name: Timer K6
+      type: DEPENDENT
+      key: wb.ctrl["Timer K6"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b5491986d29844318ebea72c7a23c668
+      name: Timer K6 (error)
+      type: DEPENDENT
+      key: wb.err["Timer K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Timer K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 93e8191fad684228a217a289b7944c4b
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Timer K6"]))>0
+        name: 'WB {HOST.HOST}: error on "Timer K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a453d343b6a347a3ad6fb67e12ac73df
+      name: Actuator 1 Open
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 1 Open"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 1 Open']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7166aaf388bc43acb64e561f82a634fc
+      name: Curtain 1 Open (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 1 Open"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 1 Open/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7da91ca1ce274018af1a1f087046c847
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 1 Open"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 1 Open" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 442f826d6b2b436d90ffbe679784a88b
+      name: Actuator 1 Close
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 1 Close"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 1 Close']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 69926d97b4a34e0ca44ed79685f3a138
+      name: Curtain 1 Close (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 1 Close"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 1 Close/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1c7b6478be4b4983975cc6a2251c3616
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 1 Close"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 1 Close" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b0bf724d2bd74d499ba5c641642d2414
+      name: Actuator 2 Open
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 2 Open"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 2 Open']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dc6fa1497568440e8165ec4f6bfd2d6e
+      name: Curtain 2 Open (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 2 Open"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 2 Open/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2ae5e61e7388476ebf01b624b7f80cf2
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 2 Open"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 2 Open" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9ec4dc812fa445f0b393a58b202a1d61
+      name: Actuator 2 Close
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 2 Close"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 2 Close']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1b6eb5d72ac74b9f86a61470744323bb
+      name: Curtain 2 Close (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 2 Close"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 2 Close/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8360718066f74dd9a9f9c09b8a374598
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 2 Close"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 2 Close" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 65c44ad0d25945ce9bc02b976f85d1c2
+      name: Actuator 3 Open
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 3 Open"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 3 Open']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9c6c1f73b4c94b52bc97c4b60ce4de34
+      name: Curtain 3 Open (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 3 Open"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 3 Open/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 618cd0a659804bf986ea06e85249ed24
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 3 Open"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 3 Open" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5c2460a370f34ee2be857e08875d9d91
+      name: Actuator 3 Close
+      type: DEPENDENT
+      key: wb.ctrl["Curtain 3 Close"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 3 Close']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e705c4055462400fabf59d0d46808e28
+      name: Curtain 3 Close (error)
+      type: DEPENDENT
+      key: wb.err["Curtain 3 Close"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Curtain 3 Close/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6c32077660bc470f9f3e83f150a8c4cb
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Curtain 3 Close"]))>0
+        name: 'WB {HOST.HOST}: error on "Curtain 3 Close" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bc0cd8b6595d451cb0822575c763129d
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1b63c46f64e2433ca3c71f4d9909a64b
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c838a73b9bef4ea2b2179505cdde32d3
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e9661e628b8b440f8e45594a8ef5a305
+      name: HW Batch Number
+      type: DEPENDENT
+      key: wb.ctrl["HW Batch Number"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 488a227905b148fb81c543d5b020c8a4
+      name: HW Batch Number (error)
+      type: DEPENDENT
+      key: wb.err["HW Batch Number"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ac77b94f009241df892f85da31804f93
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["HW Batch Number"]))>0
+        name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5d02b468fae344459b6201ed653bc932
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 584cec1e71c441409a9ab85a770fb80c
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eb9dd6deaea44b8a9dd4ce204c474033
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a599675ca7194d7797b26138f0d1b125
+      name: Supply Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Supply Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6ef357150d5d4c8d9810a7ee2ffce244
+      name: Supply Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 78e5f3e835ed4c9a8b28be70ff8a5207
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Supply Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3d98177fc58f4d7e857b99e98a7c0181
+      name: Uptime (s)
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f8d67b0a770e4eccae4c36498f3fdd39
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 082f43899b6c4f51bbed4ec426cfd5c7
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f90eff7014204f718a74b52232fb82b6
+      name: Minimum Voltage Since Startup
+      type: DEPENDENT
+      key: wb.ctrl["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: abf5b731717d4347b90c92548f545b06
+      name: Minimum Voltage Since Startup (error)
+      type: DEPENDENT
+      key: wb.err["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 31e7c4ac22114a3b8fe25d4b6c291e0e
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Minimum Voltage Since Startup"]))>0
+        name: 'WB {HOST.HOST}: error on "Minimum Voltage Since Startup" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a9ecd9bf23b406cb4e3b46f008d2141
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d0778be071484190972c80c031acf889
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8bb228c754a47a8a881d2fcbf766813
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e13e1fb55c42422d83d29083bb053dc5
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e262db6aa8c84e6ba489ee65f905bc83
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: be415c58a9ec49879a6b31785e1b81da
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1727b033f62341a3b36e902886c9b8f4
+      name: Bus Power Supply
+      type: DEPENDENT
+      key: wb.ctrl["Bus Power Supply"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Bus Power Supply']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3f745eeea06245d99a55250829964bee
+      name: Bus Power Supply (error)
+      type: DEPENDENT
+      key: wb.err["Bus Power Supply"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Bus Power Supply/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6c159f41ed4147b9a5a5f9afa827e0f1
+        expression: length(last(/WB-MR6C v.3 by MQTT/wb.err["Bus Power Supply"]))>0
+        name: 'WB {HOST.HOST}: error on "Bus Power Supply" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mr6cv3
+    valuemaps:
+    - uuid: 15e9435ff2a24d9d9a686c1de06f960d
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'

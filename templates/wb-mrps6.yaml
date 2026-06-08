@@ -1,0 +1,379 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: afc8063e08db42cab4a1c576c445e973
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 63717edbe3ef4127aeaff5855d65ef3b
+    template: WB-MRPS6 by MQTT
+    name: WB-MRPS6 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 90c799471b5b4d5392119a0cad0f7073
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 9d075e37dec944e59dc829dccf9e095d
+      name: K1
+      type: DEPENDENT
+      key: wb.ctrl["K1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6296504baab841a4bb748ac805deeffc
+      name: K1 (error)
+      type: DEPENDENT
+      key: wb.err["K1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 464515a217fb421cbe2140fe6ec6e1f7
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K1"]))>0
+        name: 'WB {HOST.HOST}: error on "K1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 592a0004b7cd45819c418e2872aa1d4f
+      name: K2
+      type: DEPENDENT
+      key: wb.ctrl["K2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0d22902263d64f23bc9eb7d214c8515d
+      name: K2 (error)
+      type: DEPENDENT
+      key: wb.err["K2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 194f647b8fdb4703b30bcdf9561c39f7
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K2"]))>0
+        name: 'WB {HOST.HOST}: error on "K2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a3b73d80776a4671b2de2c81f60683ee
+      name: K3
+      type: DEPENDENT
+      key: wb.ctrl["K3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0a29d1b87dd7492ab04b6b0a122a9466
+      name: K3 (error)
+      type: DEPENDENT
+      key: wb.err["K3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: be75b09dbe62489a906262186b267598
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K3"]))>0
+        name: 'WB {HOST.HOST}: error on "K3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a6b0327aaaf4b8ab9dd45306f5eab3b
+      name: K4
+      type: DEPENDENT
+      key: wb.ctrl["K4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 04ed5dd97d7147b1bdc5e06551a1cf8b
+      name: K4 (error)
+      type: DEPENDENT
+      key: wb.err["K4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aadedd8b7a9f451b8223ff8ba29349e9
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K4"]))>0
+        name: 'WB {HOST.HOST}: error on "K4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 70599ca61f1b4bd4901ef1e4c4c10a7c
+      name: K5
+      type: DEPENDENT
+      key: wb.ctrl["K5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8d2580cdab884e52bacbc736375bf0f0
+      name: K5 (error)
+      type: DEPENDENT
+      key: wb.err["K5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 804f0bb15bf54567ac09bbb5452c7688
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K5"]))>0
+        name: 'WB {HOST.HOST}: error on "K5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ddd25f76c4d54adfa705a9d92a297c61
+      name: K6
+      type: DEPENDENT
+      key: wb.ctrl["K6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 957cf1f86ba6402e8f5885703cc2b76b
+      name: K6 (error)
+      type: DEPENDENT
+      key: wb.err["K6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/K6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: af2b0aca7b8d4cdaa27c0cc6971168e6
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["K6"]))>0
+        name: 'WB {HOST.HOST}: error on "K6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6b77391e2b1b41eab5e73b857a78350d
+      name: Safety Timer
+      type: DEPENDENT
+      key: wb.ctrl["Safety Timer"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Safety Timer']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9fd6ab0204364665a60d5ceda0abac13
+      name: Safety Timer (error)
+      type: DEPENDENT
+      key: wb.err["Safety Timer"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Safety Timer/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0b49a451efcf4a9c87866a4c6dd2a374
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["Safety Timer"]))>0
+        name: 'WB {HOST.HOST}: error on "Safety Timer" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 434aade9980d469a831a5c1ce97d611d
+      name: Supply voltage
+      type: DEPENDENT
+      key: wb.ctrl["Supply voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cbc9ae5dd7604e2eaedde18815d6277e
+      name: Supply voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1d40abf4b5774ffc808fadc41b435a5b
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["Supply voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b766e676c2524c18bfff49c7545e77a1
+      name: Serial NO
+      type: DEPENDENT
+      key: wb.ctrl["Serial NO"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: daccdf87ffbe4dd0b060ff4166ffb3dd
+      name: Serial NO (error)
+      type: DEPENDENT
+      key: wb.err["Serial NO"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial NO/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 94b0209430bf47228f89831e18ad9afd
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["Serial NO"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial NO" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9709ed23da1844f88f82d8ebe34bc7f2
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c91762090d334a67b209b9fcb4adb083
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c07a1c7cd78a4a47a4f27f4c44a8affd
+        expression: length(last(/WB-MRPS6 by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mrps6
+    valuemaps:
+    - uuid: b6c42226b2f44a1db00d072f96c5fdfc
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
