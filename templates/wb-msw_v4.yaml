@@ -1,0 +1,5052 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: d5d9b06db32549c4bf5cdd111110669f
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 3ab903bca47847dfabc07d8d1567c5fa
+    template: WB-MSW v.4 by MQTT
+    name: WB-MSW v.4 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 9d83a6e852714225a8f2ba54bc8dd276
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 63f8a02973714eda908e358623bfc47d
+      name: Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fa9e3d9cc25240d3910fe01fc97552f7
+      name: Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9495df3dc9cf47edb51891bdd7f6b442
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 70324f82f5eb44a286b24644cac0e3a9
+      name: Humidity
+      type: DEPENDENT
+      key: wb.ctrl["Humidity"]
+      history: 7d
+      value_type: FLOAT
+      units: '%, RH'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aac17110e9e14f7dbf3cdb6ca79a2d4e
+      name: Humidity (error)
+      type: DEPENDENT
+      key: wb.err["Humidity"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f55613e5a6064a39a9b8ad238abc11c2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Humidity"]))>0
+        name: 'WB {HOST.HOST}: error on "Humidity" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7da1e5175ff24335829d78ee6a948ee2
+      name: Absolute Humidity
+      type: DEPENDENT
+      key: wb.ctrl["Absolute Humidity"]
+      history: 7d
+      value_type: FLOAT
+      units: g/m^3
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Absolute Humidity']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f9c925952def454cb6841117060ca309
+      name: Absolute Humidity (error)
+      type: DEPENDENT
+      key: wb.err["Absolute Humidity"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Absolute Humidity/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 506de2fdcfbd4db6a5d56b91d0861e64
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Absolute Humidity"]))>0
+        name: 'WB {HOST.HOST}: error on "Absolute Humidity" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2afd8ce0aae343448b8eac2dfe3fb6b3
+      name: Dew Point
+      type: DEPENDENT
+      key: wb.ctrl["Dew Point"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Dew Point']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 31d11c89ba9e45dfa15f88f4ab912d74
+      name: Dew Point (error)
+      type: DEPENDENT
+      key: wb.err["Dew Point"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Dew Point/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 23a12fdf94ac4878995d74ad10d1828d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Dew Point"]))>0
+        name: 'WB {HOST.HOST}: error on "Dew Point" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f75a6bed41324cfcb4f7975c296b482d
+      name: CO₂
+      type: DEPENDENT
+      key: wb.ctrl["CO2"]
+      history: 7d
+      value_type: FLOAT
+      units: ppm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 54f55b1cd16a4a0f933a118f0479ebc4
+      name: CO2 (error)
+      type: DEPENDENT
+      key: wb.err["CO2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b01c0a47c771455abcbbbe11c0352000
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9b8250942fb545bab8ae1d4fc5961490
+      name: CO₂ Reference Sensor Value
+      type: DEPENDENT
+      key: wb.ctrl["CO2 Reference Sensor Value"]
+      history: 7d
+      value_type: FLOAT
+      units: ppm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Reference Sensor Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fd50ac91db654c8da3249ec3d1d9aef4
+      name: CO2 Reference Sensor Value (error)
+      type: DEPENDENT
+      key: wb.err["CO2 Reference Sensor Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Reference Sensor Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bf827869122345a2bd7d83aa89140c1b
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2 Reference Sensor Value"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2 Reference Sensor Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fe2a8c55c306483c8c763be044e3304c
+      name: CO₂ Autocalibration Period
+      type: DEPENDENT
+      key: wb.ctrl["CO2 Autocalibration Period"]
+      history: 7d
+      value_type: FLOAT
+      units: day
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Autocalibration Period']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 64a7a3cb42b84dd0b3cfddfb6927651b
+      name: CO2 Autocalibration Period (error)
+      type: DEPENDENT
+      key: wb.err["CO2 Autocalibration Period"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Autocalibration Period/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 700c706725f44a21ac539dff45b95d2e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2 Autocalibration Period"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2 Autocalibration Period" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b41a7fb3d84c4f65a5e8c42e8db6a395
+      name: TH Sensor Heater Enabled
+      type: DEPENDENT
+      key: wb.ctrl["TH Sensor Heater Enabled"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Enabled']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1d6375590bea45f2a225557fbc811059
+      name: TH Sensor Heater Enabled (error)
+      type: DEPENDENT
+      key: wb.err["TH Sensor Heater Enabled"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Enabled/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c042b4f439e94f819805de6757ac9e54
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["TH Sensor Heater Enabled"]))>0
+        name: 'WB {HOST.HOST}: error on "TH Sensor Heater Enabled" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4eb62f32ad3145e7bdd7e26d21f0db4d
+      name: TH Sensor Heater Cleaning Mode Enabled
+      type: DEPENDENT
+      key: wb.ctrl["TH Sensor Heater Cleaning Mode Enabled"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Cleaning Mode Enabled']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: db10bd825613443da4677448532dc4d9
+      name: TH Sensor Heater Cleaning Mode Enabled (error)
+      type: DEPENDENT
+      key: wb.err["TH Sensor Heater Cleaning Mode Enabled"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Cleaning Mode Enabled/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3ea857bed8a143f18941d4c1009b305b
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["TH Sensor Heater Cleaning Mode Enabled"]))>0
+        name: 'WB {HOST.HOST}: error on "TH Sensor Heater Cleaning Mode Enabled" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d8734008057f4e81bb9a364c38cb4b9b
+      name: TH Sensor Heater Cleaning Mode Countdown
+      type: DEPENDENT
+      key: wb.ctrl["TH Sensor Heater Cleaning Mode Countdown"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Cleaning Mode Countdown']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a560ae59e7cc42deac9dbb297ec71b91
+      name: TH Sensor Heater Cleaning Mode Countdown (error)
+      type: DEPENDENT
+      key: wb.err["TH Sensor Heater Cleaning Mode Countdown"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/TH Sensor Heater Cleaning Mode Countdown/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 88174d6670c04d31afab002e248ae21d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["TH Sensor Heater Cleaning Mode Countdown"]))>0
+        name: 'WB {HOST.HOST}: error on "TH Sensor Heater Cleaning Mode Countdown" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1167f4cb2c0b4b1882ea758738c40914
+      name: Air Quality (VOC)
+      type: DEPENDENT
+      key: wb.ctrl["Air Quality (VOC)"]
+      history: 7d
+      value_type: FLOAT
+      units: ppb
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Air Quality (VOC)']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bb83ae5357fd47bca9118c45c9bb2fc8
+      name: Air Quality (VOC) (error)
+      type: DEPENDENT
+      key: wb.err["Air Quality (VOC)"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Air Quality (VOC)/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2e91f686b5144f248ce8cb6866a6d08b
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Air Quality (VOC)"]))>0
+        name: 'WB {HOST.HOST}: error on "Air Quality (VOC)" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 421abcee7e854fd39e085eceaa059829
+      name: Air Quality Index
+      type: DEPENDENT
+      key: wb.ctrl["Air Quality Index"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Air Quality Index']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0d8f03f6e62b42a4b8a05d3d24eea9cd
+      name: Air Quality Index (error)
+      type: DEPENDENT
+      key: wb.err["Air Quality Index"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Air Quality Index/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5ea2715482ab44b0ba9ee30cfe7866b0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Air Quality Index"]))>0
+        name: 'WB {HOST.HOST}: error on "Air Quality Index" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f29a8d606e2a4715a70b8dcf338f2186
+      name: Sound Level
+      type: DEPENDENT
+      key: wb.ctrl["Sound Level"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c5d2a7a05b1f4b1982efe188259b5789
+      name: Sound Level (error)
+      type: DEPENDENT
+      key: wb.err["Sound Level"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Level/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 651b08ffc96b4678af865a600bd1d838
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Sound Level"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound Level" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 54ba60c5b7c340bcbf16dd494400056d
+      name: Illuminance
+      type: DEPENDENT
+      key: wb.ctrl["Illuminance"]
+      history: 7d
+      value_type: FLOAT
+      units: lx
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3ffd5bcbbff040218c8234d405cd0517
+      name: Illuminance (error)
+      type: DEPENDENT
+      key: wb.err["Illuminance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Illuminance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b336d4bf5d1147228b4ef18ebc9b621b
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Illuminance"]))>0
+        name: 'WB {HOST.HOST}: error on "Illuminance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5330855fa10c45bc97c5fd4db6f667e6
+      name: Max Motion
+      type: DEPENDENT
+      key: wb.ctrl["Max Motion"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Max Motion']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e48360c4373d4fceb6e39972d9b9a54e
+      name: Max Motion (error)
+      type: DEPENDENT
+      key: wb.err["Max Motion"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Max Motion/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 71b45fb9a6d54228b2a5de3f6a9e4387
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Max Motion"]))>0
+        name: 'WB {HOST.HOST}: error on "Max Motion" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 985f0194dc044402b53b2e5f19e38cc2
+      name: Current Motion
+      type: DEPENDENT
+      key: wb.ctrl["Current Motion"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Current Motion']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 886aa28a7b97492884676c123452e192
+      name: Current Motion (error)
+      type: DEPENDENT
+      key: wb.err["Current Motion"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Current Motion/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0378e42296a24ff1aafce61ff65fbfa4
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Current Motion"]))>0
+        name: 'WB {HOST.HOST}: error on "Current Motion" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 53c3fcee1d684054afbc42769fff3a04
+      name: Buzzer
+      type: DEPENDENT
+      key: wb.ctrl["Buzzer"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Buzzer']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 55d70bcc12f44061a616a36526df8bad
+      name: Buzzer (error)
+      type: DEPENDENT
+      key: wb.err["Buzzer"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Buzzer/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 434b8c7079614f85ac50d33b4e8bfb2e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Buzzer"]))>0
+        name: 'WB {HOST.HOST}: error on "Buzzer" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 00933f11902f42abb52c3753f00ee794
+      name: Red LED
+      type: DEPENDENT
+      key: wb.ctrl["Red LED"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Red LED']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bc7022c9f08a4ec2a064618e12221353
+      name: Red LED (error)
+      type: DEPENDENT
+      key: wb.err["Red LED"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Red LED/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b87ec77db9354ab7aeb95fbd4f6264c8
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Red LED"]))>0
+        name: 'WB {HOST.HOST}: error on "Red LED" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 95d3dc0a8e724e97bad0e85118f95074
+      name: Green LED
+      type: DEPENDENT
+      key: wb.ctrl["Green LED"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Green LED']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 573ef5aed32c461b941eb56a4cfd1e05
+      name: Green LED (error)
+      type: DEPENDENT
+      key: wb.err["Green LED"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Green LED/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c023a90f7d1443bd8d13df15a74e2365
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Green LED"]))>0
+        name: 'WB {HOST.HOST}: error on "Green LED" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6f2bab986464209ac5c2a3d167bcb6f
+      name: LED Period (s)
+      type: DEPENDENT
+      key: wb.ctrl["LED Period (s)"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/LED Period (s)']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e32ce9891ebd4e138941b66e3d86704e
+      name: LED Period (s) (error)
+      type: DEPENDENT
+      key: wb.err["LED Period (s)"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/LED Period (s)/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9c7c0c74d5c9436f8bfcf52282f01ed9
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["LED Period (s)"]))>0
+        name: 'WB {HOST.HOST}: error on "LED Period (s)" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 88068e1ffb7640c7b169ccd6e79c3b60
+      name: LED Glow Duration (ms)
+      type: DEPENDENT
+      key: wb.ctrl["LED Glow Duration (ms)"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/LED Glow Duration (ms)']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1ce05796060a4cea93199bf93c398f93
+      name: LED Glow Duration (ms) (error)
+      type: DEPENDENT
+      key: wb.err["LED Glow Duration (ms)"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/LED Glow Duration (ms)/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3e4ee54a3e75470b8f98ab037c8fba31
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["LED Glow Duration (ms)"]))>0
+        name: 'WB {HOST.HOST}: error on "LED Glow Duration (ms)" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5d587d9ea37743c697568bf811e15780
+      name: Learn to RAM
+      type: DEPENDENT
+      key: wb.ctrl["Learn to RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f468474e193d44879aea210046ab353a
+      name: Learn to RAM (error)
+      type: DEPENDENT
+      key: wb.err["Learn to RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 45b76f932fee422198ec56930a73200e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 55209544cfbf4a3c9296e1a91f803f74
+      name: Learn to ROM1
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM1"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0cea1a9ba0eb4769b226686966a68734
+      name: Learn to ROM1 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 52ebe0e9587b4c4097f6e26658b02f99
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM1"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b14a60805a9f410c9669a46c45161be2
+      name: ROM1 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM1 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM1 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c2b25353e1224009a3da4c95e12cae5b
+      name: ROM1 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM1 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM1 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0344fc734f214b78aa935dab938cb182
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM1 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM1 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d5286bc067da4416a7323c0341cf17b3
+      name: Learn to ROM2
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM2"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f911da1c6b6b42a699e87cde60a1b702
+      name: Learn to ROM2 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9c0aea4b58a94ea9b1c052cc1f9286d8
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM2"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9ae3f5b455f144228f188c2ecc856d7e
+      name: ROM2 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM2 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM2 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3861bba26465478f8214d15cc2448d09
+      name: ROM2 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM2 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM2 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8a7010259cd14637bde501233c703390
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM2 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM2 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 533dd73a8bbd46299d192668dea66382
+      name: Learn to ROM3
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM3"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 44b95d8911b94d8c88aa4b8aa76b7c38
+      name: Learn to ROM3 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a05ef939b3b14a00bfec041fb529c6bb
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM3"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 331557d2bc694b0f9c737850a77896da
+      name: ROM3 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM3 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM3 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1052a48c492646bdb665f929221e1136
+      name: ROM3 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM3 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM3 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e74c078ec8154d17be7709f14262dff2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM3 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM3 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2c2978f72d644746b0c932fba0840104
+      name: Learn to ROM4
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM4"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9e34fbebee4944f5b6b7d6eeb1cb8c4b
+      name: Learn to ROM4 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6b172ba3ff6840b59f35f83be8899fea
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM4"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d1e60a4fa6f34449baacbb10f8fff2c3
+      name: ROM4 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM4 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM4 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b0a4e936cb54444d87e2d379221e6dd0
+      name: ROM4 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM4 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM4 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 89ca53dea433405a8d0468ae1ceb01b8
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM4 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM4 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dfe5a83b5e6e447bb564dc42cd980fb1
+      name: Learn to ROM5
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM5"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea618b2bfdc2416ca7221e1d02e9589a
+      name: Learn to ROM5 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 90da87e96c444b6fbad2a6724eda0d36
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM5"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 459efc0518bc4d05b62d9d898fe2726b
+      name: ROM5 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM5 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM5 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bccc976d222c43f28c6799d7899f4f3a
+      name: ROM5 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM5 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM5 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 46c81c98c2bf4803bc663f88d6f8b35a
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM5 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM5 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3658e36d3bb741fe82ccabf1715391a5
+      name: Learn to ROM6
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM6"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 156a1f18c834428fba269a9c5df5e0d0
+      name: Learn to ROM6 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 207fb45acca242aeab4f58b926bf7234
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM6"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 66bc95466d844856861f1e1d31efdabf
+      name: ROM6 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM6 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM6 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6e5c49dd42264caa88cdfbccfb87145c
+      name: ROM6 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM6 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM6 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eaf3a246f86e486eb0b61c2b6f3ed7e9
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM6 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM6 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3f64e4adc12844d5a07184d1e4267aa1
+      name: Learn to ROM7
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM7"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM7']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 78812fe7201c47dd9a78393e723ef315
+      name: Learn to ROM7 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM7"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM7/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 73aa845da450428ab40edcaecaee4211
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM7"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM7" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 95839fe8358c48aa9f2d280580d7ee17
+      name: ROM7 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM7 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM7 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 95f1626645ea4d6cbfff4d2bac91097f
+      name: ROM7 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM7 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM7 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 53aa0016bafb40eebfe8a9e9b9c811f7
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM7 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM7 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7cc23e1869704b34a16afa3764efdf3a
+      name: Learn to ROM8
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM8"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM8']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6353ec2e9a5e4f02a1a85c76d4f5e5ea
+      name: Learn to ROM8 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM8"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM8/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eeee316c3dbc4c36b45332426a857b23
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM8"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM8" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c5923ccc911448549bfc05d8ff71f628
+      name: ROM8 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM8 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM8 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fa29a5efa5f1457595a20638a47f02d4
+      name: ROM8 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM8 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM8 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fa5a29818a8c443ba63359c6f0aaba67
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM8 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM8 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: faf8bd6ce082470398b7d9406b4e77ea
+      name: Learn to ROM9
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM9"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM9']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e2201ed0f2614cac88e59051979a91ed
+      name: Learn to ROM9 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM9"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM9/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3e26cde231df40109f6dc53d072b932a
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM9"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM9" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cc0f78f93e5f4095af326ceca9d703ce
+      name: ROM9 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM9 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM9 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2c2af43c574345b484b4fd61f5f9d2ed
+      name: ROM9 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM9 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM9 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7567a408bd044ccbb16cd3104ed33f38
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM9 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM9 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 94943d33d5b0440bb29fa867a087017c
+      name: Learn to ROM10
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM10"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM10']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 95acfb20237a4ca29369f1fa28276a8c
+      name: Learn to ROM10 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM10"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM10/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: afb4a710501e4f55909f55d3123fd2ce
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM10"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM10" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 59a7c808a3fb4dd58ca437d43b5a5aa8
+      name: ROM10 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM10 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM10 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b11ecdde4b12499da73c0bd22d1ddc7b
+      name: ROM10 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM10 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM10 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3e70c7ca90834adaa9de4edb417006f0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM10 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM10 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3debce424d6e4dd79afde52c7908d8a7
+      name: Learn to ROM11
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM11"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM11']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c2c60a2b04954cfaab19d639ae7bb130
+      name: Learn to ROM11 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM11"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM11/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6100a6cd635d4d0a97821d91da68a32e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM11"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM11" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 42402c860bad49aebbef754a3ad4d847
+      name: ROM11 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM11 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM11 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bb4203cacb4c4d60b98befb97a67d506
+      name: ROM11 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM11 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM11 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 09f74555013c442c8442c193b3037b1c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM11 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM11 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a50d004e4014c528e5dc4e90a62b89d
+      name: Learn to ROM12
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM12"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM12']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5f23d74a9e434d67a92eee93dde6fede
+      name: Learn to ROM12 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM12"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM12/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: da546cfbd8a24d3abbb6c9e148bfb07c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM12"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM12" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ca52cea297dc407d82d33122eb05e9c7
+      name: ROM12 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM12 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM12 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1e27a408e97544ab91e9adf8c928d470
+      name: ROM12 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM12 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM12 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ded1c60757fd49738e0925a5104b2bc2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM12 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM12 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a9bbfa80afdf45a0b7fe36e1a8ba93f6
+      name: Learn to ROM13
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM13"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM13']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea6adf7380a340a79f3f4a0e8c47538a
+      name: Learn to ROM13 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM13"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM13/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9ea6a2898e5b438ca01483dbf611e35f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM13"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM13" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cc693d7ca0614957b4fcf4984f053586
+      name: ROM13 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM13 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM13 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 77ee5b34950c49c9924bcacb5ab5f896
+      name: ROM13 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM13 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM13 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3a9d266fb6e44599ac6fffe535b746f7
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM13 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM13 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d340682958d443b79f29a7b78886475d
+      name: Learn to ROM14
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM14"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM14']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: adeeafcefd454a938638ff0013789269
+      name: Learn to ROM14 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM14"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM14/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f4295664aeca49f196279a47a009d166
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM14"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM14" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fb2ccb23dff14ce79247f8ff3a2737c3
+      name: ROM14 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM14 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM14 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5b2fd5b38fbc4414afd739f9e731f650
+      name: ROM14 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM14 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM14 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8af1203083b54611b769aab0d7fa9a80
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM14 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM14 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e64318512587422f98f37c28e208f5f7
+      name: Learn to ROM15
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM15"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM15']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aa8446e5c3d7411fab70fdcfab52c84f
+      name: Learn to ROM15 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM15"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM15/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2c162f73dd5b4e90a867f4786e63bdb5
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM15"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM15" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 36c8cc2b58a44875afa4a731bdf87048
+      name: ROM15 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM15 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM15 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 25603ef3ad924a7486c6d752f7cf20ca
+      name: ROM15 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM15 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM15 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cd254ab4afa64281a343ead75cd84a5c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM15 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM15 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 31ed00609c684b0f8af6a4250acbe18e
+      name: Learn to ROM16
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM16"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM16']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 55614ef8ac2e4d658103dedd7cf7e324
+      name: Learn to ROM16 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM16"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM16/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 46e6ac55fab64bf784129707c88972de
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM16"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM16" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a738a5493d624714a1c8b4bbec0f178f
+      name: ROM16 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM16 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM16 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e01740916328473faf51ca076b78c099
+      name: ROM16 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM16 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM16 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 100317f9db5e490292713dfc6262f701
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM16 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM16 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d9c0b9fc881c4b449d9a5e47ed4c5bfc
+      name: Learn to ROM17
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM17"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM17']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 73f90a2450284a0ca521a2a622f2c8ad
+      name: Learn to ROM17 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM17"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM17/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eb07d31d2f714827b0919d3240c653bd
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM17"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM17" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8b4303afc62b41a08cc1f456fc9814b2
+      name: ROM17 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM17 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM17 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b8bcac99e3e34ed2b774cf5bb6f37e40
+      name: ROM17 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM17 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM17 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9b93b0dc66dd4cb5b530f679736e1856
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM17 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM17 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8f592b3e932d4eb98a037432a2e1d409
+      name: Learn to ROM18
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM18"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM18']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b3692894803f4e3ca3c82e7460698d00
+      name: Learn to ROM18 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM18"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM18/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c82adf02aa4f49408f0db4743eaabdd3
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM18"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM18" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9bdd7d82d30a4ac49388bddf22a6e271
+      name: ROM18 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM18 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM18 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 556a67ed0f674e65a28ed6d3f965a161
+      name: ROM18 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM18 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM18 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bcda2aa6cb344763be5fb375d4c192ba
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM18 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM18 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c26c2ccd6d72482e91a70f8422ac3a3d
+      name: Learn to ROM19
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM19"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM19']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2f209553d1244775b5914e1b32451177
+      name: Learn to ROM19 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM19"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM19/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aa14c4dc45aa4b83ad49dd7ae0b103a2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM19"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM19" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b0a11e2ff6d24606a2b4099ce809b204
+      name: ROM19 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM19 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM19 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 562508e503a74e03936aba3b5008b3b4
+      name: ROM19 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM19 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM19 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 32d555d5b11547c69d5b99ed97c98e76
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM19 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM19 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e8766550958046afa100fccbb9271eb8
+      name: Learn to ROM20
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM20"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM20']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b5130b6bc34845a99b0b2f7be39b0999
+      name: Learn to ROM20 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM20"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM20/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c0fb2139d1ea4d659a50d60ed442aae7
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM20"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM20" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f4500d5adc0643169e0bb2d867f1c88b
+      name: ROM20 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM20 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM20 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: eb2c88d9dbae47118a76cc9c6ef63b21
+      name: ROM20 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM20 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM20 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a00ba1012ad49ba9b9a7415ef8cc1e6
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM20 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM20 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ea1855808a9744cf930a32649524cdfa
+      name: Learn to ROM21
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM21"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM21']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f32ce4b041dd4020afee99170e86ae79
+      name: Learn to ROM21 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM21"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM21/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0c6b337d918842729ec8ff91c1b3c934
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM21"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM21" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 55a6c5e133a048db9cf455ba7ec09769
+      name: ROM21 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM21 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM21 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8d371b08e6214faf95fc7371f9522c51
+      name: ROM21 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM21 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM21 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a0fe7f8a7aa84d5ca61632fa2db058db
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM21 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM21 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 70e89233e3d944688c06d6f58c5ccbe1
+      name: Learn to ROM22
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM22"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM22']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cde883fab1404d9baca6802758362acb
+      name: Learn to ROM22 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM22"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM22/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed8b999184c942fb895cf472a4b407f2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM22"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM22" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 06c41d1ef51441d99ffc0f654f4fed46
+      name: ROM22 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM22 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM22 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 95b9fc70c50041559ec90551ec0700c4
+      name: ROM22 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM22 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM22 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5afc35da7292418fb628de0d212903ee
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM22 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM22 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6976ab61ce1417aac1b1d7b8a427fc0
+      name: Learn to ROM23
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM23"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM23']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ef9a2f9a62b448c897048d1d37e00cf7
+      name: Learn to ROM23 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM23"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM23/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 422b0f55e43e4e9ca14d9b59aa6f865d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM23"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM23" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 07bb994b6cd347d48638117c434d25ea
+      name: ROM23 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM23 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM23 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8eade3715e7748fe9d4ad30d69bc0501
+      name: ROM23 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM23 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM23 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1029624222024a288d33b7ef0b56f95c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM23 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM23 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 47707622ca1241f6987a69dc4e214716
+      name: Learn to ROM24
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM24"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM24']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f0a30b56a5d94cdcb2705633872fa970
+      name: Learn to ROM24 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM24"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM24/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 08515da3748b496ca57fe21eb436e280
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM24"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM24" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4c903acf010f44fba0b6d221e76a977c
+      name: ROM24 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM24 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM24 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6eabe3cad71f479ab82515ac6347b50f
+      name: ROM24 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM24 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM24 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a87d59cb9f584cc980eec824ad2ad3fd
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM24 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM24 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d9803a50efdf4d6a86e608d90cf0de78
+      name: Learn to ROM25
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM25"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM25']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 25cccc7dadbb4c71852a157fdf774036
+      name: Learn to ROM25 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM25"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM25/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 566c537afbe04bb6b283c436c5ec2637
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM25"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM25" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b264225d725d4b6db5f73b1332960a0b
+      name: ROM25 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM25 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM25 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aeca2e2f69d0489bb253477e8b1fcd32
+      name: ROM25 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM25 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM25 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d061421c93b94f14811f4225a1a0449a
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM25 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM25 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 02bd5186650c44cdacd7c7c7d0655077
+      name: Learn to ROM26
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM26"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM26']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5828962c6ce84e62ac174d5893327d26
+      name: Learn to ROM26 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM26"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM26/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a49c7b798d27472ca67c33fd24b16306
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM26"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM26" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9981cd6e97e14d3d87e4aca166dbc96b
+      name: ROM26 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM26 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM26 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 67bbbcdd4ad54c06b5b80249f8bc4c51
+      name: ROM26 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM26 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM26 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0d5ec83b41b64e108becd619dff468f4
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM26 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM26 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7910d28951b34bcfa39d46b1fd9a7cb8
+      name: Learn to ROM27
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM27"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM27']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 83d290d767a74ff48fae98bcbc5005d6
+      name: Learn to ROM27 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM27"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM27/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8ce58188c588469497c9a72dae0e5798
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM27"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM27" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c1b5ce113fe64cf1ad9c49290642c764
+      name: ROM27 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM27 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM27 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7b2f5a7a55a848c7be819b874f035fe3
+      name: ROM27 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM27 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM27 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7d8bc28fbb0f4e3082f8461bbdefc5b8
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM27 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM27 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 61147c9fa98f4951bd431189c7b55fce
+      name: Learn to ROM28
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM28"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM28']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f76b0ac6027b44c89cd823601854d037
+      name: Learn to ROM28 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM28"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM28/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7675130c4cbf4e4d800aef432f84409f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM28"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM28" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 88b624172ddf444fb9862941b8b31359
+      name: ROM28 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM28 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM28 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9de36c6c1edf46e1a5715edbd8598d86
+      name: ROM28 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM28 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM28 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 396ec980ce204937a3770dd03713fa3c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM28 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM28 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fc127a67546846e394badf0cf2e17486
+      name: Learn to ROM29
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM29"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM29']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e2a297cfca0c47d6a6f70e33dc3c3455
+      name: Learn to ROM29 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM29"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM29/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e4e653495f134040900884e36885f023
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM29"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM29" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 43fe02a74cff4f04a735ea6feeb2a72b
+      name: ROM29 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM29 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM29 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f47d512e412a4a50bd0d955a298b1c32
+      name: ROM29 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM29 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM29 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bf1e101f961a4234bcf1a6b3418d95d4
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM29 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM29 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 47b6f3007565409fb8f8caa4c9f0f5f3
+      name: Learn to ROM30
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM30"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM30']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f65e2d3a08de4e45b4b47e82b42cb9a4
+      name: Learn to ROM30 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM30"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM30/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ec8085fb854f415aa5856c0de33975df
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM30"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM30" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 59cbe1d262794995933b775e7e9ce29a
+      name: ROM30 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM30 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM30 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 52d4c5d01666439e9a63363bebeee772
+      name: ROM30 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM30 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM30 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9d9efcf3a7024dc98aecc12a96de705f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM30 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM30 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 136a167e9cce465c88314e62d5cabd6b
+      name: Learn to ROM31
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM31"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM31']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c8ba6a89ea334d9683d51a025d95d12a
+      name: Learn to ROM31 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM31"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM31/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3297efdf1e2646b98c6e11eb923038fe
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM31"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM31" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1fda5a63da6b4493a9a269a2225311b2
+      name: ROM31 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM31 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM31 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 258b1ff8e15344a5b13930d0b79b3c26
+      name: ROM31 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM31 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM31 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 97c8bb95dc174945b7e4bc1deacd7a32
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM31 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM31 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a8e4d6095b34e01947bb06a8c56ed7e
+      name: Learn to ROM32
+      type: DEPENDENT
+      key: wb.ctrl["Learn to ROM32"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM32']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 247fb721563540078a43c03a98bcd35d
+      name: Learn to ROM32 (error)
+      type: DEPENDENT
+      key: wb.err["Learn to ROM32"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to ROM32/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aab78f6bb75646d19f6d7075ce5ba47d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to ROM32"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to ROM32" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a7a4d4d47f394a7ca531b69cf1a0ae78
+      name: ROM32 size
+      type: DEPENDENT
+      key: wb.ctrl["ROM32 size"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM32 size']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b81bb35bfef1486abc5ec5b7e1d2bfc6
+      name: ROM32 size (error)
+      type: DEPENDENT
+      key: wb.err["ROM32 size"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM32 size/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2fd34391212f4083b4fe6636bd817703
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM32 size"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM32 size" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 576383cd90ef4d7da6381dd937b587a3
+      name: ROM1 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM1 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM1 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c2699779ab284765a7aee09ef8da7a61
+      name: ROM1 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM1 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM1 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9860c773f7e64336948d8af6c156e2d0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM1 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM1 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0eed9ec377304b8baedffdf6bdf2b8cb
+      name: ROM2 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM2 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM2 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2c4b3d909ae74bbaa7a86b2769f6a351
+      name: ROM2 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM2 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM2 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4f2034ab3c8547018c645aa80ed3f8d9
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM2 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM2 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ce35492d5ba64ca5910422b62d12a2bd
+      name: ROM3 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM3 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM3 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aa6e832f2f574a5ba5886257f3d14b3f
+      name: ROM3 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM3 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM3 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1747dcd5aadb4ac19347e511c498aad2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM3 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM3 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2ecd0604a64b499db57e0cc3a8d74d8b
+      name: ROM4 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM4 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM4 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 326c1b86fb4a433c885c74aff83999bf
+      name: ROM4 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM4 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM4 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 860614a442da413881952c5c775560dd
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM4 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM4 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8d02127ccf7043dda38f367aa9fee023
+      name: ROM5 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM5 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM5 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e89e397bdb2040bf96e9aff9c697da50
+      name: ROM5 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM5 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM5 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 545619ef146b4163991b7e6cf6676905
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM5 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM5 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fe6c07430c664efa88e0bf358b42a2bb
+      name: ROM6 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM6 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM6 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aa30e41bcc03430ca889ffbe28fa1ccf
+      name: ROM6 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM6 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM6 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eeabf4071f994a898661d3cbf81758dd
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM6 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM6 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d89f707bb99444288e58158917699108
+      name: ROM7 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM7 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM7 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ec050564b53449f39ec51404c55fc3f0
+      name: ROM7 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM7 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM7 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc61d68a02614bf398b47def96c5a8d5
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM7 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM7 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 47c548249a594bc593d75bdf811e95df
+      name: ROM8 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM8 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM8 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 86902a4ce08942abb7c59c28ae17ddc7
+      name: ROM8 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM8 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM8 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 68330de996744421b66c50a2373638c0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM8 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM8 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bf684c038a884403b5ce6af36bafb128
+      name: ROM9 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM9 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM9 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 31107038f58341a3ac861fd232c5e57d
+      name: ROM9 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM9 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM9 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 120da6d91a9b48e59ab9c071a87a164c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM9 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM9 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aead13f26f7c4678b9d3e1fbf1cc8d88
+      name: ROM10 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM10 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM10 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f5b03a5ba55148aca1a0fa25a6e67590
+      name: ROM10 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM10 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM10 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 68b64b245de14a62a8dd76f912e34d8a
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM10 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM10 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dea6092772284b7ba068712a787b0095
+      name: ROM11 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM11 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM11 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9ab67bfb57b24c249f71235c7d078020
+      name: ROM11 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM11 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM11 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5897d3ac4f974c7b95cc29d3be3267ce
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM11 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM11 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 50e9466b079a4de78923d478cf6d9b79
+      name: ROM12 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM12 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM12 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 21cf865cec224482ab1ed0b134d0bbbd
+      name: ROM12 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM12 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM12 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: de619c25f62743de854d0b178079b533
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM12 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM12 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2f26ab6948e54264a4c6e9319693e11d
+      name: ROM13 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM13 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM13 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c14972bef09545419f3aa8a4dc211a6f
+      name: ROM13 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM13 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM13 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 184da38449bb427584092ad7a5a2de4d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM13 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM13 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f76abf2ef4524fab9de8dcdb6cf14834
+      name: ROM14 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM14 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM14 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5e259b0195644b6880e13160b2465438
+      name: ROM14 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM14 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM14 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cd34980f782b4cc1888c4424e8794601
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM14 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM14 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 932371ab8abb4429b21df05bc83df297
+      name: ROM15 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM15 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM15 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 43a9d06a35154ad0a285515889fb3a0d
+      name: ROM15 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM15 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM15 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e1fe281b628a41a386ea9076c96897d0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM15 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM15 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d598ad161ed34b3fafea2f911d7abd69
+      name: ROM16 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM16 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM16 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b722a96cc8f94e82a4ef6ade35b7a045
+      name: ROM16 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM16 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM16 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bb81a694adba45a897f10df6799de72f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM16 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM16 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6dcc0e6f37464353b67f252df9829c25
+      name: ROM17 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM17 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM17 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 72e5986d7f314d93abf7676034ea7a85
+      name: ROM17 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM17 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM17 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 23945e84ecf04a5995ae146c33b54d89
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM17 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM17 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a87fa90e1fb24cd0988a3565ab265401
+      name: ROM18 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM18 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM18 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 868a8499d795403ebae2b34b34758b4f
+      name: ROM18 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM18 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM18 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 53104116316c4ddcbbc9385111ced6f1
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM18 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM18 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7531b13a9d3048879dc65de70abde01f
+      name: ROM19 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM19 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM19 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 17a542f61b2f4aa89115f67504f9d9be
+      name: ROM19 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM19 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM19 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 50a73c3289af44fe968708e403436b77
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM19 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM19 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9865ea4664b54bc18be307fa321ddb72
+      name: ROM20 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM20 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM20 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bdf2cde41b79489e9cd8422b930e23e2
+      name: ROM20 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM20 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM20 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b09a9b55eaf84ea69116b49faaea9505
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM20 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM20 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 50360ba6ad2d466cacc9d05525a17c50
+      name: ROM21 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM21 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM21 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 52c0f1f0c1754423b119e029c4ec0f97
+      name: ROM21 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM21 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM21 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3dbf9a21431b490fa2bdaaf21a1d01e0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM21 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM21 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 62b3b247f5f444139fcf52083d94656a
+      name: ROM22 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM22 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM22 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2574d029244f40d3ac3eb9c3be76ae2c
+      name: ROM22 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM22 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM22 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 799d0fdaa8c945609335ed8dba9d2712
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM22 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM22 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7ff622151d26448684e0f6d2640aa00d
+      name: ROM23 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM23 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM23 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 52f97e14011843ac9a5795b7aa0e1ea7
+      name: ROM23 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM23 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM23 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c408d18ded4e45a4a29d551a62c7f457
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM23 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM23 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 58438b71e86f409682ef4e72d97ca00e
+      name: ROM24 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM24 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM24 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: be76da4a29ba4c63a902a72a7205d3ce
+      name: ROM24 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM24 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM24 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cb29d2a33a8247c88e79e9a970ab4d3c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM24 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM24 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 965acdae6518438681656e0ae81e4f0f
+      name: ROM25 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM25 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM25 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4986c5d34c0a48fab0609fdd597661b1
+      name: ROM25 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM25 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM25 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bd4fd731593b430d8739b59fda405b9f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM25 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM25 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: beb9a9fce7884befb449b485d1a9ecd8
+      name: ROM26 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM26 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM26 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: badd896486ae4915a56322bbc51fca22
+      name: ROM26 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM26 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM26 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e8b5b0fa574f4af5bf5b27316eefb4fc
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM26 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM26 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c0bbad2d55514a298c5e349988a1e813
+      name: ROM27 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM27 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM27 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b200e048029b46c6b89a3b189ce34891
+      name: ROM27 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM27 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM27 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3906eb3f20834e4f9c6ff8f83ab799c8
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM27 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM27 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 66a7d53f1c3d4c2fbe2d8b000e54ff1e
+      name: ROM28 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM28 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM28 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9bb436baea1d406e927c2697d577299f
+      name: ROM28 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM28 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM28 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d0b8f0e4a63049489e28eb582734959d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM28 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM28 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8ecd92931b1044aca4b06aae559edbf6
+      name: ROM29 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM29 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM29 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8a52a658d6354294b302be2da9cece98
+      name: ROM29 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM29 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM29 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 61d5738cfd654af28ba490480b33248d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM29 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM29 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b9a0054bbc5848088db9e059d72ed479
+      name: ROM30 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM30 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM30 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 181aee3efe9c495ab865ed7f54ad8b64
+      name: ROM30 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM30 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM30 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 85e25b86fffd498f93d6a82f69e92537
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM30 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM30 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e729ef5748444828f51dc16d489e25c
+      name: ROM31 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM31 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM31 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 46f70542dbf7417ca2bf17d0cfd2f554
+      name: ROM31 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM31 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM31 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c70dd20537f84782b82dc9920ef4640f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM31 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM31 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a135e7256b384ec985d384d9c96504a0
+      name: ROM32 -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["ROM32 -> RAM"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM32 -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 33cac5dcd8204134b63bdcbd2a62c0f7
+      name: ROM32 -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["ROM32 -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ROM32 -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2530b0f2477e48d0815e1a62062466fa
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["ROM32 -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "ROM32 -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c48eea818ccc433cb249579c36710eda
+      name: Play from BANK
+      type: DEPENDENT
+      key: wb.ctrl["Play from BANK"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Play from BANK']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e42001f51a0a41528d326e00ab1e92c5
+      name: Play from BANK (error)
+      type: DEPENDENT
+      key: wb.err["Play from BANK"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Play from BANK/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: df15f3d868a44cf3863f9ebd967c0a96
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Play from BANK"]))>0
+        name: 'WB {HOST.HOST}: error on "Play from BANK" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a7785a2b770b42fbb6707eb4f2a94673
+      name: BANK -> RAM
+      type: DEPENDENT
+      key: wb.ctrl["BANK -> RAM"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/BANK -> RAM']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 96ff360e606b4d78a2e9c4e276e5cafb
+      name: BANK -> RAM (error)
+      type: DEPENDENT
+      key: wb.err["BANK -> RAM"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/BANK -> RAM/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4d20f06d1f664725a1736a8f5cb36dee
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["BANK -> RAM"]))>0
+        name: 'WB {HOST.HOST}: error on "BANK -> RAM" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d9c7600f047e4c5ea76392d83d15c235
+      name: Learn to BANK
+      type: DEPENDENT
+      key: wb.ctrl["Learn to BANK"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to BANK']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 15323e0289d84285bae72b95ca41bb7c
+      name: Learn to BANK (error)
+      type: DEPENDENT
+      key: wb.err["Learn to BANK"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Learn to BANK/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 322e2e6a66ce408b8b4af8db55a521c0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Learn to BANK"]))>0
+        name: 'WB {HOST.HOST}: error on "Learn to BANK" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b2c1e0531b374d63b5f2307c1d0c6620
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 40d437e1349049efa10568e24eef8e6f
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 847ab9f8f3194a7ab8880c2a3ab02718
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e8db8cc1b5894d098a267077a1acfb91
+      name: HW Batch Number
+      type: DEPENDENT
+      key: wb.ctrl["HW Batch Number"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 71e1fb8a131848759ad155a6cd80dbf4
+      name: HW Batch Number (error)
+      type: DEPENDENT
+      key: wb.err["HW Batch Number"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e233b0417631464fb67aea09a29f738e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["HW Batch Number"]))>0
+        name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aea1e91a35004cfa99f2d51edf685509
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d96d1bba33f4df586805b1dfae7613d
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8a37de9338624386a2550607bff09c9d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 00c64f0105c440c7bf6f710c94bf0d10
+      name: Supply Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Supply Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 59ff368ca2f7408a8269eb7b6d191620
+      name: Supply Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0e60e3f4f70a4e439e3cc953f5a573dc
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Supply Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 005c19e6bafd46ac9d65ec11e893dfac
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 48ca64b98f194d8d95d875724daa5d36
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b597b371f73244fd86b0d6de5ad08673
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e04569d30abb4ea89982a6a93d8bd459
+      name: Minimum Voltage Since Startup
+      type: DEPENDENT
+      key: wb.ctrl["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5d53f673a0884b5abc807a5938eda1c0
+      name: Minimum Voltage Since Startup (error)
+      type: DEPENDENT
+      key: wb.err["Minimum Voltage Since Startup"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Minimum Voltage Since Startup/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f0f2726261a74620b930af3a73fa15c7
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Minimum Voltage Since Startup"]))>0
+        name: 'WB {HOST.HOST}: error on "Minimum Voltage Since Startup" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 722cb3d4bb7840b0afe9177e16c95b30
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c2c362562c904f31afa6aeb3547126b6
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9ac570aad5da4496b47f74cb2f69815c
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7be6eab6ce804a09a543ee7bbb8a2437
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 173da0579d4d4edd83480e8312ded6e4
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a09d2eabbd6a439896dfad21771ce980
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dac5f7566e1146718cfa0749173d120e
+      name: Sound Gain ADC Raw
+      type: DEPENDENT
+      key: wb.ctrl["Sound Gain ADC Raw"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Gain ADC Raw']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 37484ff679804159bb99bd458b3fbd57
+      name: Sound Gain ADC Raw (error)
+      type: DEPENDENT
+      key: wb.err["Sound Gain ADC Raw"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound Gain ADC Raw/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4a2644056aa54a03ad60667c5be064cf
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Sound Gain ADC Raw"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound Gain ADC Raw" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c4b10f5f6baf4953adbfae82140beb29
+      name: Sound dB Offset
+      type: DEPENDENT
+      key: wb.ctrl["Sound dB Offset"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound dB Offset']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 602b6d49591f47d6bc8ee06f5a070aad
+      name: Sound dB Offset (error)
+      type: DEPENDENT
+      key: wb.err["Sound dB Offset"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound dB Offset/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b2115b912eea405085b80359fc318b0f
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Sound dB Offset"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound dB Offset" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e09cf9615e9c442f84e8248004de511f
+      name: Sound ADC Offset
+      type: DEPENDENT
+      key: wb.ctrl["Sound ADC Offset"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound ADC Offset']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cbbc8cb450d142ddbea1c289b6935f96
+      name: Sound ADC Offset (error)
+      type: DEPENDENT
+      key: wb.err["Sound ADC Offset"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Sound ADC Offset/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a60feba046d343e08b4af9fa392054e0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Sound ADC Offset"]))>0
+        name: 'WB {HOST.HOST}: error on "Sound ADC Offset" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c4ad831726754f07a1e85b98405f737a
+      name: CO₂ Sensor Installed
+      type: DEPENDENT
+      key: wb.ctrl["CO2 Sensor Installed"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Installed']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3b1fe3bd30274cb393f453f5c5989720
+      name: CO2 Sensor Installed (error)
+      type: DEPENDENT
+      key: wb.err["CO2 Sensor Installed"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Installed/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 802ffb0955e942d7960e8c1ab8d88290
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2 Sensor Installed"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2 Sensor Installed" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0dc525ccf9db43958e85b8e8612b4101
+      name: CO₂ Sensor Type
+      type: DEPENDENT
+      key: wb.ctrl["CO2 Sensor Type"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Type']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 78a3b7fd8c4445e7a8812be0a787cb38
+      name: CO2 Sensor Type (error)
+      type: DEPENDENT
+      key: wb.err["CO2 Sensor Type"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Type/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 624d0ff771ad46d4b2ccc667d87528e5
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2 Sensor Type"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2 Sensor Type" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7215a5f3143d4ce6a2607e7d03e62105
+      name: CO₂ Sensor Software Version
+      type: DEPENDENT
+      key: wb.ctrl["CO2 Sensor Software Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Software Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 261ddc6f822645b6ba4a0cbfb2eb5a4c
+      name: CO2 Sensor Software Version (error)
+      type: DEPENDENT
+      key: wb.err["CO2 Sensor Software Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CO2 Sensor Software Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3058522e93ca48e595e51f24fdd26d6e
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["CO2 Sensor Software Version"]))>0
+        name: 'WB {HOST.HOST}: error on "CO2 Sensor Software Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e30f7dd894214634a73f28aa5abbd1cf
+      name: VOC Sensor Installed
+      type: DEPENDENT
+      key: wb.ctrl["VOC Sensor Installed"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Sensor Installed']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 590fed991cef4a3894166681416cb621
+      name: VOC Sensor Installed (error)
+      type: DEPENDENT
+      key: wb.err["VOC Sensor Installed"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Sensor Installed/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5a0d192d6510498288ab627ef2b779b0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Sensor Installed"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Sensor Installed" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f5cc414110a044f888a13f521dc4214d
+      name: VOC Version
+      type: DEPENDENT
+      key: wb.ctrl["VOC Version"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 89426181178f454795c9502b975b105d
+      name: VOC Version (error)
+      type: DEPENDENT
+      key: wb.err["VOC Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 61f53da7daf54e639310054ed09ecaaf
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Version"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 87c7c44ca1cb4ceaa5f9cdb75f57610e
+      name: VOC Raw
+      type: DEPENDENT
+      key: wb.ctrl["VOC Raw"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Raw']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 93cf03e3c1f6440288d229914d1ee9a3
+      name: VOC Raw (error)
+      type: DEPENDENT
+      key: wb.err["VOC Raw"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Raw/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b5a8513b787541b09b57832de8203dd7
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Raw"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Raw" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b8029cda523e40b3a0bb2cd7c12d1038
+      name: VOC Raw R4
+      type: DEPENDENT
+      key: wb.ctrl["VOC Raw R4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Raw R4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: caef0d38e907432581a6ef3142f67eec
+      name: VOC Raw R4 (error)
+      type: DEPENDENT
+      key: wb.err["VOC Raw R4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Raw R4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f3e96ae604924951bf85059ab9390145
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Raw R4"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Raw R4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cdc2b686ab8e497aa28849b2478b24b0
+      name: VOC Baseline
+      type: DEPENDENT
+      key: wb.ctrl["VOC Baseline"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Baseline']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 56083df3c0b84817ac2d022242d6551b
+      name: VOC Baseline (error)
+      type: DEPENDENT
+      key: wb.err["VOC Baseline"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Baseline/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0b3afecd83594136945f8372c6125e76
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Baseline"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Baseline" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e08552a6e4004931b515b51e4d79521d
+      name: VOC Equivalent CO₂ Concentration (eCO₂)
+      type: DEPENDENT
+      key: wb.ctrl["VOC Equivalent CO2 Concentration"]
+      history: 7d
+      value_type: FLOAT
+      units: ppm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Equivalent CO2 Concentration']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ef04455c3a2945d4a64d0122680bce43
+      name: VOC Equivalent CO2 Concentration (error)
+      type: DEPENDENT
+      key: wb.err["VOC Equivalent CO2 Concentration"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Equivalent CO2 Concentration/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e3c25b9ee3f84d2abf382fcd45b36406
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Equivalent CO2 Concentration"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Equivalent CO2 Concentration" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f9d4e5c573504d80aa9bf88477b0d2dc
+      name: VOC Sensor Status
+      type: DEPENDENT
+      key: wb.ctrl["VOC Sensor Status"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Sensor Status']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 110b2cd0ca614d9b832601a4c8c823c0
+      name: VOC Sensor Status (error)
+      type: DEPENDENT
+      key: wb.err["VOC Sensor Status"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VOC Sensor Status/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e5cde3dd390a47c5a1d0ceb95aaa75f0
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["VOC Sensor Status"]))>0
+        name: 'WB {HOST.HOST}: error on "VOC Sensor Status" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6ff872a443ec405cb69f91eddaf2e948
+      name: Motion Raw
+      type: DEPENDENT
+      key: wb.ctrl["Motion Raw"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Motion Raw']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 00c31a54ec41479783ff087441addb33
+      name: Motion Raw (error)
+      type: DEPENDENT
+      key: wb.err["Motion Raw"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Motion Raw/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 24552c7945a24d04aba710f6778322b2
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Motion Raw"]))>0
+        name: 'WB {HOST.HOST}: error on "Motion Raw" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ebf04973e6d44648b440e63fc6e98842
+      name: Successful TH Readings
+      type: DEPENDENT
+      key: wb.ctrl["Successful TH Readings"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Successful TH Readings']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4baa1d961f8049a98d47250cd34d59ee
+      name: Successful TH Readings (error)
+      type: DEPENDENT
+      key: wb.err["Successful TH Readings"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Successful TH Readings/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 92b2c6b4a66548d4bb9be499f38da0df
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Successful TH Readings"]))>0
+        name: 'WB {HOST.HOST}: error on "Successful TH Readings" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c103a0396dab4ee99cf0d183dbaf4096
+      name: Erroneous TH Readings
+      type: DEPENDENT
+      key: wb.ctrl["Erroneous TH Readings"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Erroneous TH Readings']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 79e25e5c01374519862f25c43f6b82f3
+      name: Erroneous TH Readings (error)
+      type: DEPENDENT
+      key: wb.err["Erroneous TH Readings"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Erroneous TH Readings/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 22b46eddc5e8452b96e000eb75fbf04d
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Erroneous TH Readings"]))>0
+        name: 'WB {HOST.HOST}: error on "Erroneous TH Readings" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fd939f3e40334a958484417251f9e324
+      name: Temperature Without Compensation
+      type: DEPENDENT
+      key: wb.ctrl["Temperature Without Compensation"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature Without Compensation']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9f5cd56166fa4881a8f18acd3047309e
+      name: Temperature Without Compensation (error)
+      type: DEPENDENT
+      key: wb.err["Temperature Without Compensation"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature Without Compensation/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4a704ea38123481bbe839117ce95a669
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Temperature Without Compensation"]))>0
+        name: 'WB {HOST.HOST}: error on "Temperature Without Compensation" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a2feabd6b634f6cb48ad3fb53200ac3
+      name: Humidity Without Compensation
+      type: DEPENDENT
+      key: wb.ctrl["Humidity Without Compensation"]
+      history: 7d
+      value_type: FLOAT
+      units: '%, RH'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity Without Compensation']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3b8a2685092d4d65b3ed6ceca613cd2d
+      name: Humidity Without Compensation (error)
+      type: DEPENDENT
+      key: wb.err["Humidity Without Compensation"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Humidity Without Compensation/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c7a7e3740f8f4fea954005fb3f43752a
+        expression: length(last(/WB-MSW v.4 by MQTT/wb.err["Humidity Without Compensation"]))>0
+        name: 'WB {HOST.HOST}: error on "Humidity Without Compensation" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-msw-v4
+    valuemaps:
+    - uuid: 24ff0f882179418194e899f278d6f565
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'

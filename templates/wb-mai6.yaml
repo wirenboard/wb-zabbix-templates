@@ -1,0 +1,3802 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: dc6bc193282447a18b679e8ebf8b85df
+    name: Templates/Wiren Board
+  templates:
+  - uuid: e2b21d5e86b84ec9bbef3956d1784f56
+    template: WB-MAI6 by MQTT
+    name: WB-MAI6 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 913f878b95434f43bda4d6725c6d7f3e
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 5a2ef25006b94257a25734c09cbb4486
+      name: IN 1 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae116238ce2b4556b4226cd23c1f2e45
+      name: IN 1 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4785b2fb73e141629fb12c9b6d5b9023
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8bcdda9d16d34fc3867bff30a2f0153c
+      name: IN 1 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 49ad8abf068e40fcb4777da84ab275f0
+      name: IN 1 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fd3427e7b26b487b9e530647b0ce075e
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 06857228f52b47939a705efeca72a95f
+      name: IN 1 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7e2301ac10d84f4eb1cd2717bbcdbdce
+      name: IN 1 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 967596ceee0a45e290bcf416c2dd2e59
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 07eca1a8bdbe4b298bcbd93fff12792e
+      name: IN 1 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: eead33ce723a458e84230a8864eadfdc
+      name: IN 1 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 159e514344634f04adf4130f49b832d1
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f92cd17493804b7aa6cbae0a1b717e79
+      name: IN 1 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6dc1bcb7ddd24dd4b5c47cf2c22ee878
+      name: IN 1 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dd60808af6c5400aafef5240e39f77ea
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2bace67ee5e14311abcce35d25d32a8b
+      name: IN 1 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d10862228c8f47faae649ca32772d86c
+      name: IN 1 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cb5eb083a14c4f7799ade615461476ec
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a1792e880df643d9941dad181dbf8087
+      name: IN 1 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e52bb835c8ee4b648d0e6dedabdb8b8a
+      name: IN 1 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1f340f3d392747eeb990af036ed57513
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 75985d926ad745f98ab93586abf124f4
+      name: IN 1 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bc6369b0b1534fe4984a8a2d42606c22
+      name: IN 1 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7076f77e30c34756b10ec9fa89cb0fe2
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: befaff163bd84f95862f02332e8c71c8
+      name: IN 1 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cce69ea054134522a7a4fa8ae696fdf8
+      name: IN 1 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e6b253aa9e1a467bb941b551d2a54316
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 32216a49aba5465aa2b9efc7b12dfe8d
+      name: IN 1 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 279765a68f694e66b24bd4f0106d6aa0
+      name: IN 1 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 13ce1bd999004ee4812b1fe572143417
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2bacdf049b2346e48451ed5abd6dea6b
+      name: IN 1 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1822ff9f634840e68c184d6436f4b130
+      name: IN 1 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1af021dcde4c4bd9b148330b2321cf7c
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 90f2ac6c5cea463fb27daf9433d196e2
+      name: IN 1 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3e89e68cbc154fbab0b598d895c67d43
+      name: IN 1 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2b4159aa2fc746d992c98368f0114206
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 11d1e926d76343ff94cfb927732d339c
+      name: IN 1 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6150db24a802435d83f145f4ce483498
+      name: IN 1 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 281ebd04677340f8857774d24fa22024
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c63c0715bf4c4d0e9007bf51c8b196c8
+      name: IN 1 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4c998a99ae3640f688caf01056339b9f
+      name: IN 1 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 79ab74b661a8424cba6f4cc80c0f1514
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 132a2f1043f54617b28a404597a677f6
+      name: IN 1 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ff7f8b394fd44940a1d890a8a6126e9e
+      name: IN 1 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aad9efcaf094403c8ec4926ee4da42e5
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 935fe985c8e6489ab099bad90b5a9476
+      name: IN 1 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 1 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: db685470ed684639b7d29cdacec4f4cd
+      name: IN 1 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 1 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 1 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 48bc90ecccc4471284a0f6c9a0be97a7
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 1 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 1 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e13c0b59f84b49ecb483862af01e79cd
+      name: IN 2 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9c5768ca80d24417af4292cbcdb123cd
+      name: IN 2 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: de198ef7f96f405bbf4efbf1f3fafe92
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0e2d40c2dcb7443a96ff72f36b3387c6
+      name: IN 2 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 44f7e44d978d410397adc0deb72665f0
+      name: IN 2 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 23772666d35d4df695a55764049e9789
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e696e5d1b14a4bdea094463e7d1801fa
+      name: IN 2 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a281ba7acc32439988167e66688c2f7a
+      name: IN 2 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6035a30a86d948c4a5ea62b9c4f45776
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8eb7c52aaf4a43eeba8cc43ee43a4f86
+      name: IN 2 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 50e935ada08245738f5617b84887f519
+      name: IN 2 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2892bfa1e901468c80e5f79a1ad29519
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9540b91916ab4557b25f4654966cd8b3
+      name: IN 2 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 98b6057e73b94ef285a08106804ce241
+      name: IN 2 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7f26c9dfdfff4022a0b93c8afb74a4a8
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6828d9603e4b4442ba298cca4dee8451
+      name: IN 2 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c2dce14a57c942d29475532b8e13d23b
+      name: IN 2 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d6ab82e44f4e40dfa3fb125c4080ca15
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 26c42d5a812047ca8d0cd6e420c8b459
+      name: IN 2 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bf602f853ddd458eb837398966074fe0
+      name: IN 2 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b536527d211945d098979aa9d6f6b58b
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f60f9cfb5cee4b71942b1bdfa1db0ec9
+      name: IN 2 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cacd478977e046adbc7e47a56227439a
+      name: IN 2 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b8cc182c22cc4ff589915902747214fb
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: baf69f7d11d744d59e6ebb7799c6a46b
+      name: IN 2 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 459dce9ddfed41c1ad52ba0d4765388d
+      name: IN 2 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c67065707514494ca803acb10b4ffbd1
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f74f15ba232745408a76912f3432e64c
+      name: IN 2 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 55be46df2eb845e1a41517e25df12d2f
+      name: IN 2 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2ad6cf3190b04a21b0fc86abf4ba4b12
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ae1b744ced58406ea2fd9982e1af1bfc
+      name: IN 2 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cec7e6276df64f83bbc03feca2aa9052
+      name: IN 2 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8541a77dc5424090a56b6d5f305a2f94
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3b529883392245319ee34f6acecee011
+      name: IN 2 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f1de549f95c84510b4c3461ee938dc02
+      name: IN 2 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d8adb17afa6847788ed3cb5c689e20b6
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ddf49ce2d5da4d51af0c82580a7349dc
+      name: IN 2 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0ff1a8d057474fcb9366eef156e7e681
+      name: IN 2 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8f973456484a47b3acd4f06f21c0db42
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a4cb406127d6404ead677e021a4d229d
+      name: IN 2 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f80a836de7db4f5cbda2e014df709cb1
+      name: IN 2 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 063fa498781c42579e0bfca8c22900fd
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aa3edf53cba8498099c60199c02a2ebb
+      name: IN 2 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bcdcbc1ffcdf4cf9abd2ac40776c5db2
+      name: IN 2 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a9582efc264a4702ac4a019cf45ce5f9
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fc0cfb63153d40a79c0a44f1eed62517
+      name: IN 2 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 2 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 58cbf635c79c4358a78074142d3ae375
+      name: IN 2 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 2 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 2 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2fd9f7bd3fd54ac9ab323acf8f114dbf
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 2 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 2 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d08b255e3bb045148a528d2e244944d9
+      name: IN 3 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 057f3df6c54f4486be872a415610a2c2
+      name: IN 3 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a280eedd720d4a7c82b11dbd9f78dc26
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: beda7a510e044554a532dbe2b4c60099
+      name: IN 3 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3d9c0924cbdc4d24889f2a189f21a33a
+      name: IN 3 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0720a8e8a3ec43c29c66cfa1641096c8
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 401b3e28e1474944ab9ba34da2bf8844
+      name: IN 3 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 79b7512c609f43aea240c656ea9eb6ef
+      name: IN 3 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a4080bb546a4ba2ad7d002ef298598f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 11e104cc678946b083f35ba252303e90
+      name: IN 3 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 89ee07bdaaf649c283a26e279ac4c8a4
+      name: IN 3 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc4aec8d5b2b4e22b8b516131fc9ee19
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6e48a49960b442bfaf5cef942bd20334
+      name: IN 3 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8e3720bc3d2845b88adb4fdc397274f1
+      name: IN 3 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ddd02ad1fb5c442b8c0e550189e4b8e6
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cb57b33d09e14bfc9795d166354a6a0f
+      name: IN 3 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 05edf243d2454475a079c3cf259f94cb
+      name: IN 3 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cea87a39ea2447b1b9e93d91bf331bff
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 77eec8bcf1cf4e21bfd7b889885083f8
+      name: IN 3 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0ea99e952d4347e89cbcd795bcf76e87
+      name: IN 3 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 095f59469ef042daa5e954bbd0bffda7
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 90604dcbf5aa4884a678f275009c7826
+      name: IN 3 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bac339aeb9824d3bae1874be062c3478
+      name: IN 3 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eeac45eaeb92499db6052de0c53e5260
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a918e5ec89d546b480f886a8361c2ec9
+      name: IN 3 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c025e3483a2f4eab8e7bcac24e65f842
+      name: IN 3 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 21d1393e3fda463b9eb2dd4f9f420f8c
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 49101e2200d84f2cbbac81ff3526be4c
+      name: IN 3 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 609c88a486084184a43d1cf2012cd0c0
+      name: IN 3 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6791675f220d4ce0a3c7ab69275e4657
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e7f2495d017c43f98d5d062e33835c07
+      name: IN 3 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 56e788ddee43458092bcbc7ebda4de99
+      name: IN 3 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 87fb7f26c8a14dba9cf8bfa5f31ed85f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d64753ea87b447d8a4ab9f0ac81bf620
+      name: IN 3 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1ae3ba0d87924b358473b3315869bd16
+      name: IN 3 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 48b3d7a7cdb94cde9c60ed1e91419d04
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a69e7485c2345df82fe7c42e92901b7
+      name: IN 3 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0211ce3154514425983ea65fd9b4e4ec
+      name: IN 3 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 81e8793ebad44707ab5436ca83ed791d
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 32d5ea6ad4c7432bad9b002e8b93d6cc
+      name: IN 3 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 569d4def8f944302897715202be06e3d
+      name: IN 3 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c557da251d94491db157cdb69b85a221
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fc82929dfc7d4b3690a20d1188d7afad
+      name: IN 3 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a50ea5b11686437d962b0a6be39c56a9
+      name: IN 3 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a187586499104e8c9d0ea8c0b02d1bca
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 60bcbed48fa245d8af306cf8b20fc398
+      name: IN 3 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 3 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bfdfd276b25d44aa9c7a049e78caa104
+      name: IN 3 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 3 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 3 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 597fa310bcaa4980bf231f2cd4210d4d
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 3 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 3 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4c284289053d4ff0a06c8357b5faff9d
+      name: IN 4 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ed5b52b91ff249ae81c6b170405e583b
+      name: IN 4 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9a0bfd19cd744be188d157f0764eea82
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 91d721ca3b0e4f98bd1ad86ea920fdd0
+      name: IN 4 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1c97fa35e52e4062b0367dc1ba7f64b4
+      name: IN 4 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c0be1a94f76a4b4f866842a113d6210b
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9139e9c4fd2b4db5a0a6c79c9e0edd52
+      name: IN 4 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0ac557f4a8894b479ac6e5a982791744
+      name: IN 4 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4ec8d7bf7d464fba9a8e46239f99d844
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 56d599284ebf46329f256ea8395ba637
+      name: IN 4 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6f7c492156b94d63882a821f67b8e221
+      name: IN 4 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 10d13dac1639472c9f508da6beb76e33
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5c09729b4a544f4c96792dd029231e5a
+      name: IN 4 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8ca4cebf81f4470c95b1084be24e15f5
+      name: IN 4 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1c001ca7bcb446099b409068638d56cf
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5411980da30a42b7abc8d9d26d83fa7e
+      name: IN 4 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: defe4475a0e940f3a48635e99baf3a81
+      name: IN 4 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b0cf79561fd1466d8915591a69ba53ec
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 10a0c1b798b04c1cbf927904c1ef91bd
+      name: IN 4 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cfe679ff42df4c098dda9d20e84b1b4b
+      name: IN 4 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 307534c83d6a4f02a2878fdb22220d94
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9806cbd356854194b908479bbad29ebd
+      name: IN 4 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b77eb27f09d447aaa538c41c96c16d2f
+      name: IN 4 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 32cf5e9f81f64d10b18124a4a58b2d75
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a42af12fb6144f729703816fd71e2698
+      name: IN 4 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5bffe43f30794aa494563d5635ff5848
+      name: IN 4 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 21aef555e3e2499b82895e35145609da
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3999f4fd7ac2463fa18fdcb1ff0addaa
+      name: IN 4 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a2f521d2e3ea4b5c8fa90264d4f88082
+      name: IN 4 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c322e53097c14eb8843de273fb627618
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e7c5f841443f464bbd941e6a6ec7f077
+      name: IN 4 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 694ea623b8854a92814208513b36e241
+      name: IN 4 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 59b2f0c981ff4890aa13af32fdf03de2
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5ea66231e58b4fd680068dad0f6c42e3
+      name: IN 4 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 66ae6bf751354ca7836cbe6e8e04df10
+      name: IN 4 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 21144011afd5413eacdbc9e110b6b465
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c5658224622d4a2fa5168857b46ac82b
+      name: IN 4 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b9415e09234d460d99004c40fe5823e9
+      name: IN 4 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fb2668c1994f46dd9fa4c0836bab532f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5aae7aa00f10465baab2d4379ff3143c
+      name: IN 4 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 43caefb1d343489a98d3b99830b391bc
+      name: IN 4 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0ff7979969c746e08d061928f4dc8815
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1ed9cfae5f3c406fa31b9544090d45f5
+      name: IN 4 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 537ca465333a47f0addb0ce7ac7c4e9c
+      name: IN 4 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6f297317e09d47fd97980b98305522c1
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 30c51ba8a9ed461d8087142961da76d3
+      name: IN 4 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 4 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 380b65ebbdc6462cb9e6774477e6d89d
+      name: IN 4 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 4 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 4 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 34d8f3fe06f04b918857c54e721afe2f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 4 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 4 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9455f053c9224022808743b54ae3f92e
+      name: IN 5 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 165d5d37dc3647a69b482686d793aa0d
+      name: IN 5 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4399c87ce22947f9a82238c8dfc2a0f9
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 06a0bb2d34ac40699813f6ba0a3bc989
+      name: IN 5 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3fca6a4fa80a43f9b6962c1a4e596e19
+      name: IN 5 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d4828508374446d3931fe0068559cfcc
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5b6930cf4e3f4784bedf640a2e41453c
+      name: IN 5 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 85f51cf163524e50b60574f1654c0e87
+      name: IN 5 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2433af5c61774c0dbf306b606d1d81e7
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9244c4c022284c4c9647d69e47a65b7a
+      name: IN 5 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 70e037cf7b8445e2970c0aebbe955b3c
+      name: IN 5 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 600d39c162fa4e52a27d08a0354070bf
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 710526cb83be44cabb2fcdc76714139f
+      name: IN 5 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: de1c86f8fab24eb391631d92d69f8b68
+      name: IN 5 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 125171e663914393a86f9ab8019e287e
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7f87381482404e9cabdcba33c4de6d52
+      name: IN 5 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f931086456c047e881ed0a6b8d0c400b
+      name: IN 5 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5ceda344592d4c668c1539eb7299ad07
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e56c3f481f5342549a6d74bdb50b3c98
+      name: IN 5 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 97436c16226c4d8bba65b9835895ce5e
+      name: IN 5 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 78782b11353445f8a1991b2fba46365f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3866ed86d9244a06b22058ceba8ae0ca
+      name: IN 5 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3d7aa551fb2e4ad5b2a1140205c02e72
+      name: IN 5 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ab8a478024a24c61b8e9fcfae4d2e8ec
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7473788cd7b649f58b1b05141e125b48
+      name: IN 5 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6b46740df67449a7b9a10424d45744eb
+      name: IN 5 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 28ba65d378f24139ac1584cf5ac984c4
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 83fe4dd04c134c6bafba89914e01b0b1
+      name: IN 5 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 024cd4b0a6164a1487d3725dc3b5d175
+      name: IN 5 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ff6a85c684084b4f81a4a1679de5b060
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7675668adc6c462fafd8e4ee2ee32721
+      name: IN 5 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6e840a4ad68b4008a26ab13d02b87dfe
+      name: IN 5 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f327cca8400242ef95e11fd781559b40
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 65aaa88e09404a358ec8883e7d6dff7e
+      name: IN 5 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7a57831d7b774e5fb66275283a8d90e2
+      name: IN 5 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0b7fec6b066f4d4786f157409e2c1673
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a318d28880cf489db2467efba9f64284
+      name: IN 5 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 04487b2e6918462ab233fc2d60e088b5
+      name: IN 5 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5bf0c423d0514ff0b1baec243378b50c
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ab72c9f1d6da4b82b24661230f3be882
+      name: IN 5 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 990dfd358e3f4a55bfffc2050f4b5af4
+      name: IN 5 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7fad843ed19f4951ab0843dbcce3dea4
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c85d4c77fd2e4efcb203431dbbaafbf8
+      name: IN 5 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4e43fc8d2e43423e84e7af532381329f
+      name: IN 5 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 48d78e45a5cc42babbfff5f2e1a5f267
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e269548b0a9441f6b625601564092524
+      name: IN 5 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 5 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 76581ef1786543fbb0bc48b9545c8d1d
+      name: IN 5 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 5 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 5 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 50c5834b39a745ffa26552ee811077c1
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 5 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 5 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bf4454b2b8a64d2fbd90b6bbd81ac6a2
+      name: IN 6 Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dd33fb3bbbd14d62b5a142f0f5faded7
+      name: IN 6 Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f9d8eeabd5164cf383d77ce4e3845db7
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e4fa1a39bcbf408090e0090ddeb63c46
+      name: IN 6 P Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b98fb404917b4bcc816234a356774748
+      name: IN 6 P Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0e748af13b0744fa81ad8a5a091a0311
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7cb693ec53144fdfbe915022eaf76c0d
+      name: IN 6 Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 626d3946512b4c4eb712a6244a2b0d34
+      name: IN 6 Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ca84f895433d4b97ad48ca1cff23f8bb
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d004751b5f4643f498a2c485d05d32c4
+      name: IN 6 P Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5913a3c6ca9b40058d3688d7c0cb30f8
+      name: IN 6 P Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9cdfb4014fce4a7e90b2da02dd7e2f75
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 61f95194cb1448ac8510925d54a689b9
+      name: IN 6 P Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f02864748a7446b4aa1ac1701229fc92
+      name: IN 6 P Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7644e75e649744ce9c4606a88c51688a
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0b23d560ef754959bd4933f4868eeba9
+      name: IN 6 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0bffac404b1c4d5cb62cd56c3728d3c7
+      name: IN 6 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 03cb78e747464292bdf228debe0f0fb6
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4e963143a3dc4ab1a495e1460fd7c940
+      name: IN 6 P Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 62375fc356184b24b4b430179a6bc4d1
+      name: IN 6 P Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fbffbe7acdb74088bc2476c4a182f793
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2cbf21998fff4a05aa37f4997ef104e4
+      name: IN 6 P State
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 52cf3576c9a54ab29bac00a2e16cf933
+      name: IN 6 P State (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d8fe87137d184bf290f0e052d5d87273
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 124abb529fb24808a5f4b0d1c192b1c2
+      name: IN 6 Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3e944a7a50f147ec97c076dd598a4ddb
+      name: IN 6 Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b4a1937350a6491994b49bd98cd21b19
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6f3e22d13f5470cb043967eb2f4ff34
+      name: IN 6 P Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 P Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 63c8a2f827ae4ddb91f846f101c246b7
+      name: IN 6 P Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 P Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 P Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 20f22711f6654fe481079310d6af6db0
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 P Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 P Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e95bfc18843e4d9181078585aab4b129
+      name: IN 6 N Resistance
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N Resistance"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Resistance']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2e8527631b2d48358583cd169b132243
+      name: IN 6 N Resistance (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N Resistance"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Resistance/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b82a14fa3b22472c8ae22fb3179a9d1b
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N Resistance"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N Resistance" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8812dad16a924af099f3b38ec4e8e59d
+      name: IN 6 N Temperature
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ec127e830d0146828ca9eb2d0e901254
+      name: IN 6 N Temperature (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a5bead348954eb9a122f64570d81281
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: be39c61fbe2f4ce9a71ba8e6e0284e3f
+      name: IN 6 N Voltage
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 17f3768b7f65426e9b2506664cca0737
+      name: IN 6 N Voltage (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5720ff3e1ab8496f8b05eb355d30d4f0
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 117776405c1f4b47bc82b88acec44e0f
+      name: IN 6 N Current
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N Current"]
+      history: 7d
+      value_type: FLOAT
+      units: mA
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Current']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 480e43c2590742eeb45383d7ee56ddb8
+      name: IN 6 N Current (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N Current"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Current/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed9abd01015e403e8edcb6556191ad6e
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N Current"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N Current" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 056343d2510d49bba53f13de8ee84888
+      name: IN 6 N State
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N State"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N State']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2b54be0d5da84250b1084e0190c23908
+      name: IN 6 N State (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N State"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N State/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 16a362ab6ece435090678bb6ed9b3502
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N State"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N State" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ef3446b5ad104dbcaab8c3cd081b71c5
+      name: IN 6 N Value
+      type: DEPENDENT
+      key: wb.ctrl["IN 6 N Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea07592b888a4b66946a24aa3aa36a58
+      name: IN 6 N Value (error)
+      type: DEPENDENT
+      key: wb.err["IN 6 N Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/IN 6 N Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f4ba130d64d042989239d4a0481f2fac
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["IN 6 N Value"]))>0
+        name: 'WB {HOST.HOST}: error on "IN 6 N Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 652b187457044fc49e6113e5e95a70ff
+      name: 5V Output
+      type: DEPENDENT
+      key: wb.ctrl["5V Output"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/5V Output']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c8708d9c90ae40be95b1e1405b4b6383
+      name: 5V Output (error)
+      type: DEPENDENT
+      key: wb.err["5V Output"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/5V Output/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0479c62cc3ab493580728fd6cba98f95
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["5V Output"]))>0
+        name: 'WB {HOST.HOST}: error on "5V Output" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 83039d5344fc492c882ab30593f68c54
+      name: AVCC Reference
+      type: DEPENDENT
+      key: wb.ctrl["AVCC Reference"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AVCC Reference']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 64edc50aaa7a40639da8788af12857f4
+      name: AVCC Reference (error)
+      type: DEPENDENT
+      key: wb.err["AVCC Reference"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AVCC Reference/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 073bfa3f1cba4006ae2211104fa1476f
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["AVCC Reference"]))>0
+        name: 'WB {HOST.HOST}: error on "AVCC Reference" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2eb8f18d3a0944e0bf6288ebde9c6b0a
+      name: Internal Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Internal Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ebd43027ed294f778cedceadd4077393
+      name: Internal Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Internal Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 52888258ae144f9dba1d9be175c19dc0
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["Internal Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Internal Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4d251e7b53b24f9c848adb0de3d43661
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 15e5a77776904b368fa4d86483a32084
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 218ffd43c3cb4c75af415ae710c5d4a6
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 24940130824647ec95fd504e3f7348a0
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 628e419c4b6245e39d0fd0897b32de17
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 79d04bffd6834e9dad4d3506214a45c3
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c2f55fb4cd4545b1bf670c108aa82826
+      name: Internal 5V Bus Voltage
+      type: DEPENDENT
+      key: wb.ctrl["Internal 5V Bus Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal 5V Bus Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b134e890a29e4ad88e7c68d8d084cdf9
+      name: Internal 5V Bus Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Internal 5V Bus Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Internal 5V Bus Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a34c503311a4441ba75b230b4d7bec64
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["Internal 5V Bus Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Internal 5V Bus Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d30f86e8ffcb449ebce9b5b9bba3073f
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e4e267d550bb4d16938ec4d8e84a939b
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 75dcec1eae2a41cdaf6f97fb12248ea3
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2d7906591bb943aca9581882e340230e
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e6fe30be28934d4ab653e43ab4de1b5e
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5c2b264c21a646249fc04dc81b521271
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 525e125808f14142bfb743ffecd3739a
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2ef6e6e4cfcc47e491b7c49b5d0c262a
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b2f47a0a29584a2ba5a3193b507719da
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c53777a21d3244c5af3f5c60d4ad8a17
+      name: 2W Resistance Offset 1-3P
+      type: DEPENDENT
+      key: wb.ctrl["2W Resistance Offset 1-3P"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 1-3P']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ab5f095689c34a4f9b0b26bbecf14275
+      name: 2W Resistance Offset 1-3P (error)
+      type: DEPENDENT
+      key: wb.err["2W Resistance Offset 1-3P"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 1-3P/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4de775934f3d48a1bf86bdd51c8f82fa
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["2W Resistance Offset 1-3P"]))>0
+        name: 'WB {HOST.HOST}: error on "2W Resistance Offset 1-3P" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c8140ac9f20b488a8be13e94f57dfcc0
+      name: 2W Resistance Offset 1-3N
+      type: DEPENDENT
+      key: wb.ctrl["2W Resistance Offset 1-3N"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 1-3N']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 374c824f496841ceb12fca356856d68f
+      name: 2W Resistance Offset 1-3N (error)
+      type: DEPENDENT
+      key: wb.err["2W Resistance Offset 1-3N"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 1-3N/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f26712babc2049488364bccd09d5bb56
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["2W Resistance Offset 1-3N"]))>0
+        name: 'WB {HOST.HOST}: error on "2W Resistance Offset 1-3N" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ec4f46293f984f56be3d27c8437a834d
+      name: 2W Resistance Offset 4-6P
+      type: DEPENDENT
+      key: wb.ctrl["2W Resistance Offset 4-6P"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 4-6P']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e092b2a2b5784eaea1562e7fdebe18fa
+      name: 2W Resistance Offset 4-6P (error)
+      type: DEPENDENT
+      key: wb.err["2W Resistance Offset 4-6P"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 4-6P/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5b79c56b0d3841d3a6e6b637944f57ce
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["2W Resistance Offset 4-6P"]))>0
+        name: 'WB {HOST.HOST}: error on "2W Resistance Offset 4-6P" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a2143badb39942199b9932bc46e0848b
+      name: 2W Resistance Offset 4-6N
+      type: DEPENDENT
+      key: wb.ctrl["2W Resistance Offset 4-6N"]
+      history: 7d
+      value_type: FLOAT
+      units: Ohm
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 4-6N']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 80413b301e6f4ed3ae32a35fb0dd652e
+      name: 2W Resistance Offset 4-6N (error)
+      type: DEPENDENT
+      key: wb.err["2W Resistance Offset 4-6N"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/2W Resistance Offset 4-6N/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 835034b80fb843809ffa91fc5c19e7e5
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["2W Resistance Offset 4-6N"]))>0
+        name: 'WB {HOST.HOST}: error on "2W Resistance Offset 4-6N" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a304db457d1540f7ac0b111d29c775d2
+      name: ADC Loop Counter
+      type: DEPENDENT
+      key: wb.ctrl["ADC Loop Counter"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ADC Loop Counter']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d61348e709e4cad849423e3bc428ab0
+      name: ADC Loop Counter (error)
+      type: DEPENDENT
+      key: wb.err["ADC Loop Counter"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ADC Loop Counter/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d32989333c7142e2bcdf7f788c4bf8bb
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["ADC Loop Counter"]))>0
+        name: 'WB {HOST.HOST}: error on "ADC Loop Counter" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 991a7f0cee874c43af0b1973fdfbe101
+      name: ADC Loop Duration
+      type: DEPENDENT
+      key: wb.ctrl["ADC Loop Duration"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ADC Loop Duration']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ee8c62b9c94845cd85827274daab6e11
+      name: ADC Loop Duration (error)
+      type: DEPENDENT
+      key: wb.err["ADC Loop Duration"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/ADC Loop Duration/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fc9e17046ca1416ba1fc2a95a7b67032
+        expression: length(last(/WB-MAI6 by MQTT/wb.err["ADC Loop Duration"]))>0
+        name: 'WB {HOST.HOST}: error on "ADC Loop Duration" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-mai6
+    valuemaps:
+    - uuid: 0a13cc55c5384ce6b95db00860a21a4d
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
