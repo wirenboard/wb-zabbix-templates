@@ -1,0 +1,811 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 847803ab60ea402f890fcc187d182021
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 0930e631c64e479cb4f66aa3366bc81e
+    template: WB-Domofon mb by MQTT
+    name: WB-Domofon mb by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: c4d7ef296a244132ad8f3682cc2604c4
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 24d782dfa35f434b95d55b8ef7583dcd
+      name: Incoming call
+      type: DEPENDENT
+      key: wb.ctrl["Incoming call"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Incoming call']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a9519cbb86a0497e8db9bb7e1ae28c74
+      name: Incoming call (error)
+      type: DEPENDENT
+      key: wb.err["Incoming call"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Incoming call/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dd9ebdb70e044dac941b707cf4fb1267
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Incoming call"]))>0
+        name: 'WB {HOST.HOST}: error on "Incoming call" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 048adb4b1a0245389fd7b1d9d51c5512
+      name: Call accept
+      type: DEPENDENT
+      key: wb.ctrl["Call accept"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Call accept']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 07d17c02acdb49be9a564b7b7aa8a6ce
+      name: Call accept (error)
+      type: DEPENDENT
+      key: wb.err["Call accept"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Call accept/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 96e6bdfcbf9e4595bfa05456598b6cef
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Call accept"]))>0
+        name: 'WB {HOST.HOST}: error on "Call accept" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1cd6b81d06b640febb086dec61739296
+      name: Call reject
+      type: DEPENDENT
+      key: wb.ctrl["Call reject"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Call reject']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f3bef8cca1574d53b6973b516162ff62
+      name: Call reject (error)
+      type: DEPENDENT
+      key: wb.err["Call reject"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Call reject/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a122c99853ba4925a800559a7b031359
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Call reject"]))>0
+        name: 'WB {HOST.HOST}: error on "Call reject" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ca26e9286bb04852900b7bc31d50298a
+      name: Auto open once
+      type: DEPENDENT
+      key: wb.ctrl["Auto open once"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto open once']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9a0e5da51af24bc08b77365b01de7f0a
+      name: Auto open once (error)
+      type: DEPENDENT
+      key: wb.err["Auto open once"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto open once/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc82b9c9d2264ac7aade18f87a358997
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Auto open once"]))>0
+        name: 'WB {HOST.HOST}: error on "Auto open once" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7930b2dceb88434a82b86ab688764315
+      name: Auto open
+      type: DEPENDENT
+      key: wb.ctrl["Auto open"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto open']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8951a2657d4047129c4d114233c6395a
+      name: Auto open (error)
+      type: DEPENDENT
+      key: wb.err["Auto open"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto open/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d316bb4d147e406a9f181fc64c30cf40
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Auto open"]))>0
+        name: 'WB {HOST.HOST}: error on "Auto open" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 650b3b9257414d26aae78a771af2aa18
+      name: Auto reject
+      type: DEPENDENT
+      key: wb.ctrl["Auto reject"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto reject']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ba7621ef5c0e4e01a654dc05119032ed
+      name: Auto reject (error)
+      type: DEPENDENT
+      key: wb.err["Auto reject"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto reject/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a08d20bf5de54394ac5c56fbc833d618
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Auto reject"]))>0
+        name: 'WB {HOST.HOST}: error on "Auto reject" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3c7c17653b7046a586152b8b314af746
+      name: Mute once
+      type: DEPENDENT
+      key: wb.ctrl["Mute once"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute once']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2e9cb08229e5414b8f58d007a163c4e0
+      name: Mute once (error)
+      type: DEPENDENT
+      key: wb.err["Mute once"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute once/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fe4f65a5df814bf08de35b8b19bba728
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Mute once"]))>0
+        name: 'WB {HOST.HOST}: error on "Mute once" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 02b5444418874dee830b35f9caf7a8a1
+      name: Mute
+      type: DEPENDENT
+      key: wb.ctrl["Mute"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 94753e88ffcc45f1bf1898fe8e80e637
+      name: Mute (error)
+      type: DEPENDENT
+      key: wb.err["Mute"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6f4fc342fd8745b9a851c7d0b8d69436
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Mute"]))>0
+        name: 'WB {HOST.HOST}: error on "Mute" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: add9672918744402b2be68590f1797bb
+      name: Brightness
+      type: DEPENDENT
+      key: wb.ctrl["Brightness"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Brightness']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a67b3ccd675643e9b9d6d0eb9d3f253b
+      name: Brightness (error)
+      type: DEPENDENT
+      key: wb.err["Brightness"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Brightness/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1e0247fb9f734e8f954d1227eebc5ae6
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Brightness"]))>0
+        name: 'WB {HOST.HOST}: error on "Brightness" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3f1c792162d54eaba0991763229b7511
+      name: Mode
+      type: DEPENDENT
+      key: wb.ctrl["Mode"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mode']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d68fabae838f46348815bffe2ba19886
+      name: Mode (error)
+      type: DEPENDENT
+      key: wb.err["Mode"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mode/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 07ecd6e60e11401e8a3b312d55c8c9ba
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Mode"]))>0
+        name: 'WB {HOST.HOST}: error on "Mode" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 798b0df16064497582de8e9ba76cde36
+      name: Mute mode
+      type: DEPENDENT
+      key: wb.ctrl["Mute mode"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute mode']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d73dd487d23543809b66664a4ac96fc4
+      name: Mute mode (error)
+      type: DEPENDENT
+      key: wb.err["Mute mode"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Mute mode/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: df7e6990de854d4dabf59611b9fd1374
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Mute mode"]))>0
+        name: 'WB {HOST.HOST}: error on "Mute mode" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 532e078d3d7f46598e06337efca3c83d
+      name: Delay before answer
+      type: DEPENDENT
+      key: wb.ctrl["Delay before answer"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay before answer']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8bf1532b0d14445dbfb731acd5220570
+      name: Delay before answer (error)
+      type: DEPENDENT
+      key: wb.err["Delay before answer"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay before answer/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc859e714f63420385710c7f835a98de
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Delay before answer"]))>0
+        name: 'WB {HOST.HOST}: error on "Delay before answer" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3507c0c4bb54f999b284697182af89f
+      name: Delay answer
+      type: DEPENDENT
+      key: wb.ctrl["Delay answer"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay answer']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3351745452504130913c3afdfc2743ea
+      name: Delay answer (error)
+      type: DEPENDENT
+      key: wb.err["Delay answer"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay answer/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6d242dfd1b5e496c9464e8479ab35023
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Delay answer"]))>0
+        name: 'WB {HOST.HOST}: error on "Delay answer" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7288c29812b74e7a816b8f25ac32b86a
+      name: Delay open time
+      type: DEPENDENT
+      key: wb.ctrl["Delay open time"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay open time']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 12c5f17dd5b44f8e85b4388857d89e2a
+      name: Delay open time (error)
+      type: DEPENDENT
+      key: wb.err["Delay open time"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay open time/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1462d4fc027e4e839341506d06ee404a
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Delay open time"]))>0
+        name: 'WB {HOST.HOST}: error on "Delay open time" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d5b93bc24f094c6d87189ba4ff28f3be
+      name: Delay call detect
+      type: DEPENDENT
+      key: wb.ctrl["Delay call detect"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay call detect']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4474a782fb3647209742dc8a63daed11
+      name: Delay call detect (error)
+      type: DEPENDENT
+      key: wb.err["Delay call detect"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Delay call detect/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2df3687d4f644bc2ae4e753a40c874e4
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Delay call detect"]))>0
+        name: 'WB {HOST.HOST}: error on "Delay call detect" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2565274a1d7f408fa9344ab1500b636d
+      name: Ring count
+      type: DEPENDENT
+      key: wb.ctrl["Ring count"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ring count']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9d90c4f750c7477685d9184760ba2a38
+      name: Ring count (error)
+      type: DEPENDENT
+      key: wb.err["Ring count"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ring count/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 03e651dcce504d59804fb4c3d4d3a787
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Ring count"]))>0
+        name: 'WB {HOST.HOST}: error on "Ring count" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c6e0feeb0fda4781985122e518a1b502
+      name: UART baudrate
+      type: DEPENDENT
+      key: wb.ctrl["UART baudrate"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART baudrate']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7a08264ed5b74c6b9802d70942e9c33a
+      name: UART baudrate (error)
+      type: DEPENDENT
+      key: wb.err["UART baudrate"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART baudrate/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2147ec22c7a443f9ad369d434ba3044f
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["UART baudrate"]))>0
+        name: 'WB {HOST.HOST}: error on "UART baudrate" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 354284d3933f473493be024006f24af1
+      name: UART parity
+      type: DEPENDENT
+      key: wb.ctrl["UART parity"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART parity']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: beb16eebe1364258a5554ec87adbd07e
+      name: UART parity (error)
+      type: DEPENDENT
+      key: wb.err["UART parity"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART parity/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 709af6512f3b4d9589967b928adb0ed8
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["UART parity"]))>0
+        name: 'WB {HOST.HOST}: error on "UART parity" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8684f236e40d4c1e8ef97ee7c2ce2725
+      name: UART stop bits
+      type: DEPENDENT
+      key: wb.ctrl["UART stop bits"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART stop bits']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e47bd0e16f734cf181edbd0e0e324ead
+      name: UART stop bits (error)
+      type: DEPENDENT
+      key: wb.err["UART stop bits"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/UART stop bits/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4fb781243a284d41856b5769d0a99d0b
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["UART stop bits"]))>0
+        name: 'WB {HOST.HOST}: error on "UART stop bits" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 841abad27ac44812a8661eb6972219b8
+      name: MODBUS Slave ID
+      type: DEPENDENT
+      key: wb.ctrl["MODBUS Slave ID"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MODBUS Slave ID']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a5956119ab414bda97350e3fb2dcdd49
+      name: MODBUS Slave ID (error)
+      type: DEPENDENT
+      key: wb.err["MODBUS Slave ID"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MODBUS Slave ID/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: efa0e65b27044e4788468c7cf7e34bcc
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["MODBUS Slave ID"]))>0
+        name: 'WB {HOST.HOST}: error on "MODBUS Slave ID" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 82b102b9a8384d20b7e66a3615881293
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 570ed94172fc41e98f43b620d6145f80
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 18b23b9b8884489ab61d6f0589c7b37a
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e6e0476302ca486bbd280d929e01fcc6
+      name: Reset
+      type: DEPENDENT
+      key: wb.ctrl["Reset"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Reset']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f4de1a1ebee54bb889e344d312e26150
+      name: Reset (error)
+      type: DEPENDENT
+      key: wb.err["Reset"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Reset/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3f002a257f4b44059e42b287128fe638
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["Reset"]))>0
+        name: 'WB {HOST.HOST}: error on "Reset" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 94dda08bf3eb4b0891e17860412e75ca
+      name: VCC
+      type: DEPENDENT
+      key: wb.ctrl["VCC"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VCC']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a35bfd5f89044c4a934f625cbc1bc84c
+      name: VCC (error)
+      type: DEPENDENT
+      key: wb.err["VCC"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/VCC/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e31e24ee403b4a7b881457b7078cdd33
+        expression: length(last(/WB-Domofon mb by MQTT/wb.err["VCC"]))>0
+        name: 'WB {HOST.HOST}: error on "VCC" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-domofon
+    valuemaps:
+    - uuid: 9b35af63a74a483dab0837c42810917f
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'
