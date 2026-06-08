@@ -1,0 +1,495 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: f645c06f5cea4c2fac177f82085c8f03
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 90acba74538c493ba918da73b139d043
+    template: WB-MGE WB-MIO WB-MIO-E by MQTT
+    name: WB-MGE, WB-MIO, WB-MIO-E by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: 076c5867409d4218b887187b8b0c15fd
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 1ab29643c9f74c399aef722d89739303
+      name: Status DI 1
+      type: DEPENDENT
+      key: wb.ctrl["Status DI 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fb46ae197aa845a8b16ce007785b166a
+      name: Status DI 1 (error)
+      type: DEPENDENT
+      key: wb.err["Status DI 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6c7d9db5f0304408848a443fe69cd03e
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DI 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DI 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a5ce9f2b19a44db2b34e3d52f2022258
+      name: Status DI 2
+      type: DEPENDENT
+      key: wb.ctrl["Status DI 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b6f5ec07ba3747709d14a3e3288e9773
+      name: Status DI 2 (error)
+      type: DEPENDENT
+      key: wb.err["Status DI 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9477a83af19c451a88bea5f91e878291
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DI 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DI 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3ebfe8195a4546978d7983b9d2d145a4
+      name: Status DI 3
+      type: DEPENDENT
+      key: wb.ctrl["Status DI 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a8d6c7f08ed04d0db0fdb767b963c1fd
+      name: Status DI 3 (error)
+      type: DEPENDENT
+      key: wb.err["Status DI 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 56b0905b2ffe486d8414bb0704030046
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DI 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DI 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2750258045fe4733977d993a247cf8f5
+      name: Status DI 4
+      type: DEPENDENT
+      key: wb.ctrl["Status DI 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8fa8de1e6b164b928871c2637b8901ec
+      name: Status DI 4 (error)
+      type: DEPENDENT
+      key: wb.err["Status DI 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DI 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: faa65fb5cfe14e2f8d641d304c4ede12
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DI 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DI 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2914eb864f0344e3809694e33b629fa9
+      name: Status DO 1
+      type: DEPENDENT
+      key: wb.ctrl["Status DO 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f3da0d3255fc4d1fad16de21641e2d19
+      name: Status DO 1 (error)
+      type: DEPENDENT
+      key: wb.err["Status DO 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5cb9724162b249ab8dcb8d3cd26d0874
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DO 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DO 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 82324a4ea59e44869b0876c19556ff2f
+      name: Status DO 2
+      type: DEPENDENT
+      key: wb.ctrl["Status DO 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 74686885ad4244689d54b924bed064be
+      name: Status DO 2 (error)
+      type: DEPENDENT
+      key: wb.err["Status DO 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e6548fcde97b46d598bdd8704d8a0208
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DO 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DO 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 63e88b041026419895b44fee48b280fb
+      name: Status DO 3
+      type: DEPENDENT
+      key: wb.ctrl["Status DO 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2ccf5788735844959301316bb3481739
+      name: Status DO 3 (error)
+      type: DEPENDENT
+      key: wb.err["Status DO 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fee8c8e201ea4ed0b32a9e71d17eff4f
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DO 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DO 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a31bf4a3737d44e5b37086183e58eb45
+      name: Status DO 4
+      type: DEPENDENT
+      key: wb.ctrl["Status DO 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d9c5b5aa859d4f0e906ff0c18d14d353
+      name: Status DO 4 (error)
+      type: DEPENDENT
+      key: wb.err["Status DO 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Status DO 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 48b18ca80788410ea6253d861fc67425
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Status DO 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Status DO 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2b5e4c30b1114659b9dcfb33bde69e87
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 973c5977d3e14880b7bf8a682dca91f4
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9ad81c9a04504a78bad34a7bedf5f91e
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0c3a0e39459c422eab8475cf7ec58baf
+      name: HW Batch Number
+      type: DEPENDENT
+      key: wb.ctrl["HW Batch Number"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 86c53a9d0cf24d688b7e3a914891dadb
+      name: HW Batch Number (error)
+      type: DEPENDENT
+      key: wb.err["HW Batch Number"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2494186dde5b41739fecde8e818f0ce8
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["HW Batch Number"]))>0
+        name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 66d00e95c48b46209e2029e6b81817b0
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 992d80512ec14be4babee2d4e93f8973
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 281a3099b4eb429f87fb21df83d3e255
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dc63cbd8f0a24a338b4d467d1338bf8b
+      name: Uptime
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: FLOAT
+      units: s
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3d7316e5afef473d92fd290340e6b869
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fa431c6829ec4043aa24c3defcf8ed20
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 403e2ad9bd594232ac493c6de230a323
+      name: MCU Temperature
+      type: DEPENDENT
+      key: wb.ctrl["MCU Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7a6cc4b519004ea3a7cf9bbbcfe28861
+      name: MCU Temperature (error)
+      type: DEPENDENT
+      key: wb.err["MCU Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7515f27e4213400085cc5ad3eb7cb741
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["MCU Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: effe57ae47c8446584ae656d035c6510
+      name: MCU Voltage
+      type: DEPENDENT
+      key: wb.ctrl["MCU Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 00c57604972a40708326a8bd23defc5b
+      name: MCU Voltage (error)
+      type: DEPENDENT
+      key: wb.err["MCU Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 038aabaae10e4228afaa26e199117da0
+        expression: length(last(/WB-MGE WB-MIO WB-MIO-E by MQTT/wb.err["MCU Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb_mio
