@@ -21,7 +21,7 @@ Wiren Board device templates for Zabbix.
 3. Задайте макросы `{$MQTT.BROKER}` (адрес брокера контроллера) и `{$DEVICE}` (slug `<модель>_<slave_id>`, например `wb-mr6cu_23`).
 4. Значения появятся в Monitoring → Latest data.
 
-[Подробная инструкция на вики](https://wiki.wirenboard.com/wiki/Шаблоны_Zabbix_для_устройств_Wiren_Board).
+[Подробная инструкция на вики](https://wiki.wirenboard.com/wiki/Zabbix_templates).
 
 ## Лицензия
 
