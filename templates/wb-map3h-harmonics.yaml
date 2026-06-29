@@ -1,0 +1,4674 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 850a9967d4ba4832b630794ff321c136
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 5ada1a46969442c1b340ab1c97593839
+    template: WB-MAP3H harmonics by MQTT
+    name: WB-MAP3H (+ harmonics) by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: f5e142c48b1d420e92edd5807d6a9c19
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: ff5fba509b4f4416a114e6681ee06a51
+      name: Urms L1
+      type: DEPENDENT
+      key: wb.ctrl["Urms L1"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 89ab96ed05d249baaa2ffaf21bd0ab5d
+      name: Urms L1 (error)
+      type: DEPENDENT
+      key: wb.err["Urms L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9a32b687355d42a3ad0b93374c2ce043
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Urms L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Urms L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7abf478f305d408fbd1ad9156d835482
+      name: THD U L1
+      type: DEPENDENT
+      key: wb.ctrl["THD U L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 53da0b5c11fb4a74b1570d5e1c93dc45
+      name: THD U L1 (error)
+      type: DEPENDENT
+      key: wb.err["THD U L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d3c871ad897f4ae7b32154d5a2e3954f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD U L1"]))>0
+        name: 'WB {HOST.HOST}: error on "THD U L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6a108a1c82ef457eab626cb07e576139
+      name: THDN U L1
+      type: DEPENDENT
+      key: wb.ctrl["THDN U L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aeaf3aa070634350b8f6a45e0353d542
+      name: THDN U L1 (error)
+      type: DEPENDENT
+      key: wb.err["THDN U L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2674d167c7dd4ef0abafd8178dd47310
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN U L1"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN U L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 09bdf8a7fff04acfa036d4057d90ca04
+      name: Ufund L1
+      type: DEPENDENT
+      key: wb.ctrl["Ufund L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f1dccb3f625b440497d77b63d1b942b5
+      name: Ufund L1 (error)
+      type: DEPENDENT
+      key: wb.err["Ufund L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0858e1864081497ca7c7101c19d6ef33
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ufund L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Ufund L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dc9c24d8ba854d8397f4569d5ce610fc
+      name: Urms L2
+      type: DEPENDENT
+      key: wb.ctrl["Urms L2"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 72fc7d85144940de9bb92ae8efa05d6b
+      name: Urms L2 (error)
+      type: DEPENDENT
+      key: wb.err["Urms L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: da5b99a2d7104da586afb0d8c1fff799
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Urms L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Urms L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3346e33f5945407996205f0ad37559fd
+      name: THD U L2
+      type: DEPENDENT
+      key: wb.ctrl["THD U L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a67a8de16dde4f18a282b52741bbd802
+      name: THD U L2 (error)
+      type: DEPENDENT
+      key: wb.err["THD U L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 34699cdb644944bdb27a51330a7bde04
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD U L2"]))>0
+        name: 'WB {HOST.HOST}: error on "THD U L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6fe60dacff1644deb8921faff16d82db
+      name: THDN U L2
+      type: DEPENDENT
+      key: wb.ctrl["THDN U L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4a5b9b9f5a26444bb34e6ec156b04126
+      name: THDN U L2 (error)
+      type: DEPENDENT
+      key: wb.err["THDN U L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f940298337324ebeacb27b279268cb27
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN U L2"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN U L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d0b74e5d635d44618a7a5534489efaec
+      name: Ufund L2
+      type: DEPENDENT
+      key: wb.ctrl["Ufund L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e54d42fd43574de1afd05705f579402a
+      name: Ufund L2 (error)
+      type: DEPENDENT
+      key: wb.err["Ufund L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 11fdb172817f42eca947e4c5f328240f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ufund L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Ufund L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9c21ed5569514f79be749f2ea1e5178f
+      name: Urms L3
+      type: DEPENDENT
+      key: wb.ctrl["Urms L3"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f97e0eea3c6c47a486d0ec9256c244f2
+      name: Urms L3 (error)
+      type: DEPENDENT
+      key: wb.err["Urms L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4446685c47eb40558981df61192b2a44
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Urms L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Urms L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0085c02dd7a34c6aaefcb50db4ec90cb
+      name: THD U L3
+      type: DEPENDENT
+      key: wb.ctrl["THD U L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8d09375b1bb441a68fc3feb275bfebe9
+      name: THD U L3 (error)
+      type: DEPENDENT
+      key: wb.err["THD U L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD U L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d64eeb9dafbf4ee3b64b488e363abe0b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD U L3"]))>0
+        name: 'WB {HOST.HOST}: error on "THD U L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8a2fd9ecd77f4b31bcfd25cd1843119d
+      name: THDN U L3
+      type: DEPENDENT
+      key: wb.ctrl["THDN U L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0ee412d915fd491dbdef06b9640dc200
+      name: THDN U L3 (error)
+      type: DEPENDENT
+      key: wb.err["THDN U L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN U L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d6b906df9db34da89be23957d770ecf1
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN U L3"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN U L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 437177132af5412a88ec4a199123ab20
+      name: Ufund L3
+      type: DEPENDENT
+      key: wb.ctrl["Ufund L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6af26d91728b45378bf2d2ff6a2afa41
+      name: Ufund L3 (error)
+      type: DEPENDENT
+      key: wb.err["Ufund L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ufund L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 18075b2978734259b21c7cf6b8594c50
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ufund L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Ufund L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c92d7ff116c14527958c60c99e8e8c74
+      name: Frequency
+      type: DEPENDENT
+      key: wb.ctrl["Frequency"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Frequency']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f0069cbf274f4409b4e25fcaf6a4466c
+      name: Frequency (error)
+      type: DEPENDENT
+      key: wb.err["Frequency"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Frequency/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed96577184d14439bd8fc7211dbbbdb4
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Frequency"]))>0
+        name: 'WB {HOST.HOST}: error on "Frequency" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1a0c140b7bb844fcb50dbee165038a10
+      name: Voltage angle L1
+      type: DEPENDENT
+      key: wb.ctrl["Voltage angle L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 208dcd258b014c7c94fe3e4583731ee2
+      name: Voltage angle L1 (error)
+      type: DEPENDENT
+      key: wb.err["Voltage angle L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 53ede831b293458d85bf6435eb406577
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Voltage angle L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Voltage angle L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 08b73a1f07824046a24af4e73faaa7c7
+      name: Voltage angle L2
+      type: DEPENDENT
+      key: wb.ctrl["Voltage angle L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 893872c8b6b9498b8d284ebddaac454c
+      name: Voltage angle L2 (error)
+      type: DEPENDENT
+      key: wb.err["Voltage angle L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 98282cb8aa08431aaa91f489da9c5bf7
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Voltage angle L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Voltage angle L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0578fc66900849878f3ef09ae7b05b95
+      name: Voltage angle L3
+      type: DEPENDENT
+      key: wb.ctrl["Voltage angle L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f7b3aca1046648d1b17b31cc7e8c36c8
+      name: Voltage angle L3 (error)
+      type: DEPENDENT
+      key: wb.err["Voltage angle L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Voltage angle L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 71d0bf90785c454da3a7833d10f7b364
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Voltage angle L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Voltage angle L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dddeb067480c471cb0c9e5573556b628
+      name: HR U 2 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 2 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9ce7f53018534c6eb82e6db2e28962d7
+      name: HR U 2 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 2 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 40cb8e154a0944818c49e39c87efb768
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 2 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 2 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6b79f9b414bc49bf83d1612891ccf7d8
+      name: HR U 3 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 3 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 94bdaf228bef4b55b60765dff8125cde
+      name: HR U 3 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 3 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 006f24e98aba4e58bf0cebcf98ae309c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 3 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 3 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 402d37eb93b044d1bcb30ed422882eb3
+      name: HR U 4 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 4 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 78df6487808148d9a08e9f7f459b5783
+      name: HR U 4 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 4 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7c23efc200284ed3869990126a0ba0be
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 4 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 4 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8d6dc4533c4e4cec97596174a4d28056
+      name: HR U 5 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 5 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 216fc63e06f047eda17c9055af2a8037
+      name: HR U 5 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 5 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c9e28c02066e4972807ce3034636843f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 5 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 5 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6fd9cc73f9544b6a9bda9cd765e77174
+      name: HR U 6 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 6 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ec76ab182e734a70a812354f76a278cd
+      name: HR U 6 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 6 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1fa8764fe27249339e4df359ebffd7bb
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 6 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 6 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ccee3de5b7a044b4ac58886843c9ea6e
+      name: HR U 7 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR U 7 L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4db38ef03dd94f8e8e15366f9a49f271
+      name: HR U 7 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 7 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 32d9dc49bc854a1185745386523184b4
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 7 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 7 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c676dff9861a428cb8e6a863dce2a389
+      name: HR U 2 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 2 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4f99679cfa3644878872d48806d02baa
+      name: HR U 2 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 2 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0a4c5faf43c046519fb45239c18bdfb1
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 2 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 2 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 86c95de0608748dcb13142858d85bf9f
+      name: HR U 3 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 3 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3fcda6266f03408a85ee71a27fccf0fa
+      name: HR U 3 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 3 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2bf500b26b2e4cbfa710fb3c9dfc6353
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 3 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 3 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0f65cda3410943a4ab677572fbabac26
+      name: HR U 4 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 4 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 40a50d2418134d529edd2ba954e530c0
+      name: HR U 4 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 4 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7b2f7abe831040d6a970fa590211dd34
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 4 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 4 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bc84813772334db0b572736519d489dc
+      name: HR U 5 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 5 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3572c024cdce41d088d5a13698287f4e
+      name: HR U 5 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 5 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b46217c44f6545208b6dd30fec8b3c08
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 5 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 5 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5ac207ac2eed442e83d53cf04b647ca0
+      name: HR U 6 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 6 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3fc1ee8b72614b93a6129295556433df
+      name: HR U 6 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 6 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f9f8fcf53d7749a5b61c5c224a9bef28
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 6 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 6 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 38174765f81f4baab3a7008d5de006b0
+      name: HR U 7 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR U 7 L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3aacc5a34f8c4163917f6af1e89d198e
+      name: HR U 7 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 7 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d844d792dd3d4bdda052b83f95fe437c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 7 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 7 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 61d72b63693a407ca4552838f1efc81b
+      name: HR U 2 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 2 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e8dc558b18b74319b82309ec2323b7b7
+      name: HR U 2 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 2 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 2 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9478eacf69a645ddaa98e8d5cc4544b2
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 2 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 2 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a51654f3a4e143199c45a2c8a39b4bb7
+      name: HR U 3 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 3 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8d5fdfaec16f4a6d8feb0716639b72dc
+      name: HR U 3 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 3 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 3 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6e9c3a78ade44cec9ce133b8cdf14b37
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 3 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 3 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1c5f23f1b017407097adec8879099fbc
+      name: HR U 4 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 4 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a0e262328d64405ea4d4300ba6b6e05d
+      name: HR U 4 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 4 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 4 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1486e751c93e46ee9ee627581aedaac0
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 4 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 4 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7d46ee1b19c7453c9ff5a1e692212f4b
+      name: HR U 5 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 5 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ab1ce2c043794df59574f1942d6151ad
+      name: HR U 5 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 5 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 5 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9077092debfe420fb68c1b4e00f65601
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 5 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 5 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 470e83f58ba94c5998c32480bc956476
+      name: HR U 6 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 6 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 060b2989a7eb46d3bd29efac2810750d
+      name: HR U 6 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 6 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 6 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 77a484afd3b84e2eb94b470a661ee963
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 6 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 6 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bc4fba3b951d46d38fba2cc50185a37a
+      name: HR U 7 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR U 7 L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8604e8671305446995285d3e022301ce
+      name: HR U 7 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR U 7 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR U 7 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7e3850765e0f4d7da28de7dfd366fd9d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR U 7 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR U 7 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cbeebc93244542dfb8bd146c694cf969
+      name: Irms L1
+      type: DEPENDENT
+      key: wb.ctrl["Irms L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 211d476656e6429b875de70ae1cfb881
+      name: Irms L1 (error)
+      type: DEPENDENT
+      key: wb.err["Irms L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0a2fa6cc50834fc59d198c5da47a5b2d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Irms L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ce05eff0231542ea9c75be17cc0d447d
+      name: THD I L1
+      type: DEPENDENT
+      key: wb.ctrl["THD I L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3b31af80744d41f9879dc988d19aef10
+      name: THD I L1 (error)
+      type: DEPENDENT
+      key: wb.err["THD I L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 82aef4b69ce4424bb586b8521d11dd5f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD I L1"]))>0
+        name: 'WB {HOST.HOST}: error on "THD I L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c68b96f4e27842b7b433bc34fb2bbfc2
+      name: THDN I L1
+      type: DEPENDENT
+      key: wb.ctrl["THDN I L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3cc3b013691a4aa487e74479fe5d5ef7
+      name: THDN I L1 (error)
+      type: DEPENDENT
+      key: wb.err["THDN I L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4f9f51a9a7ce41d494b711e9a5f2fbeb
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN I L1"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN I L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a959ff590e934464a543555dbaa50a9b
+      name: Ifund L1
+      type: DEPENDENT
+      key: wb.ctrl["Ifund L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e67ac37ef06f4020a2c97ccc664e2fda
+      name: Ifund L1 (error)
+      type: DEPENDENT
+      key: wb.err["Ifund L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c2787c7aa92b4e25860fe96505d99ee0
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ifund L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Ifund L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6dae256f80ff49338e39f938de609291
+      name: P L1
+      type: DEPENDENT
+      key: wb.ctrl["P L1"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6b6d0a9f8d884875abfc90e70d2a714e
+      name: P L1 (error)
+      type: DEPENDENT
+      key: wb.err["P L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b2548d3c8b9844cf92faf8e73e0a60bc
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["P L1"]))>0
+        name: 'WB {HOST.HOST}: error on "P L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5c96ed3a2d96425089c07b53da9e4119
+      name: Q L1
+      type: DEPENDENT
+      key: wb.ctrl["Q L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8aebd383fa204b4d8b45132b24490cca
+      name: Q L1 (error)
+      type: DEPENDENT
+      key: wb.err["Q L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4c6963b4b04b4ab4bad85af0b818fea2
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Q L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Q L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bafcc85aed464ea4a2497040fd329ce2
+      name: S L1
+      type: DEPENDENT
+      key: wb.ctrl["S L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b2eac788b5a843db8f402fe8a49a02c5
+      name: S L1 (error)
+      type: DEPENDENT
+      key: wb.err["S L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5528ebf8d01549098158d237292bba64
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S L1"]))>0
+        name: 'WB {HOST.HOST}: error on "S L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7c91436d2dc04820bd3a1fbece8ad9e5
+      name: N L1
+      type: DEPENDENT
+      key: wb.ctrl["N L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3bb6922f3ae94bb5b9efd0de100d8544
+      name: N L1 (error)
+      type: DEPENDENT
+      key: wb.err["N L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8ea3ada514be421b92e0bfcd073a567c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["N L1"]))>0
+        name: 'WB {HOST.HOST}: error on "N L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4ab5ee816bed47268654f6d3d1eb0918
+      name: PF L1
+      type: DEPENDENT
+      key: wb.ctrl["PF L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5045e3a4ff954d21907029773637aa03
+      name: PF L1 (error)
+      type: DEPENDENT
+      key: wb.err["PF L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eeed73fa1a5842dd9dbcd58bcfe078cb
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["PF L1"]))>0
+        name: 'WB {HOST.HOST}: error on "PF L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 30bee94af84e4862a4d386f13b80a40e
+      name: Pfund L1
+      type: DEPENDENT
+      key: wb.ctrl["Pfund L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1bed0f24ec9f4432b09349718a99876f
+      name: Pfund L1 (error)
+      type: DEPENDENT
+      key: wb.err["Pfund L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4872635aeafa40c780584ea4216b25cc
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pfund L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Pfund L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5a6d8f7b67bf4e7888a32b00a8619fca
+      name: Pharm L1
+      type: DEPENDENT
+      key: wb.ctrl["Pharm L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d55007b57c05428cb1989c0f25631047
+      name: Pharm L1 (error)
+      type: DEPENDENT
+      key: wb.err["Pharm L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 480eefaa9f3d4d6f90b352a0341e89a0
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pharm L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Pharm L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 85fbd87b6ad948d9ab00c9756cff9b43
+      name: AP energy L1
+      type: DEPENDENT
+      key: wb.ctrl["AP energy L1"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 39209315a55745a7b49c440b55dafef2
+      name: AP energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a08db853e1cc4287bdcd07426a548ecb
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AP energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0391ebf3f69946e9951fb2d2211e915f
+      name: AN energy L1
+      type: DEPENDENT
+      key: wb.ctrl["AN energy L1"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cf8d59cf6dfc465491b1badec0188782
+      name: AN energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["AN energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a469e4d6332947e6ba48d3210a17c5d6
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AN energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "AN energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 74aac007caeb4442a44bc520579a1289
+      name: RP energy L1
+      type: DEPENDENT
+      key: wb.ctrl["RP energy L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b90229e9c84c4fa8b374a6093787a8bf
+      name: RP energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 06b78e20457545e2a9618e18e84056f6
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RP energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fda1bb171175408a890b09e380b2fad8
+      name: RN energy L1
+      type: DEPENDENT
+      key: wb.ctrl["RN energy L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8b3a268dfde2496aa70a2ea1a6ccf95a
+      name: RN energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["RN energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 829b0001a17c49ef906d611da31fb8af
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RN energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "RN energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5402517c1a2d4baabfa594bd0b8d6bb8
+      name: S energy L1
+      type: DEPENDENT
+      key: wb.ctrl["S energy L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae10efb11e7049158765c7e0481ab562
+      name: S energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["S energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0dcfbc239fb846d196410836e0d357f3
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "S energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a6b280ef463f493494adfe73d73a2904
+      name: NP energy L1
+      type: DEPENDENT
+      key: wb.ctrl["NP energy L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 01b24ff6516a45b698ba51ceb38b11a0
+      name: NP energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["NP energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 38181c0c6af14e2890795fe383a9545f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NP energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "NP energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cf70ff13b2b24750805982bd26b4d916
+      name: NN energy L1
+      type: DEPENDENT
+      key: wb.ctrl["NN energy L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dd8420aa8bcc40928429b14eaee494e9
+      name: NN energy L1 (error)
+      type: DEPENDENT
+      key: wb.err["NN energy L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: dea78052a58740aba58b817808743014
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NN energy L1"]))>0
+        name: 'WB {HOST.HOST}: error on "NN energy L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 69c2004340bf4c6381af07c8c98a0a8b
+      name: Irms L2
+      type: DEPENDENT
+      key: wb.ctrl["Irms L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fa38f306a9be40f3a044da60036a675a
+      name: Irms L2 (error)
+      type: DEPENDENT
+      key: wb.err["Irms L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ae369f5db341423292d0939ef0d3a586
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Irms L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ecbcbe9769e04516a6650b906c324622
+      name: THD I L2
+      type: DEPENDENT
+      key: wb.ctrl["THD I L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 60ad2e7050984c00a44c3347b9c52e9f
+      name: THD I L2 (error)
+      type: DEPENDENT
+      key: wb.err["THD I L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f3dceab6d03146b3995ef4722dca112c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD I L2"]))>0
+        name: 'WB {HOST.HOST}: error on "THD I L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 78e3d63d57b54cee93a233abb4874247
+      name: THDN I L2
+      type: DEPENDENT
+      key: wb.ctrl["THDN I L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 835d1249818043bfa303c7e893164e10
+      name: THDN I L2 (error)
+      type: DEPENDENT
+      key: wb.err["THDN I L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a8d9421669d94621ba688e7142d99b38
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN I L2"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN I L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: edd60639968f466aaef59766c20fcf26
+      name: Ifund L2
+      type: DEPENDENT
+      key: wb.ctrl["Ifund L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 22f429b5723c4f159916338197392caa
+      name: Ifund L2 (error)
+      type: DEPENDENT
+      key: wb.err["Ifund L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ed520283030d46209adfc411491377d6
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ifund L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Ifund L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1aff47056172409484624d637805e831
+      name: P L2
+      type: DEPENDENT
+      key: wb.ctrl["P L2"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1b94955207bb4be7b3422ac42b0ac063
+      name: P L2 (error)
+      type: DEPENDENT
+      key: wb.err["P L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5fdf8b5b835d46bab444a1fa7a27b778
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["P L2"]))>0
+        name: 'WB {HOST.HOST}: error on "P L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c08e44b8c8234e6989969bbd94ff9f61
+      name: Q L2
+      type: DEPENDENT
+      key: wb.ctrl["Q L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: be0cc0802fdb456e9942ff8d78cbacc5
+      name: Q L2 (error)
+      type: DEPENDENT
+      key: wb.err["Q L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c3410602589441dd82cb048acbc26802
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Q L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Q L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 44bb63f499e54f03a749bbecedb55e5e
+      name: S L2
+      type: DEPENDENT
+      key: wb.ctrl["S L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 505a3edec7c348aeae0ba2ebcf2a30d8
+      name: S L2 (error)
+      type: DEPENDENT
+      key: wb.err["S L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 92f25d6c8ce94213b48e36b959ce569f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S L2"]))>0
+        name: 'WB {HOST.HOST}: error on "S L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 59759dacb03843f7ac28f5a07918410a
+      name: N L2
+      type: DEPENDENT
+      key: wb.ctrl["N L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 645a19945bb84cee983f26971a5a88eb
+      name: N L2 (error)
+      type: DEPENDENT
+      key: wb.err["N L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 164f8bbeab7842c9b3617b8dc3a14fc8
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["N L2"]))>0
+        name: 'WB {HOST.HOST}: error on "N L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f9e21aaf2aa04e8aba5814a9adec688c
+      name: PF L2
+      type: DEPENDENT
+      key: wb.ctrl["PF L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7e5a8a3b4f7a4f678fe46a15b16fdf51
+      name: PF L2 (error)
+      type: DEPENDENT
+      key: wb.err["PF L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7878b991fd8040418512c4655ffb26d2
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["PF L2"]))>0
+        name: 'WB {HOST.HOST}: error on "PF L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 542403f3561345539a986759b611e8c8
+      name: Pfund L2
+      type: DEPENDENT
+      key: wb.ctrl["Pfund L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 25291ba0d61a4f8ba43a3ca160afe007
+      name: Pfund L2 (error)
+      type: DEPENDENT
+      key: wb.err["Pfund L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3c1194bd697d474a879f5aa4348857fe
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pfund L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Pfund L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a87b02a8932f4dfbbcd361928140f265
+      name: Pharm L2
+      type: DEPENDENT
+      key: wb.ctrl["Pharm L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f243bdd76a8c4a539d5ad01cfed84e41
+      name: Pharm L2 (error)
+      type: DEPENDENT
+      key: wb.err["Pharm L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 893d2f2bbc6245f2b48b204ffbb0128a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pharm L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Pharm L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0779bf729e634e14b13e8b21fa5916bc
+      name: AP energy L2
+      type: DEPENDENT
+      key: wb.ctrl["AP energy L2"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: caea63c472954ba08d96823462428eea
+      name: AP energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eba7e170dd7e4ae6abb116897df8e27b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AP energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 64acbd996e5047619e142e49071cc187
+      name: AN energy L2
+      type: DEPENDENT
+      key: wb.ctrl["AN energy L2"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea3e619403ec408d905fecff2a072f23
+      name: AN energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["AN energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 39bbe3fe34324862b1c1c6f9cc00d28b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AN energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "AN energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 31021b8370024eed8452c5eb27fab806
+      name: RP energy L2
+      type: DEPENDENT
+      key: wb.ctrl["RP energy L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2c6f982ff3924112bc2b62a3f265ca76
+      name: RP energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6ad6d90312544a1185eec66b268e488a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RP energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 421de238c2b44e549e9936f2c92f6f9d
+      name: RN energy L2
+      type: DEPENDENT
+      key: wb.ctrl["RN energy L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e68bb5d47d304c22869bf3d92ec65882
+      name: RN energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["RN energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 817c83b42805489fa6ece2627efad8a9
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RN energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "RN energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9382d193e97f456281fb75c4dca53a15
+      name: S energy L2
+      type: DEPENDENT
+      key: wb.ctrl["S energy L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cc3b3ad03f3a41f3b01792f956dd3979
+      name: S energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["S energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7d267d6aeabe4b1cb7c61880921c2c30
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "S energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a454cc5dcb4d475a9a920b5e3d304238
+      name: NP energy L2
+      type: DEPENDENT
+      key: wb.ctrl["NP energy L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ab73fe8c9260461392b39b48f4001223
+      name: NP energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["NP energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8a81f5f2466b42848d84d3758662707d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NP energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "NP energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: afecee5da86b4dd49679e973e5de1dd7
+      name: NN energy L2
+      type: DEPENDENT
+      key: wb.ctrl["NN energy L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 14f2fd006e6046a491eec47ff6ae9062
+      name: NN energy L2 (error)
+      type: DEPENDENT
+      key: wb.err["NN energy L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aebd1e334d604f9197b5b76d3750bc24
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NN energy L2"]))>0
+        name: 'WB {HOST.HOST}: error on "NN energy L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5c47788d5f5d4cd9b67a4168746ba16c
+      name: Irms L3
+      type: DEPENDENT
+      key: wb.ctrl["Irms L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 94f3a23fe5564e31a754f88cbd81c2eb
+      name: Irms L3 (error)
+      type: DEPENDENT
+      key: wb.err["Irms L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 96e7f11a03a14e0d8ed0d0acf3d2a93b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Irms L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e12ffc960f1843729b59b0a0c13806af
+      name: THD I L3
+      type: DEPENDENT
+      key: wb.ctrl["THD I L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 22532b0fbd1e4f95abc180ff62e2c13c
+      name: THD I L3 (error)
+      type: DEPENDENT
+      key: wb.err["THD I L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THD I L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9b7139b8c32f45f89865b73149d026f2
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THD I L3"]))>0
+        name: 'WB {HOST.HOST}: error on "THD I L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 37d8d4a50d99432f92b89a978f55ef5b
+      name: THDN I L3
+      type: DEPENDENT
+      key: wb.ctrl["THDN I L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4b7e0fb51b41452facdb5e18190d37f4
+      name: THDN I L3 (error)
+      type: DEPENDENT
+      key: wb.err["THDN I L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/THDN I L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5c686227394049ea8501a5cab1e52e4d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["THDN I L3"]))>0
+        name: 'WB {HOST.HOST}: error on "THDN I L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1bbeb01582b54397b0de87f3b5b339c2
+      name: Ifund L3
+      type: DEPENDENT
+      key: wb.ctrl["Ifund L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5b630cf0b7904a4494f8b187ee88b5d7
+      name: Ifund L3 (error)
+      type: DEPENDENT
+      key: wb.err["Ifund L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Ifund L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 13a2f0dd9cd24cdca13515bfa3081672
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Ifund L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Ifund L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 425f75039b4b41e7acf7ec3e720896d1
+      name: P L3
+      type: DEPENDENT
+      key: wb.ctrl["P L3"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b51898a4862f4683b58b9c3c0c7ab361
+      name: P L3 (error)
+      type: DEPENDENT
+      key: wb.err["P L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 491a7bd54f9e475fbcf40dfaa96dca30
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["P L3"]))>0
+        name: 'WB {HOST.HOST}: error on "P L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3a2e8edbb6ee45b4ab5f632a7a1ac32c
+      name: Q L3
+      type: DEPENDENT
+      key: wb.ctrl["Q L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 42dbb6af128849df8186f0b777caa072
+      name: Q L3 (error)
+      type: DEPENDENT
+      key: wb.err["Q L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7e08a293fd644e40a05c459fedcd22b6
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Q L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Q L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b498692112a5481588334e04f0323e19
+      name: S L3
+      type: DEPENDENT
+      key: wb.ctrl["S L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1a647dfb22c048a698166d5c818d3d73
+      name: S L3 (error)
+      type: DEPENDENT
+      key: wb.err["S L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc45ae61c9b3424b811d8520117cd702
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S L3"]))>0
+        name: 'WB {HOST.HOST}: error on "S L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 85a78ccca72444db8a3e4769ca8007fd
+      name: N L3
+      type: DEPENDENT
+      key: wb.ctrl["N L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d2ac79959514ababdcbb7cd564a6799
+      name: N L3 (error)
+      type: DEPENDENT
+      key: wb.err["N L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/N L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b4b3e85a277f4e0aa7c7ff7613ce621b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["N L3"]))>0
+        name: 'WB {HOST.HOST}: error on "N L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 58d07e8fc6194b0f9816d3fbe551f25b
+      name: PF L3
+      type: DEPENDENT
+      key: wb.ctrl["PF L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0c2e802f5ffd4d40a59c46d10ace5751
+      name: PF L3 (error)
+      type: DEPENDENT
+      key: wb.err["PF L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1fb6a320ff8d4b4e8b9f4ae6acc056e7
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["PF L3"]))>0
+        name: 'WB {HOST.HOST}: error on "PF L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e815e08e18dc45ea87ee21fe8dd24dad
+      name: Pfund L3
+      type: DEPENDENT
+      key: wb.ctrl["Pfund L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d822e5d65c164dd4b0e23a809aef0730
+      name: Pfund L3 (error)
+      type: DEPENDENT
+      key: wb.err["Pfund L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pfund L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 21815733a22f4743b1af3fa602a4c859
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pfund L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Pfund L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fe656d6d5944445d84fbddfaa62c32c2
+      name: Pharm L3
+      type: DEPENDENT
+      key: wb.ctrl["Pharm L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1ab796c133774a3c80ba9229b174c838
+      name: Pharm L3 (error)
+      type: DEPENDENT
+      key: wb.err["Pharm L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Pharm L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fbc25ac5287d42a6bce93eb7293ccd15
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Pharm L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Pharm L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8d5f65c059704b4ba94f4a5e775e25ac
+      name: AP energy L3
+      type: DEPENDENT
+      key: wb.ctrl["AP energy L3"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6b98537c1bed472fab0ae2fff8cdda26
+      name: AP energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9efcc29a24c541b39b147b57a353b449
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AP energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e48340c8287e4d5694999745be0fa646
+      name: AN energy L3
+      type: DEPENDENT
+      key: wb.ctrl["AN energy L3"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9562da50696e4362b5a6529b86946a20
+      name: AN energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["AN energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AN energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bc714040fd2345dfb90670ccd912a49c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["AN energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "AN energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a4639c44a52f48fc90b0a5a6c2c3b8a5
+      name: RP energy L3
+      type: DEPENDENT
+      key: wb.ctrl["RP energy L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9e3f99f09c35405cac4cdf3ccf995586
+      name: RP energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 150823c796934a0f98b1fb50cb993f01
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RP energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 24e1e0c601a34d16ac37dff68aa125e5
+      name: RN energy L3
+      type: DEPENDENT
+      key: wb.ctrl["RN energy L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b5eaee75956e44c69049843f35da0771
+      name: RN energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["RN energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RN energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2ca41cf119e84d8dad06bd36dfe0464a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["RN energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "RN energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d543573fe69940aa8b8c358083f58a4f
+      name: S energy L3
+      type: DEPENDENT
+      key: wb.ctrl["S energy L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7f2a760d6f3b4b5084cc4d106662288d
+      name: S energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["S energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 56ebcc6b72d54548b4c28b601c497361
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["S energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "S energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0aa0eb7c62d44083a6f0d27b6e3e23d5
+      name: NP energy L3
+      type: DEPENDENT
+      key: wb.ctrl["NP energy L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dfeb44ca4bf848e7a8392f461877f59a
+      name: NP energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["NP energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NP energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: adfbfe1c687b4ab587bdf1c79cf359df
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NP energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "NP energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e8a3706ac0df48aaab09aaf1db46168a
+      name: NN energy L3
+      type: DEPENDENT
+      key: wb.ctrl["NN energy L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 51cfa1158ae34de0bd0862bdd1ceb287
+      name: NN energy L3 (error)
+      type: DEPENDENT
+      key: wb.err["NN energy L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/NN energy L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc320695f567427abe274c053aad48e0
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["NN energy L3"]))>0
+        name: 'WB {HOST.HOST}: error on "NN energy L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 36aa6c378d554d9889905307c1c06059
+      name: Total P
+      type: DEPENDENT
+      key: wb.ctrl["Total P"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total P']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c991c12a4d724d87b7b7e04ea19c7aa3
+      name: Total P (error)
+      type: DEPENDENT
+      key: wb.err["Total P"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total P/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 208aa6f26d8a4f4ca9b8d7eaa57ce41a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total P"]))>0
+        name: 'WB {HOST.HOST}: error on "Total P" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cb3d8cf96c2043b48cda5b58eac544f4
+      name: Total Q
+      type: DEPENDENT
+      key: wb.ctrl["Total Q"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Q']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 92bbe9bd1add43549c2cd521ea593837
+      name: Total Q (error)
+      type: DEPENDENT
+      key: wb.err["Total Q"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Q/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 95c18831d30a4c78a765e1b9dcbdd238
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total Q"]))>0
+        name: 'WB {HOST.HOST}: error on "Total Q" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fa24dcab3ab4468199cf1a03bbdc5d16
+      name: Total S
+      type: DEPENDENT
+      key: wb.ctrl["Total S"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total S']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: b056ff7ad81740c9936ff78ae032ad68
+      name: Total S (error)
+      type: DEPENDENT
+      key: wb.err["Total S"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total S/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6709e6eb3779440ea2de125c6b330e74
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total S"]))>0
+        name: 'WB {HOST.HOST}: error on "Total S" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cab22b69050245b88fd530e555fc6790
+      name: Total PF
+      type: DEPENDENT
+      key: wb.ctrl["Total PF"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total PF']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 10c459f157eb49b88bedc20d029cdcdf
+      name: Total PF (error)
+      type: DEPENDENT
+      key: wb.err["Total PF"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total PF/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1390dbb9359f43b6a1e349488ecb4026
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total PF"]))>0
+        name: 'WB {HOST.HOST}: error on "Total PF" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dba5eff2b52747628025d9776c29d268
+      name: Total SV
+      type: DEPENDENT
+      key: wb.ctrl["Total SV"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total SV']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2ce5b5d3f0684e7abce67e1a557cdf75
+      name: Total SV (error)
+      type: DEPENDENT
+      key: wb.err["Total SV"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total SV/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 671f59bba2d0447bba43ad0de35b1695
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total SV"]))>0
+        name: 'WB {HOST.HOST}: error on "Total SV" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 50f3f44f1e3342eb94578baf0664a311
+      name: Total N
+      type: DEPENDENT
+      key: wb.ctrl["Total N"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total N']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 68ec2d532ec844259170f31f5a991e7d
+      name: Total N (error)
+      type: DEPENDENT
+      key: wb.err["Total N"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total N/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2952d19cb6fe4613a35dd631ef5339aa
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total N"]))>0
+        name: 'WB {HOST.HOST}: error on "Total N" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e9c7cd71e8d946d48e81ae5a71dae389
+      name: Total Pfund
+      type: DEPENDENT
+      key: wb.ctrl["Total Pfund"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Pfund']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2a38bf8d7b554a25b7303869d287e925
+      name: Total Pfund (error)
+      type: DEPENDENT
+      key: wb.err["Total Pfund"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Pfund/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eba6bb026a194fcfbbbfc7cad58bc185
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total Pfund"]))>0
+        name: 'WB {HOST.HOST}: error on "Total Pfund" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e83b31cbed7b4d978c92ee86bc6a9578
+      name: Total Pharm
+      type: DEPENDENT
+      key: wb.ctrl["Total Pharm"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Pharm']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c50e001d02ea43e6b14ee34fe4e30a25
+      name: Total Pharm (error)
+      type: DEPENDENT
+      key: wb.err["Total Pharm"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total Pharm/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6de81c96abba48bca2805894eb483fbe
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total Pharm"]))>0
+        name: 'WB {HOST.HOST}: error on "Total Pharm" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 117b89630b064197bf692462c9342500
+      name: Total AP energy
+      type: DEPENDENT
+      key: wb.ctrl["Total AP energy"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total AP energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a3ff8bbbeab841a593214d72302733ba
+      name: Total AP energy (error)
+      type: DEPENDENT
+      key: wb.err["Total AP energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total AP energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e3f623aa399a4b68b54127179604925c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total AP energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total AP energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 049fe18de12c4c159d741a0529fae8c6
+      name: Total AN energy
+      type: DEPENDENT
+      key: wb.ctrl["Total AN energy"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total AN energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0feb48a1e1974775b0ce1fe29e7c47b5
+      name: Total AN energy (error)
+      type: DEPENDENT
+      key: wb.err["Total AN energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total AN energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fab208038d1848d581bddfd9e11b0cae
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total AN energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total AN energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 42355f25e23b4d379952cb0adf871dd2
+      name: Total RP energy
+      type: DEPENDENT
+      key: wb.ctrl["Total RP energy"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total RP energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ea6007f64134442ab2e18cb027155880
+      name: Total RP energy (error)
+      type: DEPENDENT
+      key: wb.err["Total RP energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total RP energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc06311161e44384850a3cd9906cd260
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total RP energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total RP energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 22b634e8c45b461da579c368f2e0b346
+      name: Total RN energy
+      type: DEPENDENT
+      key: wb.ctrl["Total RN energy"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total RN energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 494b0b7898d84593adbbfb838a626178
+      name: Total RN energy (error)
+      type: DEPENDENT
+      key: wb.err["Total RN energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total RN energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 12a839d6c36143f0a0c4701e8a4c70a8
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total RN energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total RN energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8964de4268414d96a57991adc4805f6b
+      name: Total S energy
+      type: DEPENDENT
+      key: wb.ctrl["Total S energy"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total S energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3ee30c9a06a246159f18cc12d9c19a7a
+      name: Total S energy (error)
+      type: DEPENDENT
+      key: wb.err["Total S energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total S energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 962c5a5544a5409f8e907c9b270200cb
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total S energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total S energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 63e0aee2b1204a33874e3edda0fa3907
+      name: Total NP energy
+      type: DEPENDENT
+      key: wb.ctrl["Total NP energy"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total NP energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9f269cdb1938499aa1dfd9220d74d683
+      name: Total NP energy (error)
+      type: DEPENDENT
+      key: wb.err["Total NP energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total NP energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b52e79ee6ece41cbb1a28fc100fc1118
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total NP energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total NP energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c8afe49cef214f488abc946fdb2aaab5
+      name: Total NN energy
+      type: DEPENDENT
+      key: wb.ctrl["Total NN energy"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total NN energy']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5eb46101d5df407faf7390883cccb2e2
+      name: Total NN energy (error)
+      type: DEPENDENT
+      key: wb.err["Total NN energy"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Total NN energy/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 84f8f99e22b847fc990881c89236466f
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Total NN energy"]))>0
+        name: 'WB {HOST.HOST}: error on "Total NN energy" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9a9b891b25a74a0bac039c057d72829e
+      name: Phase angle L1
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle L1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 044ac059f603461dab0ec4b4e483c5c4
+      name: Phase angle L1 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f3a9ff47ea9049c28a70c13f8b4ddc86
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Phase angle L1"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 0cfca04d10fb4cf7b5cd440db5ce0384
+      name: Phase angle L2
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle L2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e437c89435fe4012a0b4ae821113ec74
+      name: Phase angle L2 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d97cc134a5b54f46b09ec7a6070b0704
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Phase angle L2"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 54d6d2920e7d46cfb7d6c38bd62369f2
+      name: Phase angle L3
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle L3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c22e864370404d34ba007fe4f273eb8c
+      name: Phase angle L3 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f4912d583ed64556b2c287622dbf3a58
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Phase angle L3"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fcdf51194f7d4bd1b9a39e3b84d0fe16
+      name: HR I 2 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 2 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 73f55ee064354bdd81ce1f741fc9ffcd
+      name: HR I 2 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 2 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: c58d7ae4b14948a3933b07b8bf972368
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 2 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 2 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 18254d5a2bdd45b281d7d2525e6f4115
+      name: HR I 3 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 3 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 124235837f2646c384c1c1f2f9533135
+      name: HR I 3 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 3 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7d918c9aa6184f87b7a8ec30b947d8ee
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 3 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 3 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 729b9f9b29d14ab3926b4fcec8ea5884
+      name: HR I 4 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 4 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ba78102ce9644e8db455b968d527e55e
+      name: HR I 4 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 4 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fddbc38a7bd44332b74a68e7b252a8ba
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 4 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 4 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 21c087573e8c41669f5e0f30f14a6397
+      name: HR I 5 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 5 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 30f2779e9981436995145a984882a4ab
+      name: HR I 5 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 5 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 471950b61b8a4c57a4c5bf2a1d970e68
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 5 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 5 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1ff043e020364ccfad02bdf4def6c302
+      name: HR I 6 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 6 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2d2ef54e0b6041e59e0260184bbfd2e0
+      name: HR I 6 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 6 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 069272b5413447f69bfa63a885e9e15a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 6 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 6 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1e54716473754de4b25a1c70c79835cb
+      name: HR I 7 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 7 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c7e1d8077a5447908250e7654f91649e
+      name: HR I 7 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 7 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9377a80518624c9b89535ee055eecee1
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 7 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 7 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e1ee0b4e73f40998203ef96adb17a3e
+      name: HR I 9 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 9 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 94c7c21293574a3daa5dd0673b4799cb
+      name: HR I 9 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 9 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7f31134e86a34932b21232afc633adc1
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 9 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 9 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3cb12bb43f144a9eb660ad2b53a6d086
+      name: HR I 11 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 11 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 360cb547c67d4880a6fa23bffb05daf4
+      name: HR I 11 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 11 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: aecb341dec424354be463b6029c2955b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 11 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 11 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5bbaac9b2b3845c6a63dd6177fc577fc
+      name: HR I 13 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 13 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 588a83344de34cbda243c92fc4e34cdd
+      name: HR I 13 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 13 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 614a5b23cba74f63a1bc6915993502f8
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 13 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 13 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8816196e28f74ad6bb2bc20645098f87
+      name: HR I 15 L1
+      type: DEPENDENT
+      key: wb.ctrl["HR I 15 L1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9ebad20e68d44102bce2a938de274196
+      name: HR I 15 L1 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 15 L1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4d4929b6f2cb416099a7ad05106f264c
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 15 L1"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 15 L1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b7eed69c1a4b4419a5cf91ec63e68083
+      name: HR I 2 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 2 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 794ba8d6bd2749df80139dc2a616d994
+      name: HR I 2 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 2 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f1b25a849b1940da923fbc104275c393
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 2 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 2 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c0dcf773522a44c99df0de4435e176b3
+      name: HR I 3 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 3 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2cf7b90129b94d77bef3100e8f739c09
+      name: HR I 3 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 3 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e6c1bf3655e6499b9678d6701f019036
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 3 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 3 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4db5f72a4706422a89fefcf1be7a46c1
+      name: HR I 4 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 4 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: efc95114c20445ed8b5e78a2346d0a0a
+      name: HR I 4 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 4 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5402c2a8335b421aa2d8784a3e159113
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 4 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 4 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 29897b97e2d54e3cb27220ddc1cb1815
+      name: HR I 5 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 5 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a021de19a0f74cbf9b5d24ceef9c2cdb
+      name: HR I 5 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 5 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 41e1e49b39ec4cad904223c3ef6a0abf
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 5 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 5 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 806d8d1d24bd4129a3fc887383d031b2
+      name: HR I 6 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 6 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 17b01357d753479a8aaf91a418fe8761
+      name: HR I 6 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 6 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 51bdeaafb77746a5b2098f2b0c6699f2
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 6 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 6 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fbe4e6d83a1046a1ab8c914e8257cdb5
+      name: HR I 7 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 7 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9a184a1462904d57996666789488c27d
+      name: HR I 7 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 7 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9af6e31eafdf4deb8102d282f726de0e
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 7 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 7 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3acc96052d944f70b1d334dfae00393c
+      name: HR I 9 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 9 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fe5d67987e1048a09c3e773bf7dc059e
+      name: HR I 9 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 9 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a384c2cbe7c74b5db0dba5ed8b356830
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 9 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 9 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 54b00551b9244e22a20614b46a0083cf
+      name: HR I 11 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 11 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d37be937bf76484ba4e8143f2871e6d8
+      name: HR I 11 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 11 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 692dfad8ada548e093e9e05552afc37a
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 11 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 11 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c5d8a9d8ac3a4e0f9c9d0881a1967079
+      name: HR I 13 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 13 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c637a73087c74c19ab06e32faa523c19
+      name: HR I 13 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 13 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5b1f4025f2c941e7ba9bfd36410f482d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 13 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 13 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 49122bf0a28b49ee8c70442511f3426a
+      name: HR I 15 L2
+      type: DEPENDENT
+      key: wb.ctrl["HR I 15 L2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 958f6994970f4706b7760a3aa6b5c314
+      name: HR I 15 L2 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 15 L2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5de1ace61ea34ff79c62306a30c96453
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 15 L2"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 15 L2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9188292ed2f54ef8902bfa9fb52e2880
+      name: HR I 2 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 2 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a15b3a4e05f2427d8cad3f8afe481741
+      name: HR I 2 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 2 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 2 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a378e505bdc9458a99f82520b807bd7b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 2 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 2 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 657ca22497b646bb947d1d2ef3dbece9
+      name: HR I 3 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 3 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f083fb9257924f748a8b0b52eebe233b
+      name: HR I 3 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 3 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 3 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 87c4f32f574e40d99c0500b093be0bb6
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 3 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 3 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 043a1737442c4feda0a6ee5a5c497f87
+      name: HR I 4 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 4 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 21a33f7af01c49f68fa740ad091ef3e3
+      name: HR I 4 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 4 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 4 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7f034288251b4d0dafb711ec4e10a90b
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 4 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 4 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5d1c7fe6198e44feb8121e3da164e714
+      name: HR I 5 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 5 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7b07b0f4a5454983baaf57c702c0aca7
+      name: HR I 5 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 5 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 5 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fa9f477c7cb7477e97fad96edfe007ea
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 5 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 5 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 734b38a61fe04741a0ce40e0d7a541bd
+      name: HR I 6 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 6 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 37aada7fa5dd452c9ed18186b6f1af85
+      name: HR I 6 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 6 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 6 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 57a0cbfac21c451e8dec5a5075cb0363
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 6 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 6 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 01665936b2944046b4f78c069545b68f
+      name: HR I 7 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 7 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6c091dd52d964f5fa2e14bf39154c7e9
+      name: HR I 7 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 7 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 7 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8fb2dfdff974a41850d8848036f7401
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 7 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 7 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 830d50202fb1417ab0f3c5ef70fef3c9
+      name: HR I 9 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 9 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 07a0478caa284adb9fb7eadf0edeeb42
+      name: HR I 9 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 9 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 9 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 54d29bd96b2348e5a1b1b006a8cbfdba
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 9 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 9 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e624edab73a4f0e8ca99b3b0eb57fe3
+      name: HR I 11 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 11 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7ac31a4fa21348acbd71871ca0bfb7fd
+      name: HR I 11 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 11 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 11 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: faf7cba3440c44dc80ce414f894eccc5
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 11 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 11 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eb8a96d887f24b7885ac6e91d7c068e0
+      name: HR I 13 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 13 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a6a79965f93e46518430f3d3f1bfe9c7
+      name: HR I 13 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 13 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 13 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: fa81e78d6ef34dfc92e046345330a88d
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 13 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 13 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 96db7a4218f64eb7ba5a816956025773
+      name: HR I 15 L3
+      type: DEPENDENT
+      key: wb.ctrl["HR I 15 L3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cb40d95d5f814034bf5b46e561e5c766
+      name: HR I 15 L3 (error)
+      type: DEPENDENT
+      key: wb.err["HR I 15 L3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/HR I 15 L3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1f8f2b9df293462891edaa022c0f7684
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["HR I 15 L3"]))>0
+        name: 'WB {HOST.HOST}: error on "HR I 15 L3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4e31e0dec40b4c3a9c589a5da7d4ec15
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0c2bc64ec346454587493e0950740189
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 039e2178580f4d43876b90b2764331ec
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7871e852bab64c6e964b36aa8d8adbb5
+      name: 5V Supply
+      type: DEPENDENT
+      key: wb.ctrl["Supply Voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 35754ab6cb29448096fd750d73becca0
+      name: Supply Voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply Voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply Voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 568fb8c6ff5243398076041a4e8fb887
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Supply Voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply Voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 52af7919508946de829253a5dd5e85a4
+      name: Uptime (s)
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 06960d4da41a4d569b7c1ce6e7cefd76
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b8de4c268ae04032ae075b681dc62306
+        expression: length(last(/WB-MAP3H harmonics by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-map3h

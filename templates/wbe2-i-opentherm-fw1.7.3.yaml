@@ -1,0 +1,1539 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 42dc9932be164c759b0725650e4b91aa
+    name: Templates/Wiren Board
+  templates:
+  - uuid: ee61c526744d4ac0b5f61ac7bee82fbf
+    template: WBE2-I-OPENTHERM fw1.7.3 by MQTT
+    name: WBE2-I-OPENTHERM fw1.7.3 by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: cf9d5bbff13440728a7841c17cd028e0
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 6f94e372e9d64812ad5308df6bf177a1
+      name: Boiler Status
+      type: DEPENDENT
+      key: wb.ctrl["Boiler Status"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Status']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 70e21912d8d04e69831079572b2b1a2e
+      name: Boiler Status (error)
+      type: DEPENDENT
+      key: wb.err["Boiler Status"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Status/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6af860c7cca3431f96d8da70db1ddb5a
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler Status"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler Status" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 1263cf6df7bd4a98b16e012677d58000
+      name: Boiler fault indication
+      type: DEPENDENT
+      key: wb.ctrl["Boiler fault indication"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler fault indication']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f598719c2de149cf90796b1472394ecb
+      name: Boiler fault indication (error)
+      type: DEPENDENT
+      key: wb.err["Boiler fault indication"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler fault indication/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a92f4d07d6a44125bd9b91d8ca3b470f
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler fault indication"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler fault indication" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5fc669855df842f79542b054d4683e18
+      name: Boiler CH mode
+      type: DEPENDENT
+      key: wb.ctrl["Boiler CH mode"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler CH mode']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7c527cce21724e4db7cdb3e1d872835d
+      name: Boiler CH mode (error)
+      type: DEPENDENT
+      key: wb.err["Boiler CH mode"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler CH mode/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b4ff20199d2d48e182ccc244d13fd50b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler CH mode"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler CH mode" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 64021983676845bbaea1c0919e441b4a
+      name: Boiler DHW mode
+      type: DEPENDENT
+      key: wb.ctrl["Boiler DHW mode"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler DHW mode']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 34b918edca6b42e6b8db9d4981ebe6b7
+      name: Boiler DHW mode (error)
+      type: DEPENDENT
+      key: wb.err["Boiler DHW mode"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler DHW mode/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ea0a16e99b1d4efca185f666d324543b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler DHW mode"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler DHW mode" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ab44c5bee8434ce5a4d008bf58617476
+      name: Boiler CH2 mode
+      type: DEPENDENT
+      key: wb.ctrl["Boiler CH2 mode"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler CH2 mode']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 083e5b6c648041839a78d685186eecfd
+      name: Boiler CH2 mode (error)
+      type: DEPENDENT
+      key: wb.err["Boiler CH2 mode"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler CH2 mode/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 174a7055db3043ed80bd1a2afb7dd4c2
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler CH2 mode"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler CH2 mode" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cd7ec9db278248faa3984a77eaa52315
+      name: Boiler Flame Status
+      type: DEPENDENT
+      key: wb.ctrl["Boiler Flame Status"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Flame Status']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c253479f8341499399c661aaf285a5c1
+      name: Boiler Flame Status (error)
+      type: DEPENDENT
+      key: wb.err["Boiler Flame Status"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Flame Status/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cfbafe5c12f24181a5df333753dc3d2f
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler Flame Status"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler Flame Status" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 424c42794b5d4166957fae824c6391b3
+      name: Master CH enable
+      type: DEPENDENT
+      key: wb.ctrl["Master CH enable"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master CH enable']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: dede42a92fb64ce788f4de6a602b8575
+      name: Master CH enable (error)
+      type: DEPENDENT
+      key: wb.err["Master CH enable"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master CH enable/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a4ef85a22f794128aaefeae412beeb5b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Master CH enable"]))>0
+        name: 'WB {HOST.HOST}: error on "Master CH enable" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: daeea350497043eab623065e55021171
+      name: Master DHW enable
+      type: DEPENDENT
+      key: wb.ctrl["Master DHW enable"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master DHW enable']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fb3137f1322f4afbb38ac2eabdb1d4bf
+      name: Master DHW enable (error)
+      type: DEPENDENT
+      key: wb.err["Master DHW enable"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master DHW enable/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8f7d23b88a404c37ace86eb7a9769f91
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Master DHW enable"]))>0
+        name: 'WB {HOST.HOST}: error on "Master DHW enable" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e1701634906d465fb1806533f8ef0071
+      name: Master CH2 enable
+      type: DEPENDENT
+      key: wb.ctrl["Master CH2 enable"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master CH2 enable']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: afbb067b1b244f6ebc8131cc5ebef8c3
+      name: Master CH2 enable (error)
+      type: DEPENDENT
+      key: wb.err["Master CH2 enable"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master CH2 enable/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2b7e4549c04941f0a558cea1059313b3
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Master CH2 enable"]))>0
+        name: 'WB {HOST.HOST}: error on "Master CH2 enable" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 5a29f72002d34f9c8aa38515e02b05f7
+      name: Master OTC active
+      type: DEPENDENT
+      key: wb.ctrl["Master OTC active"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master OTC active']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3339a0f3cefa41afbe1b5a6ec711603a
+      name: Master OTC active (error)
+      type: DEPENDENT
+      key: wb.err["Master OTC active"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Master OTC active/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4423f11a61484c438d944d7871f997e7
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Master OTC active"]))>0
+        name: 'WB {HOST.HOST}: error on "Master OTC active" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e8f1cd5d7dc340d0bac0bb99bd90cfbc
+      name: Error Code
+      type: DEPENDENT
+      key: wb.ctrl["Error Code"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Error Code']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a1574c0aaf5d4124ba8e7d2689a43403
+      name: Error Code (error)
+      type: DEPENDENT
+      key: wb.err["Error Code"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Error Code/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 43ee28131424450aa4058acdafdb8723
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Error Code"]))>0
+        name: 'WB {HOST.HOST}: error on "Error Code" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 74e7ce7633714814894bf5e64994da92
+      name: Invalid Connection
+      type: DEPENDENT
+      key: wb.ctrl["Invalid Connection"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Invalid Connection']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bd74e507955b416185560f01bfefda05
+      name: Invalid Connection (error)
+      type: DEPENDENT
+      key: wb.err["Invalid Connection"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Invalid Connection/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cdedd7023ff3428084f2bf19dd139665
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Invalid Connection"]))>0
+        name: 'WB {HOST.HOST}: error on "Invalid Connection" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f7ac6710d819472390f000b702d6b629
+      name: CH Min Value
+      type: DEPENDENT
+      key: wb.ctrl["CH Min Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Min Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 496f63fbf04341d087aab912c4862f52
+      name: CH Min Value (error)
+      type: DEPENDENT
+      key: wb.err["CH Min Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Min Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 77b628cf205e4b70b39c57d9e129df79
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["CH Min Value"]))>0
+        name: 'WB {HOST.HOST}: error on "CH Min Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7fd0a15d84b94c1ca1ce3bec9c579b5b
+      name: CH Max Value
+      type: DEPENDENT
+      key: wb.ctrl["CH Max Value"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Max Value']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5358e154a81e4089847eaaf3dde38d37
+      name: CH Max Value (error)
+      type: DEPENDENT
+      key: wb.err["CH Max Value"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Max Value/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 34fe574f3486459f810fbee16ed7fdaf
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["CH Max Value"]))>0
+        name: 'WB {HOST.HOST}: error on "CH Max Value" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4eec484b2f764359a52cdc11349d2f8f
+      name: CH Gest
+      type: DEPENDENT
+      key: wb.ctrl["CH Gest"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Gest']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 650eff6452a44034874a0b4bcd79f4c5
+      name: CH Gest (error)
+      type: DEPENDENT
+      key: wb.err["CH Gest"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH Gest/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: bd818467930e48eb9384523be3f0a3b4
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["CH Gest"]))>0
+        name: 'WB {HOST.HOST}: error on "CH Gest" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2bab173f861f4675ab2a019385846ebd
+      name: DHW Gest
+      type: DEPENDENT
+      key: wb.ctrl["DHW Gest"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Gest']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3c7bb82381b149a3b85c46cadfa3c8ce
+      name: DHW Gest (error)
+      type: DEPENDENT
+      key: wb.err["DHW Gest"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Gest/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 557d96e4c9d84447aad5738538326376
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["DHW Gest"]))>0
+        name: 'WB {HOST.HOST}: error on "DHW Gest" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 97b9934f8c9946bbac58601fd336065b
+      name: Hot Water Setpoint
+      type: DEPENDENT
+      key: wb.ctrl["Hot Water Setpoint"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8ae1c7ae08d74c60a6f77fd5e5e477bd
+      name: Hot Water Setpoint (error)
+      type: DEPENDENT
+      key: wb.err["Hot Water Setpoint"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4baa8514d5204372b3761f8803560d16
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Hot Water Setpoint"]))>0
+        name: 'WB {HOST.HOST}: error on "Hot Water Setpoint" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4c6a1d92263f4b06aa9962ab54315de5
+      name: Hot Water Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Hot Water Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: bdd9de145f92412facdb870f55d9e798
+      name: Hot Water Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Hot Water Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 935915ed416241e7b1187ca336db6ece
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Hot Water Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Hot Water Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a2b39e155b0f46fe801a0afce626d529
+      name: Solar Storage temp
+      type: DEPENDENT
+      key: wb.ctrl["Solar Storage temp"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Solar Storage temp']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ec5e80bcc4d6474c9c12d4351153032d
+      name: Solar Storage temp (error)
+      type: DEPENDENT
+      key: wb.err["Solar Storage temp"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Solar Storage temp/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 81efbe91fb794f749ac462c96b3ef31c
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Solar Storage temp"]))>0
+        name: 'WB {HOST.HOST}: error on "Solar Storage temp" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ea2e76de8eb544dbaaa9d2f7acface07
+      name: CH2 Temperature
+      type: DEPENDENT
+      key: wb.ctrl["CH2 Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH2 Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8be3ccae71f245f5882661af5dcb34c0
+      name: CH2 Temperature (error)
+      type: DEPENDENT
+      key: wb.err["CH2 Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/CH2 Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e14f401e70dd42b7a55fc214b7af031f
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["CH2 Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "CH2 Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 84cdde0b1d334f4ab9fe4e269606ba69
+      name: Heating Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Heating Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 975822ea21ef446ea3cf8910de1cb22d
+      name: Heating Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Heating Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cdb9c93ad7e14956b0a3470c718fd90b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 131ab93a22e249e7aee9fbbe2ebfae14
+      name: Heating Return Water Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Heating Return Water Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Return Water Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d3144428f72a4157bba4b6785e9e5692
+      name: Heating Return Water Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Heating Return Water Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Return Water Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: cc9c6ba936f74184aa6a07181bdb6081
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Return Water Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Return Water Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e56c5b0b93bf409288ae66b42fa6abcc
+      name: Burner Modulation Level (%)
+      type: DEPENDENT
+      key: wb.ctrl["Burner Modulation Level (%)"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Burner Modulation Level (%)']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c44f4dc2d77742b1a2032b8b43ecaafd
+      name: Burner Modulation Level (%) (error)
+      type: DEPENDENT
+      key: wb.err["Burner Modulation Level (%)"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Burner Modulation Level (%)/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 69cc0bda643d46fca8b7defbab8a8e08
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Burner Modulation Level (%)"]))>0
+        name: 'WB {HOST.HOST}: error on "Burner Modulation Level (%)" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cd52d79216b54aeeb759727aafeace9a
+      name: Water Pressure
+      type: DEPENDENT
+      key: wb.ctrl["Water Pressure"]
+      history: 7d
+      value_type: FLOAT
+      units: bar
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Water Pressure']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2ec02327e90d4ed5a533069cc9f1124c
+      name: Water Pressure (error)
+      type: DEPENDENT
+      key: wb.err["Water Pressure"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Water Pressure/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8cd87297b7e4644936f232d00cf9119
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Water Pressure"]))>0
+        name: 'WB {HOST.HOST}: error on "Water Pressure" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b22c4eb4bb5f45d5ba9fffaf6f04e750
+      name: Boiler Outdoor Temperature Sensor
+      type: DEPENDENT
+      key: wb.ctrl["Boiler Outdoor Temperature Sensor"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Outdoor Temperature Sensor']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2526eba40ac848fb922c13ea1b0db447
+      name: Boiler Outdoor Temperature Sensor (error)
+      type: DEPENDENT
+      key: wb.err["Boiler Outdoor Temperature Sensor"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Boiler Outdoor Temperature Sensor/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9a8c84151cdd43fd850999ee2256feee
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Boiler Outdoor Temperature Sensor"]))>0
+        name: 'WB {HOST.HOST}: error on "Boiler Outdoor Temperature Sensor" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d407555230914e558a4c6a7b0bf5dfd3
+      name: Hot Water Setpoint Max
+      type: DEPENDENT
+      key: wb.ctrl["Hot Water Setpoint Max"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint Max']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 9da217ed7bf3482eb28bdf4ffad66b8e
+      name: Hot Water Setpoint Max (error)
+      type: DEPENDENT
+      key: wb.err["Hot Water Setpoint Max"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint Max/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a090a6b2d4584489b7054eba02f9f470
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Hot Water Setpoint Max"]))>0
+        name: 'WB {HOST.HOST}: error on "Hot Water Setpoint Max" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ab14b408979a492ab450dbfb493c2db4
+      name: Hot Water Setpoint Min
+      type: DEPENDENT
+      key: wb.ctrl["Hot Water Setpoint Min"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint Min']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a45aaf54ec984bc892241c38e1fb4e85
+      name: Hot Water Setpoint Min (error)
+      type: DEPENDENT
+      key: wb.err["Hot Water Setpoint Min"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Hot Water Setpoint Min/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 51a71b9eb0a9419592f4798af1f615b3
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Hot Water Setpoint Min"]))>0
+        name: 'WB {HOST.HOST}: error on "Hot Water Setpoint Min" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 360c412ef8e44ee1a30e770312bb44c1
+      name: Heating Setpoint Max
+      type: DEPENDENT
+      key: wb.ctrl["Heating Setpoint Max"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint Max']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a056f6068d1046b4aef7c18b96fc47e0
+      name: Heating Setpoint Max (error)
+      type: DEPENDENT
+      key: wb.err["Heating Setpoint Max"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint Max/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b1dce0e01a7b4887a76941f1261be185
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Setpoint Max"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Setpoint Max" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 397e12e9f3ae417ea05c66449cfeaf10
+      name: Heating Setpoint Min
+      type: DEPENDENT
+      key: wb.ctrl["Heating Setpoint Min"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint Min']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c9185a4c09394cf08b71ead6d6e59412
+      name: Heating Setpoint Min (error)
+      type: DEPENDENT
+      key: wb.err["Heating Setpoint Min"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint Min/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 31715abdb27f4b55921c867b581eac94
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Setpoint Min"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Setpoint Min" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7d6663b5b51a4624a539cdd460e456b8
+      name: Command Type
+      type: DEPENDENT
+      key: wb.ctrl["Command Type"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command Type']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a8847b04261245989cb454e9a5cdb0db
+      name: Command Type (error)
+      type: DEPENDENT
+      key: wb.err["Command Type"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command Type/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e03938bfb00643b887ebad208b22173d
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Command Type"]))>0
+        name: 'WB {HOST.HOST}: error on "Command Type" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: dbdd696df1854f1eaf96d30f25083dfe
+      name: Command ID
+      type: DEPENDENT
+      key: wb.ctrl["Command ID"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command ID']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ef1d319114644a4097735bbf04bfd9cc
+      name: Command ID (error)
+      type: DEPENDENT
+      key: wb.err["Command ID"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Command ID/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 70b2fe20236748b8bfd570301e99f9c0
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Command ID"]))>0
+        name: 'WB {HOST.HOST}: error on "Command ID" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3fd712935b64409b86bee61a3842d265
+      name: Data Type
+      type: DEPENDENT
+      key: wb.ctrl["Data Type"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Data Type']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3b00203989404bac901a9ee0f7d43468
+      name: Data Type (error)
+      type: DEPENDENT
+      key: wb.err["Data Type"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Data Type/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 95d5325f81fd4b7eb9c20fd23ce6ae73
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Data Type"]))>0
+        name: 'WB {HOST.HOST}: error on "Data Type" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a93a7d605a1648e6ad3d084ad05bee31
+      name: Auto Temp Switch
+      type: DEPENDENT
+      key: wb.ctrl["Auto Temp Switch"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto Temp Switch']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 25e1fea1ff8b4b5ebd919de13181d18c
+      name: Auto Temp Switch (error)
+      type: DEPENDENT
+      key: wb.err["Auto Temp Switch"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Auto Temp Switch/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 74dfa6ebf645445694266899025106e8
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Auto Temp Switch"]))>0
+        name: 'WB {HOST.HOST}: error on "Auto Temp Switch" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7f2e3798a03443b48a44947671c6a7c3
+      name: Season reg
+      type: DEPENDENT
+      key: wb.ctrl["Season reg"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Season reg']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 554183321df0479385e927763b8c7c6a
+      name: Season reg (error)
+      type: DEPENDENT
+      key: wb.err["Season reg"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Season reg/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 72f88a9980e34d49bf44fa843905e9ae
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Season reg"]))>0
+        name: 'WB {HOST.HOST}: error on "Season reg" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3b4b62f66647475d96e6b1badf98778a
+      name: OT MasterID
+      type: DEPENDENT
+      key: wb.ctrl["OT MasterID"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/OT MasterID']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fc90856306e343f6b3d1910e3cbea2bf
+      name: OT MasterID (error)
+      type: DEPENDENT
+      key: wb.err["OT MasterID"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/OT MasterID/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1f1e8f0a79f843aab04d614c370653dd
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["OT MasterID"]))>0
+        name: 'WB {HOST.HOST}: error on "OT MasterID" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cbf0002f7fe744b3a98581a55a0b4eb6
+      name: DHW Override
+      type: DEPENDENT
+      key: wb.ctrl["DHW Override"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Override']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e55e66da3e7d42ecac2b6c0815a93b8c
+      name: DHW Override (error)
+      type: DEPENDENT
+      key: wb.err["DHW Override"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Override/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f8fc13ea872144b8812e48a40396d82d
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["DHW Override"]))>0
+        name: 'WB {HOST.HOST}: error on "DHW Override" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 63a846f853c84345b9e158816d421749
+      name: DHW Transfer
+      type: DEPENDENT
+      key: wb.ctrl["DHW Transfer"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Transfer']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2eb7c176f2ab480baf2cee8360f3fdc5
+      name: DHW Transfer (error)
+      type: DEPENDENT
+      key: wb.err["DHW Transfer"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/DHW Transfer/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0eee080b6e484d298e7e15861612ca3b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["DHW Transfer"]))>0
+        name: 'WB {HOST.HOST}: error on "DHW Transfer" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 096409f9a2684d7ab67a7fda877fedb1
+      name: FW Version
+      type: DEPENDENT
+      key: wb.ctrl["FW Version"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8c3e093a0fc74e68a6a3b9f24ba2b55f
+      name: FW Version (error)
+      type: DEPENDENT
+      key: wb.err["FW Version"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 28fc2f944762485382cdf9d58157ee5b
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["FW Version"]))>0
+        name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f5005694ba2a4691973a826c559a46c7
+      name: Temperature Sensor Type
+      type: DEPENDENT
+      key: wb.ctrl["Temperature Sensor Type"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature Sensor Type']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 397eca623cf7400aaa29b8aa8640ebe6
+      name: Temperature Sensor Type (error)
+      type: DEPENDENT
+      key: wb.err["Temperature Sensor Type"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Temperature Sensor Type/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 29ef4d821a36432ab998ec31ba1c04a3
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Temperature Sensor Type"]))>0
+        name: 'WB {HOST.HOST}: error on "Temperature Sensor Type" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: aa9a59ea032241e1a19d6d9837ce8835
+      name: Calculated Heating Setpoint
+      type: DEPENDENT
+      key: wb.ctrl["Calculated Heating Setpoint"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Calculated Heating Setpoint']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a23496374e2346128e953fcc82a4976f
+      name: Calculated Heating Setpoint (error)
+      type: DEPENDENT
+      key: wb.err["Calculated Heating Setpoint"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Calculated Heating Setpoint/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 92d8a0396aa5488c8a6a459aa37c7d0a
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Calculated Heating Setpoint"]))>0
+        name: 'WB {HOST.HOST}: error on "Calculated Heating Setpoint" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: e06ec024263e4216ac0a24c43a9f0072
+      name: Room Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Room Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Room Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 595bda0c3614409793979599cc387dcb
+      name: Room Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Room Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Room Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 97b9265d44924cdca6ffbe4bb8820a05
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Room Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Room Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4c9994755dc140439e4ca3f596650173
+      name: Outdoor Temperature
+      type: DEPENDENT
+      key: wb.ctrl["Outdoor Temperature"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Outdoor Temperature']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1f3ef547a47c48608c843584e813ab4e
+      name: Outdoor Temperature (error)
+      type: DEPENDENT
+      key: wb.err["Outdoor Temperature"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Outdoor Temperature/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 47bae60845e845bd83faf747fa1023f2
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Outdoor Temperature"]))>0
+        name: 'WB {HOST.HOST}: error on "Outdoor Temperature" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 694e4e1392174c07a1a2e11412b8e823
+      name: Room Temperature Setpoint
+      type: DEPENDENT
+      key: wb.ctrl["Room Temperature Setpoint"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Room Temperature Setpoint']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 50f9000a2c3e42dbb371b331175dbe60
+      name: Room Temperature Setpoint (error)
+      type: DEPENDENT
+      key: wb.err["Room Temperature Setpoint"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Room Temperature Setpoint/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 871f58b34fb44a8daa8b70478a2f0a15
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Room Temperature Setpoint"]))>0
+        name: 'WB {HOST.HOST}: error on "Room Temperature Setpoint" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cfb2f7645629418e854469c880b6c5ea
+      name: Heating Status
+      type: DEPENDENT
+      key: wb.ctrl["Heating Status"]
+      history: 7d
+      value_type: UNSIGNED
+      valuemap:
+        name: WB binary state
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Status']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 0331997e307c48e3a3879e7baaf1810b
+      name: Heating Status (error)
+      type: DEPENDENT
+      key: wb.err["Heating Status"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Status/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 02acf92496f2454295f72765538e42e0
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Status"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Status" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3cb69a8be32d4aa7baee243d0da12eb2
+      name: Heating Setpoint
+      type: DEPENDENT
+      key: wb.ctrl["Heating Setpoint"]
+      history: 7d
+      value_type: FLOAT
+      units: °C
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e3a22fd64dfb4223842d262933cf2c60
+      name: Heating Setpoint (error)
+      type: DEPENDENT
+      key: wb.err["Heating Setpoint"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Heating Setpoint/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a05195ad4d2499dbacaa76048c9072a
+        expression: length(last(/WBE2-I-OPENTHERM fw1.7.3 by MQTT/wb.err["Heating Setpoint"]))>0
+        name: 'WB {HOST.HOST}: error on "Heating Setpoint" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wbe2-i-opentherm
+    valuemaps:
+    - uuid: e24e9749706b43a1b3d07aabc4234bca
+      name: WB binary state
+      mappings:
+      - value: '0'
+        newvalue: 'Off'
+      - value: '1'
+        newvalue: 'On'

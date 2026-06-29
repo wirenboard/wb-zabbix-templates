@@ -1,0 +1,1798 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+  - uuid: 168dd5b182194273b02bf395ca0f527a
+    name: Templates/Wiren Board
+  templates:
+  - uuid: 3dda063d26b24bc1925ee10b5fd2fba4
+    template: WB-MAP6S by MQTT
+    name: WB-MAP6S by MQTT
+    groups:
+    - name: Templates/Wiren Board
+    items:
+    - uuid: a3213f7abd244645ba1ade156f9ed95c
+      name: MQTT raw stream
+      type: ZABBIX_ACTIVE
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      delay: '0'
+      history: '0'
+      value_type: TEXT
+      trends: '0'
+    - uuid: 8c1062fe434343b78efb4183a18d82b6
+      name: Irms 1
+      type: DEPENDENT
+      key: wb.ctrl["Irms 1"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 63c1b236054b46c2860ff560a0d79d1d
+      name: Irms 1 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 447f5b0337c541fa97b993532984340c
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d0effe95497f412b9bb1954c294b8e6f
+      name: P 1
+      type: DEPENDENT
+      key: wb.ctrl["P 1"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d7fede20e05645e683132adc90ead9d8
+      name: P 1 (error)
+      type: DEPENDENT
+      key: wb.err["P 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 69fe3a5fc2ba4f81a12ed2eaf672f668
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 1"]))>0
+        name: 'WB {HOST.HOST}: error on "P 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2b632b1773744fc0823a42c71ae180e3
+      name: Q 1
+      type: DEPENDENT
+      key: wb.ctrl["Q 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 73921b9b12394bd48d0d04b21e026c87
+      name: Q 1 (error)
+      type: DEPENDENT
+      key: wb.err["Q 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b561ffa778af4fac826cc8e1026ef8fd
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 78c1634d126249faa3c53c84ffe3271c
+      name: S 1
+      type: DEPENDENT
+      key: wb.ctrl["S 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: adc3ad4532644674b857de7de069f91b
+      name: S 1 (error)
+      type: DEPENDENT
+      key: wb.err["S 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e0e19b87957f4848b295c2bacdb3ec94
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 1"]))>0
+        name: 'WB {HOST.HOST}: error on "S 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a7134352392246edb8465de4b23d4ae8
+      name: PF 1
+      type: DEPENDENT
+      key: wb.ctrl["PF 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2a3b45a367ad4990b641fa0b95d0b0fd
+      name: PF 1 (error)
+      type: DEPENDENT
+      key: wb.err["PF 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d132540538534f83a996cb44a0b08715
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 1"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3e350ef63c55400ca6d3d51fbf7689be
+      name: AP energy 1
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 1"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4190027ee630420b8688ea3b60c3dc63
+      name: AP energy 1 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 5f76c56fcacb496787d3181cbdccac3b
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 1"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a4d2bc1b9f0a42149a859ff547814210
+      name: RP energy 1
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e51ed6aaa240480f90ca1bcc86598bc1
+      name: RP energy 1 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 06b2350c4ab446538b85eddf3a7c36e3
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 1"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6e68f1e271f548c5b6bff03faea99b3a
+      name: Phase angle 1
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 1"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 1']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8394e2f4c82d4308bf34e30e2a5ee12d
+      name: Phase angle 1 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 1"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 1/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: afe284c3eb2643a58b272ff8c6db893e
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 1"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 1" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b6d342b69c7e4d93899b05a39a227f47
+      name: Irms 2
+      type: DEPENDENT
+      key: wb.ctrl["Irms 2"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4d01220f169148bf8089de9b9a133c6b
+      name: Irms 2 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: ad336a808ebd43a1b754fd09393bc9fa
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9fb1d634ca01417080e0ed10a3b2f4c1
+      name: P 2
+      type: DEPENDENT
+      key: wb.ctrl["P 2"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 3a75d4a3241d442aae5117f3998e6323
+      name: P 2 (error)
+      type: DEPENDENT
+      key: wb.err["P 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a7ac0c394271433da891dda9d09cd8bf
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 2"]))>0
+        name: 'WB {HOST.HOST}: error on "P 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 250a19b531c9488e944a66da18b101f9
+      name: Q 2
+      type: DEPENDENT
+      key: wb.ctrl["Q 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 06ee8eb89cbf41828fc4ed6a7e04c0eb
+      name: Q 2 (error)
+      type: DEPENDENT
+      key: wb.err["Q 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4ed1a41554d548da8020863fb1fded02
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 57e3492f88224e0c98f2747a1e8b71a7
+      name: S 2
+      type: DEPENDENT
+      key: wb.ctrl["S 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 03d2b04b9c6a4dcc9dfcbd4801ef6e04
+      name: S 2 (error)
+      type: DEPENDENT
+      key: wb.err["S 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4599100f99c041b5beffbe35182103bf
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 2"]))>0
+        name: 'WB {HOST.HOST}: error on "S 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8e32a63f9a6d4966b0f61d04f2bc682b
+      name: PF 2
+      type: DEPENDENT
+      key: wb.ctrl["PF 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 538673dd1fcf43688e014c7179aa3724
+      name: PF 2 (error)
+      type: DEPENDENT
+      key: wb.err["PF 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 296ddf8ccf4a4fe291acf182988fabee
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 2"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 917a075d380e458ba220d3b344af9802
+      name: AP energy 2
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 2"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 62344dfaced641c7b220942702c4aa53
+      name: AP energy 2 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f1a48a43614e4c6ea1f8978d1642ecc4
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 2"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 030e5af1b9c246238931e4caa37ffe53
+      name: RP energy 2
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7d45f8d9a9e740efabf336f2058671e6
+      name: RP energy 2 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9e8ec872d5844ed3ba9fa3ac955cc412
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 2"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cb06ac05b76243779daa3a144e99da2b
+      name: Phase angle 2
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 2"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 2']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c11475d2e3ad4bfaa5667c5c30640ede
+      name: Phase angle 2 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 2"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 2/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 57876c4199c14eca8ca9a705c880fd17
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 2"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 2" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 172e0baebc794dfc8a294b08473d861b
+      name: Irms 3
+      type: DEPENDENT
+      key: wb.ctrl["Irms 3"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ced7048595d741a2af923e9341ec5fbc
+      name: Irms 3 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 3bbecfabd1ce472aae34644ac8c0fabd
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 066983383a784159a161545efeacf7c9
+      name: P 3
+      type: DEPENDENT
+      key: wb.ctrl["P 3"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 04195fb193d1439abf28774eb5282f3a
+      name: P 3 (error)
+      type: DEPENDENT
+      key: wb.err["P 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d753d02e7d7f4736829eaab9813a1606
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 3"]))>0
+        name: 'WB {HOST.HOST}: error on "P 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8c3d0e5937224c08b0d8af3066e1042e
+      name: Q 3
+      type: DEPENDENT
+      key: wb.ctrl["Q 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2fb21908e3204419afad37d479d2ad76
+      name: Q 3 (error)
+      type: DEPENDENT
+      key: wb.err["Q 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 66058bfce83f441fbb9c64e208dd52fc
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2dd53ff08e5d4c739b481eea9419ac65
+      name: S 3
+      type: DEPENDENT
+      key: wb.ctrl["S 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7f894bca2b9240f7bda88d8f4c975b2d
+      name: S 3 (error)
+      type: DEPENDENT
+      key: wb.err["S 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: f5ab7bbe85f544d7bf3c9f3577f48bfc
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 3"]))>0
+        name: 'WB {HOST.HOST}: error on "S 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: da9595e7403f4e95973680f1262f1131
+      name: PF 3
+      type: DEPENDENT
+      key: wb.ctrl["PF 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: cfccc4a2318046ccb113bea95ac0f158
+      name: PF 3 (error)
+      type: DEPENDENT
+      key: wb.err["PF 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 36313116191e4707adad41b2b21c1bd1
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 3"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: f7360cc5f7004155991b56716780e090
+      name: AP energy 3
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 3"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 10c8a919b74d4736bc3cfc28abcd0ba8
+      name: AP energy 3 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8f3c5cf1646d4b79bc2b85837b808d52
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 3"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 77e973d4efd94e34bdd4f1242c7bb62b
+      name: RP energy 3
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: aabfbeecd2e34790b72648326e6b26d1
+      name: RP energy 3 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 464dcdc18e974519b48a1b01302df384
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 3"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: fa08d4bc3c694def9e6c797ba8553720
+      name: Phase angle 3
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 3"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 3']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 19eaca148a144605b9f0a03a9c9460f7
+      name: Phase angle 3 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 3"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 3/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0e21e1e3c02045099b3366290809416a
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 3"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 3" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: ae81f3e82f8c4b418be8a4faab404662
+      name: Irms 4
+      type: DEPENDENT
+      key: wb.ctrl["Irms 4"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: c427db2efc1246eca892035d26077bba
+      name: Irms 4 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 23d1072de9ef40d9bf82c35ab5a65668
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cc1659ba76004947ab9ce292f225cecd
+      name: P 4
+      type: DEPENDENT
+      key: wb.ctrl["P 4"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 624718e8f9504dacb3e113cc7980f6bb
+      name: P 4 (error)
+      type: DEPENDENT
+      key: wb.err["P 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 841e8e700af74b66959588a3fddf402f
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 4"]))>0
+        name: 'WB {HOST.HOST}: error on "P 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9b612912095343b69aef638b64ea0bdd
+      name: Q 4
+      type: DEPENDENT
+      key: wb.ctrl["Q 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 017a191308704230941b8a61b98a712e
+      name: Q 4 (error)
+      type: DEPENDENT
+      key: wb.err["Q 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 2a4758fafc9840218c4d35a9ebb55d03
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 80e12b85b942481f8221e0fbb5fc7c9d
+      name: S 4
+      type: DEPENDENT
+      key: wb.ctrl["S 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 69f967a7e8694bf681c5d037e592a017
+      name: S 4 (error)
+      type: DEPENDENT
+      key: wb.err["S 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7e571971fef3419cb8c22e95814fc8ca
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 4"]))>0
+        name: 'WB {HOST.HOST}: error on "S 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8dd750aa4699449d8e8e65398c9ddbf5
+      name: PF 4
+      type: DEPENDENT
+      key: wb.ctrl["PF 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 067ea12fd695477f9d23076b8272c158
+      name: PF 4 (error)
+      type: DEPENDENT
+      key: wb.err["PF 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0598f66b5dff4ed2ac0663c848420305
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 4"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: eec00e77629a414f92d46d719a980c74
+      name: AP energy 4
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 4"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 8426c5af19d945d6837642ee71bec5fb
+      name: AP energy 4 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 65afe15c9acb4ee6908bbd550b4c4486
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 4"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 42565d0195b145489d8e5fa9e1ee982b
+      name: RP energy 4
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1cf7bd9b08ba4b9fa5101acc164e486b
+      name: RP energy 4 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8c78564cce5c4676bdbbf72d38461a9f
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 4"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 62d83ca4dcae47ae95a74dc43a32f920
+      name: Phase angle 4
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 4"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 4']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 87c95045c31b4150b8c80ee8dfddcc8b
+      name: Phase angle 4 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 4"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 4/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8a0cafef53cc403485dca48e5079215f
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 4"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 4" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a19217d1fe1048c18434c543afe5257b
+      name: Irms 5
+      type: DEPENDENT
+      key: wb.ctrl["Irms 5"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 1810761b2ed54f8bbf409ddc5bfb1dde
+      name: Irms 5 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 4442032beec3430ab57740d77083b107
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 5"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 221d761602ac44d5af4ec83b3995da77
+      name: P 5
+      type: DEPENDENT
+      key: wb.ctrl["P 5"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2c43e444cd054e28b2e734e827c3085c
+      name: P 5 (error)
+      type: DEPENDENT
+      key: wb.err["P 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e0a2b2bfc7874845a07b998f896c5f68
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 5"]))>0
+        name: 'WB {HOST.HOST}: error on "P 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 09eb69651e0543db89af179de2a5afba
+      name: Q 5
+      type: DEPENDENT
+      key: wb.ctrl["Q 5"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 7da18fb8c1e2450d84391144f2bfc00a
+      name: Q 5 (error)
+      type: DEPENDENT
+      key: wb.err["Q 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 7ca483f1c4d14dc2b3b89463ad1c2514
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 5"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3b51e2155be349f3822827ff28751b2f
+      name: S 5
+      type: DEPENDENT
+      key: wb.ctrl["S 5"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: a1a9575198944417821514f46dee798c
+      name: S 5 (error)
+      type: DEPENDENT
+      key: wb.err["S 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 6b7f6ed31e304016abe6361451cd234a
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 5"]))>0
+        name: 'WB {HOST.HOST}: error on "S 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 8574f63ff1e247edaf4c4c408537cf47
+      name: PF 5
+      type: DEPENDENT
+      key: wb.ctrl["PF 5"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: e269c900371c45e896119d2617780cf9
+      name: PF 5 (error)
+      type: DEPENDENT
+      key: wb.err["PF 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: d280246771b74ef29c53f44d1052a349
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 5"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 3cb15201d4264f3084dac48da1076bbf
+      name: AP energy 5
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 5"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 6e141d984a1e41b1b5acd560a77f1b1b
+      name: AP energy 5 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 9d93e5343f5448c2951d28e4c1dbf6ef
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 5"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 47c8d46500b04a7aad617a1738d97b60
+      name: RP energy 5
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 5"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 361b6a8d87644ed2960901ccb1e2b006
+      name: RP energy 5 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: b507aba30e1e40e1b2a445ef237fcb1e
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 5"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: cec891253d1549248761019e991bbaed
+      name: Phase angle 5
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 5"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 5']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: d4a08d6ba7d747b09075f12e26ee908a
+      name: Phase angle 5 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 5"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 5/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: e46e21b26e8b47a191b595d417c07a2f
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 5"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 5" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 6ea6118f0be04390befdead96e2d342d
+      name: Irms 6
+      type: DEPENDENT
+      key: wb.ctrl["Irms 6"]
+      history: 7d
+      value_type: FLOAT
+      units: A
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2747760e9f49477082f5b6ee4ff37079
+      name: Irms 6 (error)
+      type: DEPENDENT
+      key: wb.err["Irms 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Irms 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 46e0f451399e4eb7985a75766bfad5a4
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Irms 6"]))>0
+        name: 'WB {HOST.HOST}: error on "Irms 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 7627038d1d964055a087d50017abebc6
+      name: P 6
+      type: DEPENDENT
+      key: wb.ctrl["P 6"]
+      history: 7d
+      value_type: FLOAT
+      units: W
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 85c10fbb3dc74679a59ba9564bf218ec
+      name: P 6 (error)
+      type: DEPENDENT
+      key: wb.err["P 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/P 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 859c63b52e114ba9baadb8cc68708b5c
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["P 6"]))>0
+        name: 'WB {HOST.HOST}: error on "P 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 2a162182d77946f3a4fbbd6720631349
+      name: Q 6
+      type: DEPENDENT
+      key: wb.ctrl["Q 6"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: fa90866b57794ef9aef8fc43e90db953
+      name: Q 6 (error)
+      type: DEPENDENT
+      key: wb.err["Q 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Q 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 61273d30558441168c47de672272ba66
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Q 6"]))>0
+        name: 'WB {HOST.HOST}: error on "Q 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 18a001e35ebd4eefb35ee493ab4e5bc9
+      name: S 6
+      type: DEPENDENT
+      key: wb.ctrl["S 6"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 450541be403c4c2eb146d3ea49647fc3
+      name: S 6 (error)
+      type: DEPENDENT
+      key: wb.err["S 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/S 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 63e4cf4168004a87a8c67e5c28fceb33
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["S 6"]))>0
+        name: 'WB {HOST.HOST}: error on "S 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 4b3a5ba19e1e444d981475e3d1ed8cc3
+      name: PF 6
+      type: DEPENDENT
+      key: wb.ctrl["PF 6"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: f3555544349849528dd05fd0f8e43206
+      name: PF 6 (error)
+      type: DEPENDENT
+      key: wb.err["PF 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/PF 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 69f3ea2f2b7343c1bd7309715af5b3e5
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["PF 6"]))>0
+        name: 'WB {HOST.HOST}: error on "PF 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 06bfef2d024e4e088ca0578fbad1befe
+      name: AP energy 6
+      type: DEPENDENT
+      key: wb.ctrl["AP energy 6"]
+      history: 7d
+      value_type: FLOAT
+      units: kWh
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 608e9fd599d74cb69ce93c886ef99d35
+      name: AP energy 6 (error)
+      type: DEPENDENT
+      key: wb.err["AP energy 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/AP energy 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 0fd5b4b368304688879a199968519f4a
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["AP energy 6"]))>0
+        name: 'WB {HOST.HOST}: error on "AP energy 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 9c48d9f53b7943758cd0c95012b32f36
+      name: RP energy 6
+      type: DEPENDENT
+      key: wb.ctrl["RP energy 6"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 70059976c4854b528d29896b7e801eba
+      name: RP energy 6 (error)
+      type: DEPENDENT
+      key: wb.err["RP energy 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/RP energy 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: eada54a3f6d54a65b2c774aa4035c8a9
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["RP energy 6"]))>0
+        name: 'WB {HOST.HOST}: error on "RP energy 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: bf4b44af3f1543fcafb6e645cfbb310f
+      name: Phase angle 6
+      type: DEPENDENT
+      key: wb.ctrl["Phase angle 6"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 6']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 2ab6c037ea814fe5afa350551b406db3
+      name: Phase angle 6 (error)
+      type: DEPENDENT
+      key: wb.err["Phase angle 6"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Phase angle 6/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 8cc61db3cc524457bf50897860d5740d
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Phase angle 6"]))>0
+        name: 'WB {HOST.HOST}: error on "Phase angle 6" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: a2e173d6b04842df8af3d5348f9188a3
+      name: Urms
+      type: DEPENDENT
+      key: wb.ctrl["Urms"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 4173e50958574e04b676b3a1bccd414d
+      name: Urms (error)
+      type: DEPENDENT
+      key: wb.err["Urms"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Urms/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 723e6c9f19a44ef7ad946074a65c9a26
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Urms"]))>0
+        name: 'WB {HOST.HOST}: error on "Urms" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: d32d3c0da40441e183eeb86a4fe547b5
+      name: Frequency
+      type: DEPENDENT
+      key: wb.ctrl["Frequency"]
+      history: 7d
+      value_type: FLOAT
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Frequency']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 5e249c72a99e4cc6a3154c5c70c8afa7
+      name: Frequency (error)
+      type: DEPENDENT
+      key: wb.err["Frequency"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Frequency/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: a49acb49694143d997a07956c8482015
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Frequency"]))>0
+        name: 'WB {HOST.HOST}: error on "Frequency" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: 02d69de878384e33bd47300e7ea50b83
+      name: Serial
+      type: DEPENDENT
+      key: wb.ctrl["Serial"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 08b000ea699b41e6b43eacdb97a2edf9
+      name: Serial (error)
+      type: DEPENDENT
+      key: wb.err["Serial"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 80c4581a53104b8f85fbe9cbacfaea2f
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Serial"]))>0
+        name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: c27d8b77271d4b2a99f440407708c615
+      name: 5V Supply
+      type: DEPENDENT
+      key: wb.ctrl["Supply voltage"]
+      history: 7d
+      value_type: FLOAT
+      units: V
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: 49c2c6c7ac0943b29a1d0852c4e94a3d
+      name: Supply voltage (error)
+      type: DEPENDENT
+      key: wb.err["Supply voltage"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Supply voltage/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 867e557bd0df4a93989cdf35b11d28af
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Supply voltage"]))>0
+        name: 'WB {HOST.HOST}: error on "Supply voltage" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    - uuid: b3fbdacb0cd1452592a095df53bfa849
+      name: Uptime (s)
+      type: DEPENDENT
+      key: wb.ctrl["Uptime"]
+      history: 7d
+      value_type: TEXT
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+    - uuid: ae65fdf3c03b4ab2bae40db2aec24967
+      name: Uptime (error)
+      type: DEPENDENT
+      key: wb.err["Uptime"]
+      history: 7d
+      value_type: CHAR
+      trends: '0'
+      preprocessing:
+      - type: JSONPATH
+        parameters:
+        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        error_handler: DISCARD_VALUE
+      master_item:
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      triggers:
+      - uuid: 1641c0edec06436d9b93483c371c3273
+        expression: length(last(/WB-MAP6S by MQTT/wb.err["Uptime"]))>0
+        name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
+        priority: AVERAGE
+        manual_close: 'YES'
+    macros:
+    - macro: '{$MQTT.BROKER}'
+      value: 127.0.0.1
+    - macro: '{$MQTT.PORT}'
+      value: '1883'
+    - macro: '{$DEVICE}'
+      value: wb-map6s
