@@ -13,7 +13,10 @@ zabbix_export:
     - uuid: cd0bc9bd885e4a609d5d082a4668df17
       name: MQTT raw stream
       type: ZABBIX_ACTIVE
-      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+      key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
+      tags:
+      - tag: device
+        value: wb-ups
       delay: '0'
       history: '0'
       value_type: TEXT
@@ -21,345 +24,443 @@ zabbix_export:
     - uuid: 7c8e5b8a5a3e4600a7cb04af3b89cd0c
       name: Battery Status
       type: DEPENDENT
-      key: wb.ctrl["Battery Status"]
+      key: wb.ups.ctrl["Battery Status"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Status']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Status']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 1a0af28f6d7a4ce4b8c1534a9dba0a5f
       name: Battery Status (error)
       type: DEPENDENT
-      key: wb.err["Battery Status"]
+      key: wb.ups.err["Battery Status"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Status/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Status/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: b63a71d8fbad4b47bc813f77badcc21c
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Battery Status"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Battery Status"]))>0
         name: 'WB {HOST.HOST}: error on "Battery Status" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: af21666a3d084db08c6d6d6cbf4c96d1
       name: Temperature Status
       type: DEPENDENT
-      key: wb.ctrl["Temperature Status"]
+      key: wb.ups.ctrl["Temperature Status"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Temperature Status']
+        - $['/devices/{$UPS.DEVICE}/controls/Temperature Status']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 30b0a13cc3644ab98511c8e32731800d
       name: Temperature Status (error)
       type: DEPENDENT
-      key: wb.err["Temperature Status"]
+      key: wb.ups.err["Temperature Status"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Temperature Status/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Temperature Status/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 6379188cd9f14f418696cd44f3e32d1f
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Temperature Status"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Temperature Status"]))>0
         name: 'WB {HOST.HOST}: error on "Temperature Status" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 3c10be0437954ec49917a51a0db43984
       name: Input Voltage
       type: DEPENDENT
-      key: wb.ctrl["Input Voltage"]
+      key: wb.ups.ctrl["Input Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Input Voltage']
+        - $['/devices/{$UPS.DEVICE}/controls/Input Voltage']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 4c0cf52eed3c471fa5ff2808b7c2e792
       name: Input Voltage (error)
       type: DEPENDENT
-      key: wb.err["Input Voltage"]
+      key: wb.ups.err["Input Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Input Voltage/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Input Voltage/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 28276d60ecc9417a879ef90c6feb2588
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Input Voltage"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Input Voltage"]))>0
         name: 'WB {HOST.HOST}: error on "Input Voltage" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 99b46b47232d41c48fb2fa7baec3b450
       name: Output Voltage
       type: DEPENDENT
-      key: wb.ctrl["Output Voltage"]
+      key: wb.ups.ctrl["Output Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Output Voltage']
+        - $['/devices/{$UPS.DEVICE}/controls/Output Voltage']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 89fc400cfd5441e58422e646fd0a60b9
       name: Output Voltage (error)
       type: DEPENDENT
-      key: wb.err["Output Voltage"]
+      key: wb.ups.err["Output Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Output Voltage/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Output Voltage/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: f70a1f4c93a6482fa717bde8170e0c69
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Output Voltage"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Output Voltage"]))>0
         name: 'WB {HOST.HOST}: error on "Output Voltage" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 704eb8c54e8a410d871bc26458a64c29
       name: Battery Voltage
       type: DEPENDENT
-      key: wb.ctrl["Battery Voltage"]
+      key: wb.ups.ctrl["Battery Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Voltage']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Voltage']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 9dc869b1c7a84c808d259e1af7febb52
       name: Battery Voltage (error)
       type: DEPENDENT
-      key: wb.err["Battery Voltage"]
+      key: wb.ups.err["Battery Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Voltage/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Voltage/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: aa35ba556234496aa92bc61e984fcd11
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Battery Voltage"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Battery Voltage"]))>0
         name: 'WB {HOST.HOST}: error on "Battery Voltage" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: e57898b17da2419faea5309e691e0fe5
       name: Battery Current
       type: DEPENDENT
-      key: wb.ctrl["Battery Current"]
+      key: wb.ups.ctrl["Battery Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
-      - type: JSONPATH
+      - type: JSONPATH/devices/wb_ups_v3_142/controls/output_voltage/meta/type value
+/devices/wb_ups_v3_142/controls/output_voltage/meta/readonly 1
+/devices/wb_ups_v3_142/controls/output_voltage/meta/order 4
+/devices/wb_ups_v3_142/controls/charging_input_current 0
+/devices/wb_ups_v3_142/controls/charging_input_current/meta {"order":7,"precision":0.001,"readonly":true,"title":{"en":"Charging Input Current","ru":"\u0412\u0445\u043e\u0434\u043d\u043e\u0439 \u0442\u043e\u043a \u0434\u043b\u044f \u0437\u0430\u0440\u044f\u0434\u0430"},"type":"value","units":"A"}
+/devices/wb_ups_v3_142/controls/charging_input_current/meta/precision 0.001
+/devices/wb_ups_v3_142/controls/charging_input_current/meta/order 7
+/devices/wb_ups_v3_142/controls/charging_input_current/meta/type value
+/devices/wb_ups_v3_142/controls/charging_input_current/meta/readonly 1
+/devices/wb_ups_v3_142/meta {"driver":"wb-modbus","title":{"en":"WB-UPS v.3 142"}}
+/devices/wb_ups_v3_142/meta/driver wb-modbus
+/devices/wb_ups_v3_142/meta/name WB-UPS v.3 142
+/devices/wb_ups_v3_142/controls/input_voltage 23.87
+/devices/wb_ups_v3_142/controls/output_voltage 23.87
+/devices/wb_ups_v3_142/controls/battery_voltage 8.048
+/devices/wb_ups_v3_142/controls/battery_voltage 8.047
+/devices/wb_ups_v3_142/controls/battery_temperature 33.76
+/devices/wb_ups_v3_142/controls/battery_temperature 33.74
+/devices/wb_ups_v3_142/controls/battery_temperature 33.75
+/devices/wb_ups_v3_142/controls/input_voltage 23.88
+/devices/wb_ups_v3_142/controls/output_voltage 23.88
+/devices/wb_ups_v3_142/controls/battery_temperature 33.76
+/devices/wb_ups_v3_142/controls/input_voltage 23.87
+/devices/wb_ups_v3_142/controls/output_voltage 23.87
+/devices/wb_ups_v3_142/controls/battery_voltage 8.048
+/devices/wb_ups_v3_142/controls/battery_temperature 33.74
+/devices/wb_ups_v3_142/controls/input_voltage 23.88
+/devices/wb_ups_v3_142/controls/output_voltage 23.88
+/devices/wb_ups_v3_142/controls/battery_voltage 8.047
+/devices/wb_ups_v3_142/controls/battery_temperature 33.76
+/devices/wb_ups_v3_142/controls/input_voltage 23.87
+/devices/wb_ups_v3_142/controls/output_voltage 23.87
+/devices/wb_ups_v3_142/controls/battery_voltage 8.044
+/devices/wb_ups_v3_142/controls/battery_temperature 33.75
+/devices/wb_ups_v3_142/controls/battery_voltage 8.048
+/devices/wb_ups_v3_142/controls/battery_temperature 33.74
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Current']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Current']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: e32a42f79b7741ce94629806870d83b0
       name: Battery Current (error)
       type: DEPENDENT
-      key: wb.err["Battery Current"]
+      key: wb.ups.err["Battery Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Current/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Current/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 263543392d214c7f985bdd35e8104258
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Battery Current"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Battery Current"]))>0
         name: 'WB {HOST.HOST}: error on "Battery Current" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 775c90cb915d4f5aa8690ea40f2646f5
       name: Charging Input Current
       type: DEPENDENT
-      key: wb.ctrl["Charging Input Current"]
+      key: wb.ups.ctrl["Charging Input Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charging Input Current']
+        - $['/devices/{$UPS.DEVICE}/controls/Charging Input Current']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: e88eb954a9854071bdadf4d9b7cb5290
       name: Charging Input Current (error)
       type: DEPENDENT
-      key: wb.err["Charging Input Current"]
+      key: wb.ups.err["Charging Input Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charging Input Current/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charging Input Current/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 97f15145f94b4e018368801e4cc935cf
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charging Input Current"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charging Input Current"]))>0
         name: 'WB {HOST.HOST}: error on "Charging Input Current" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 1c62032f862041b0ba49a6ee38ca075b
       name: Load Current (Battery Powered)
       type: DEPENDENT
-      key: wb.ctrl["Load Current (Battery Powered)"]
+      key: wb.ups.ctrl["Load Current (Battery Powered)"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Load Current (Battery Powered)']
+        - $['/devices/{$UPS.DEVICE}/controls/Load Current (Battery Powered)']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: b7f59ad4cfb14d649b1047d364e95588
       name: Load Current (Battery Powered) (error)
       type: DEPENDENT
-      key: wb.err["Load Current (Battery Powered)"]
+      key: wb.ups.err["Load Current (Battery Powered)"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Load Current (Battery Powered)/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Load Current (Battery Powered)/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 5b7aa433f1e34a32a1186e51448aa928
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Load Current (Battery Powered)"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Load Current (Battery Powered)"]))>0
         name: 'WB {HOST.HOST}: error on "Load Current (Battery Powered)" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 915bba93187440ce8c803888dc7701ee
       name: Battery Charge Level
       type: DEPENDENT
-      key: wb.ctrl["Battery Charge Level"]
+      key: wb.ups.ctrl["Battery Charge Level"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: '%'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Charge Level']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Charge Level']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 79b435bb80884e16ac8c265c32656f74
       name: Battery Charge Level (error)
       type: DEPENDENT
-      key: wb.err["Battery Charge Level"]
+      key: wb.ups.err["Battery Charge Level"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Charge Level/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Charge Level/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 308270cd52304d46b386e921fb602f6f
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Battery Charge Level"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Battery Charge Level"]))>0
         name: 'WB {HOST.HOST}: error on "Battery Charge Level" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 33099b794f3243b5a0fe3d6434b4a82a
       name: Battery Temperature
       type: DEPENDENT
-      key: wb.ctrl["Battery Temperature"]
+      key: wb.ups.ctrl["Battery Temperature"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: °C
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Temperature']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Temperature']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 52da9ed1ebfd4d0784f63151eaeb4af9
       name: Battery Temperature (error)
       type: DEPENDENT
-      key: wb.err["Battery Temperature"]
+      key: wb.ups.err["Battery Temperature"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Battery Temperature/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Battery Temperature/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 6fff506504444884b4f2002fae526a9b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Battery Temperature"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Battery Temperature"]))>0
         name: 'WB {HOST.HOST}: error on "Battery Temperature" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: f69ad4aa066e4f818e5e65c84fbd4ca3
       name: Load Control In Backup Mode
       type: DEPENDENT
-      key: wb.ctrl["Load Control In Backup Mode"]
+      key: wb.ups.ctrl["Load Control In Backup Mode"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: UNSIGNED
       valuemap:
@@ -367,34 +468,40 @@ zabbix_export:
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Load Control In Backup Mode']
+        - $['/devices/{$UPS.DEVICE}/controls/Load Control In Backup Mode']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: b764f7a501d44050aefaf6d017c4890f
       name: Load Control In Backup Mode (error)
       type: DEPENDENT
-      key: wb.err["Load Control In Backup Mode"]
+      key: wb.ups.err["Load Control In Backup Mode"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Load Control In Backup Mode/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Load Control In Backup Mode/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 65c354a3511a49bb8c9422bd93f466e6
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Load Control In Backup Mode"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Load Control In Backup Mode"]))>0
         name: 'WB {HOST.HOST}: error on "Load Control In Backup Mode" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 59829331820244318045a24479beab6f
       name: Button State
       type: DEPENDENT
-      key: wb.ctrl["Button State"]
+      key: wb.ups.ctrl["Button State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: UNSIGNED
       valuemap:
@@ -402,166 +509,196 @@ zabbix_export:
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button State']
+        - $['/devices/{$UPS.DEVICE}/controls/Button State']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: e9ea0ab5ae564a2aa8413403b20a0c86
       name: Button State (error)
       type: DEPENDENT
-      key: wb.err["Button State"]
+      key: wb.ups.err["Button State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button State/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Button State/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 4111d90f53794504ba4350a3f1e2797b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Button State"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Button State"]))>0
         name: 'WB {HOST.HOST}: error on "Button State" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: d3422de708044529badf627ed6495582
       name: Button Single Press Counter
       type: DEPENDENT
-      key: wb.ctrl["Button Single Press Counter"]
+      key: wb.ups.ctrl["Button Single Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Single Press Counter']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Single Press Counter']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: e22fe72217634738afdc9720ff9b0108
       name: Button Single Press Counter (error)
       type: DEPENDENT
-      key: wb.err["Button Single Press Counter"]
+      key: wb.ups.err["Button Single Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Single Press Counter/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Single Press Counter/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 3e7c1f03520740bcb84a1f9f200d35b0
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Button Single Press Counter"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Button Single Press Counter"]))>0
         name: 'WB {HOST.HOST}: error on "Button Single Press Counter" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 17ad7246037c4d139fcbd5be01b83195
       name: Button Long Press Counter
       type: DEPENDENT
-      key: wb.ctrl["Button Long Press Counter"]
+      key: wb.ups.ctrl["Button Long Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Long Press Counter']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Long Press Counter']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 1bc1213a174941c5878808ed9c818a29
       name: Button Long Press Counter (error)
       type: DEPENDENT
-      key: wb.err["Button Long Press Counter"]
+      key: wb.ups.err["Button Long Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Long Press Counter/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Long Press Counter/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 18578d5da0864d58b0756cfc6b5ae9a2
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Button Long Press Counter"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Button Long Press Counter"]))>0
         name: 'WB {HOST.HOST}: error on "Button Long Press Counter" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: f72f5d234e1b42c19c68239fa133fbd4
       name: Button Double Press Counter
       type: DEPENDENT
-      key: wb.ctrl["Button Double Press Counter"]
+      key: wb.ups.ctrl["Button Double Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Double Press Counter']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Double Press Counter']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: d707377df59144af8c473ccdb9576a3a
       name: Button Double Press Counter (error)
       type: DEPENDENT
-      key: wb.err["Button Double Press Counter"]
+      key: wb.ups.err["Button Double Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Double Press Counter/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Double Press Counter/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: a2dabb5cfeb74ca58eab6122761112b4
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Button Double Press Counter"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Button Double Press Counter"]))>0
         name: 'WB {HOST.HOST}: error on "Button Double Press Counter" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 12bff1831a734ed1ba0591ab237ffdac
       name: Button Shortlong Press Counter
       type: DEPENDENT
-      key: wb.ctrl["Button Shortlong Press Counter"]
+      key: wb.ups.ctrl["Button Shortlong Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Shortlong Press Counter']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Shortlong Press Counter']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 28b08fc438584ad48e1f0c58b79d0842
       name: Button Shortlong Press Counter (error)
       type: DEPENDENT
-      key: wb.err["Button Shortlong Press Counter"]
+      key: wb.ups.err["Button Shortlong Press Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Button Shortlong Press Counter/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Button Shortlong Press Counter/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 56bcfc4b32fd42e7b9053791b7a4d4b6
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Button Shortlong Press Counter"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Button Shortlong Press Counter"]))>0
         name: 'WB {HOST.HOST}: error on "Button Shortlong Press Counter" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 1a4a10cd28864ad79880df58cdbbe22b
       name: Temperature Hardware Protection
       type: DEPENDENT
-      key: wb.ctrl["Temperature Hardware Protection"]
+      key: wb.ups.ctrl["Temperature Hardware Protection"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: UNSIGNED
       valuemap:
@@ -569,34 +706,40 @@ zabbix_export:
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Temperature Hardware Protection']
+        - $['/devices/{$UPS.DEVICE}/controls/Temperature Hardware Protection']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 9a716b7d87394bbe8a797ab5b9a21637
       name: Temperature Hardware Protection (error)
       type: DEPENDENT
-      key: wb.err["Temperature Hardware Protection"]
+      key: wb.ups.err["Temperature Hardware Protection"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Temperature Hardware Protection/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Temperature Hardware Protection/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 9955db09a75744c88e7ead36bcbcf2e3
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Temperature Hardware Protection"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Temperature Hardware Protection"]))>0
         name: 'WB {HOST.HOST}: error on "Temperature Hardware Protection" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: c0347d7bf1a048e6becbae2ea824b63d
       name: Charger State
       type: DEPENDENT
-      key: wb.ctrl["Charger State"]
+      key: wb.ups.ctrl["Charger State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: UNSIGNED
       valuemap:
@@ -604,34 +747,40 @@ zabbix_export:
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger State']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger State']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: f4a9ad7817d646ed98e0df5f39f82b3b
       name: Charger State (error)
       type: DEPENDENT
-      key: wb.err["Charger State"]
+      key: wb.ups.err["Charger State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger State/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger State/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 006c91ed004940eca145fc5698bc99ca
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger State"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger State"]))>0
         name: 'WB {HOST.HOST}: error on "Charger State" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 9e8adae0c21649cdb16935cdccd2c68a
       name: Discharger State
       type: DEPENDENT
-      key: wb.ctrl["Discharger State"]
+      key: wb.ups.ctrl["Discharger State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: UNSIGNED
       valuemap:
@@ -639,1005 +788,1182 @@ zabbix_export:
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger State']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger State']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 8445ed8e5cf745c3a4a6fd4b20073f97
       name: Discharger State (error)
       type: DEPENDENT
-      key: wb.err["Discharger State"]
+      key: wb.ups.err["Discharger State"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger State/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger State/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: c7ac90aef1dc4ccf815132d76614362b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger State"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger State"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger State" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: f5bec6869ade44d39e5b8612e6e8f084
       name: Charging Current Setpoint
       type: DEPENDENT
-      key: wb.ctrl["Charging Current Setpoint"]
+      key: wb.ups.ctrl["Charging Current Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: mA
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charging Current Setpoint']
+        - $['/devices/{$UPS.DEVICE}/controls/Charging Current Setpoint']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 6b66e9f6c9174bed8a8782c418eeca4b
       name: Charging Current Setpoint (error)
       type: DEPENDENT
-      key: wb.err["Charging Current Setpoint"]
+      key: wb.ups.err["Charging Current Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charging Current Setpoint/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charging Current Setpoint/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 67976eb558b4499484aabe104c12b680
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charging Current Setpoint"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charging Current Setpoint"]))>0
         name: 'WB {HOST.HOST}: error on "Charging Current Setpoint" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 0aaebe6542e94a1589ba8c5c17fcf731
       name: Discharge Voltage Desired Setpoint
       type: DEPENDENT
-      key: wb.ctrl["Discharge Voltage Setpoint"]
+      key: wb.ups.ctrl["Discharge Voltage Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharge Voltage Setpoint']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharge Voltage Setpoint']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: f5c81c2aa2e84524a1b88232eb493f62
       name: Discharge Voltage Setpoint (error)
       type: DEPENDENT
-      key: wb.err["Discharge Voltage Setpoint"]
+      key: wb.ups.err["Discharge Voltage Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharge Voltage Setpoint/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharge Voltage Setpoint/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 2f86843c291a4a80aa414fdc8f0e54e9
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharge Voltage Setpoint"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharge Voltage Setpoint"]))>0
         name: 'WB {HOST.HOST}: error on "Discharge Voltage Setpoint" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 26ae1c7a2b044070b90b652c7663c596
       name: Discharge Voltage Real Setpoint
       type: DEPENDENT
-      key: wb.ctrl["Discharge Voltage Real Setpoint"]
+      key: wb.ups.ctrl["Discharge Voltage Real Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharge Voltage Real Setpoint']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharge Voltage Real Setpoint']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 4df3f474827f4909b38870e06352e55e
       name: Discharge Voltage Real Setpoint (error)
       type: DEPENDENT
-      key: wb.err["Discharge Voltage Real Setpoint"]
+      key: wb.ups.err["Discharge Voltage Real Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharge Voltage Real Setpoint/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharge Voltage Real Setpoint/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: c2ade8da3aaf494e8a4148a8424d2fba
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharge Voltage Real Setpoint"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharge Voltage Real Setpoint"]))>0
         name: 'WB {HOST.HOST}: error on "Discharge Voltage Real Setpoint" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 0aec6e375529470cae9af8b2463f21c1
       name: Max Discharge Current
       type: DEPENDENT
-      key: wb.ctrl["Max Discharge Current"]
+      key: wb.ups.ctrl["Max Discharge Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Max Discharge Current']
+        - $['/devices/{$UPS.DEVICE}/controls/Max Discharge Current']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 240cdf0e483d40fca7bc2e73f994c137
       name: Max Discharge Current (error)
       type: DEPENDENT
-      key: wb.err["Max Discharge Current"]
+      key: wb.ups.err["Max Discharge Current"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Max Discharge Current/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Max Discharge Current/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: da575a2ff07a461d805ed76b26a6bcc6
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Max Discharge Current"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Max Discharge Current"]))>0
         name: 'WB {HOST.HOST}: error on "Max Discharge Current" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 94568a0482bb4851aa8312cdd3cf0990
       name: VINREG Setpoint
       type: DEPENDENT
-      key: wb.ctrl["VINREG Setpoint"]
+      key: wb.ups.ctrl["VINREG Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/VINREG Setpoint']
+        - $['/devices/{$UPS.DEVICE}/controls/VINREG Setpoint']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: a6edf5a01e9f492081efd416b56137e6
       name: VINREG Setpoint (error)
       type: DEPENDENT
-      key: wb.err["VINREG Setpoint"]
+      key: wb.ups.err["VINREG Setpoint"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/VINREG Setpoint/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/VINREG Setpoint/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 36bf54da689549d28f30647de517d8ee
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["VINREG Setpoint"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["VINREG Setpoint"]))>0
         name: 'WB {HOST.HOST}: error on "VINREG Setpoint" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 12feaa7e9f3549a08b31e7786b3033b5
       name: OCV
       type: DEPENDENT
-      key: wb.ctrl["OCV"]
+      key: wb.ups.ctrl["OCV"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/OCV']
+        - $['/devices/{$UPS.DEVICE}/controls/OCV']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: abf235d9456e45c4bea386dbce026038
       name: OCV (error)
       type: DEPENDENT
-      key: wb.err["OCV"]
+      key: wb.ups.err["OCV"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/OCV/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/OCV/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 1d933ce9837c41969426707d81d8cebc
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["OCV"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["OCV"]))>0
         name: 'WB {HOST.HOST}: error on "OCV" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: c94a25e826374de59ecb6207d436841a
       name: Charge Counter
       type: DEPENDENT
-      key: wb.ctrl["Charge Counter"]
+      key: wb.ups.ctrl["Charge Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: mAh
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charge Counter']
+        - $['/devices/{$UPS.DEVICE}/controls/Charge Counter']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 1c5df089c8034777902159522ac85a8d
       name: Charge Counter (error)
       type: DEPENDENT
-      key: wb.err["Charge Counter"]
+      key: wb.ups.err["Charge Counter"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charge Counter/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charge Counter/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: ba16b7536ca44e24a2cec9644277562a
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charge Counter"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charge Counter"]))>0
         name: 'WB {HOST.HOST}: error on "Charge Counter" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 55ead3f863f548a7907a7834c12cf04b
       name: Charger Vbus Raw
       type: DEPENDENT
-      key: wb.ctrl["Charger Vbus Raw"]
+      key: wb.ups.ctrl["Charger Vbus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbus Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbus Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 2cc08b9ff46b4ee4a8b1d5a21f61545d
       name: Charger Vbus Raw (error)
       type: DEPENDENT
-      key: wb.err["Charger Vbus Raw"]
+      key: wb.ups.err["Charger Vbus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbus Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbus Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 6d955569b11a4bed9f9cde13fb31e14b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Vbus Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Vbus Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Vbus Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: d8527d4c26f447b9a08c407ac816d7e6
       name: Charger Vbat Raw
       type: DEPENDENT
-      key: wb.ctrl["Charger Vbat Raw"]
+      key: wb.ups.ctrl["Charger Vbat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbat Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbat Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 0d8bb19ee65b4f3099a08d1733fc0195
       name: Charger Vbat Raw (error)
       type: DEPENDENT
-      key: wb.err["Charger Vbat Raw"]
+      key: wb.ups.err["Charger Vbat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbat Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbat Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: bc67008605ea4bd5a43a73e5273adc83
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Vbat Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Vbat Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Vbat Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 720f9a5f1129463abc11af3eeaf7e7b7
       name: Charger Ibus Raw
       type: DEPENDENT
-      key: wb.ctrl["Charger Ibus Raw"]
+      key: wb.ups.ctrl["Charger Ibus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibus Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibus Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 000dc00c56cb4991b1651951a30ff4d2
       name: Charger Ibus Raw (error)
       type: DEPENDENT
-      key: wb.err["Charger Ibus Raw"]
+      key: wb.ups.err["Charger Ibus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibus Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibus Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 6d67965e853d4ba78f720b0341e7730b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Ibus Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Ibus Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Ibus Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 95a9bb55704b48d0b2fe26129e257273
       name: Charger Ibat Raw
       type: DEPENDENT
-      key: wb.ctrl["Charger Ibat Raw"]
+      key: wb.ups.ctrl["Charger Ibat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibat Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibat Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: c6416de63e2c429a9aa6065189a82fff
       name: Charger Ibat Raw (error)
       type: DEPENDENT
-      key: wb.err["Charger Ibat Raw"]
+      key: wb.ups.err["Charger Ibat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibat Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibat Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 1f3a33df68c64fea8b571e73f5eb58f0
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Ibat Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Ibat Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Ibat Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 4b028437a8424a3ca7c6b05a1d300642
       name: Discharger Vbus Raw
       type: DEPENDENT
-      key: wb.ctrl["Discharger Vbus Raw"]
+      key: wb.ups.ctrl["Discharger Vbus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbus Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbus Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: c652c31496f246dca88b84953b38356a
       name: Discharger Vbus Raw (error)
       type: DEPENDENT
-      key: wb.err["Discharger Vbus Raw"]
+      key: wb.ups.err["Discharger Vbus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbus Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbus Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 66bf5a8b1b6748ac9d20a9a6f7b89ffe
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Vbus Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Vbus Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Vbus Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: d2790ac5826244f89807929c3694aede
       name: Discharger Vbat Raw
       type: DEPENDENT
-      key: wb.ctrl["Discharger Vbat Raw"]
+      key: wb.ups.ctrl["Discharger Vbat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbat Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbat Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: b0bf4d84ac454e0aa52c6994ace9abcd
       name: Discharger Vbat Raw (error)
       type: DEPENDENT
-      key: wb.err["Discharger Vbat Raw"]
+      key: wb.ups.err["Discharger Vbat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbat Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbat Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: cef93b3e382a4ad1a25ce1ccf46258f5
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Vbat Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Vbat Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Vbat Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 515aea587b3649699090e71135ebb1a8
       name: Discharger Ibus Raw
       type: DEPENDENT
-      key: wb.ctrl["Discharger Ibus Raw"]
+      key: wb.ups.ctrl["Discharger Ibus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibus Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibus Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 587ad0c454854961983ed0da12b567bb
       name: Discharger Ibus Raw (error)
       type: DEPENDENT
-      key: wb.err["Discharger Ibus Raw"]
+      key: wb.ups.err["Discharger Ibus Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibus Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibus Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 4da8d2b0953841a5bbb72ef11cdd109e
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Ibus Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Ibus Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Ibus Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: d6d8cf7d500e4932bccfe6432cb01876
       name: Discharger Ibat Raw
       type: DEPENDENT
-      key: wb.ctrl["Discharger Ibat Raw"]
+      key: wb.ups.ctrl["Discharger Ibat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibat Raw']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibat Raw']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 0ce9a9e0a5ed4ce4b1bd6ebdae97f410
       name: Discharger Ibat Raw (error)
       type: DEPENDENT
-      key: wb.err["Discharger Ibat Raw"]
+      key: wb.ups.err["Discharger Ibat Raw"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibat Raw/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibat Raw/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: bd2205ed0da54faa88c646fb51094754
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Ibat Raw"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Ibat Raw"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Ibat Raw" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 9278b10e28aa4f6a8c4fb1dbd50afe4c
       name: Charger Vbus Real
       type: DEPENDENT
-      key: wb.ctrl["Charger Vbus Real"]
+      key: wb.ups.ctrl["Charger Vbus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbus Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbus Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 2138de989d6c43d69ae57d6973f62574
       name: Charger Vbus Real (error)
       type: DEPENDENT
-      key: wb.err["Charger Vbus Real"]
+      key: wb.ups.err["Charger Vbus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbus Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbus Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: f5bb3704f57548a88c9b5e95bf1ef835
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Vbus Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Vbus Real"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Vbus Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 0d84c67de22f461dbdd30632bbd33b80
       name: Charger Vbat Real
       type: DEPENDENT
-      key: wb.ctrl["Charger Vbat Real"]
+      key: wb.ups.ctrl["Charger Vbat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbat Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbat Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: d7b420f2b86e4fffb9fc26e09e95cec1
       name: Charger Vbat Real (error)
       type: DEPENDENT
-      key: wb.err["Charger Vbat Real"]
+      key: wb.ups.err["Charger Vbat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Vbat Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Vbat Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 2b9fa9f477324ba2b4262bf8ff35eddc
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Vbat Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Vbat Real"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Vbat Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: d6f48baeb8e6430c9b8791c002f9a205
       name: Charger Ibus Real
       type: DEPENDENT
-      key: wb.ctrl["Charger Ibus Real"]
+      key: wb.ups.ctrl["Charger Ibus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibus Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibus Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 1ae9e150fdb546d58b1880b2af8a274a
       name: Charger Ibus Real (error)
       type: DEPENDENT
-      key: wb.err["Charger Ibus Real"]
+      key: wb.ups.err["Charger Ibus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibus Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibus Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 7c65d023bf5742f2b9ec07a09886823d
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Ibus Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Ibus Real"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Ibus Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 23cea05c1de74c308492c3b12c040666
       name: Charger Ibat Real
       type: DEPENDENT
-      key: wb.ctrl["Charger Ibat Real"]
+      key: wb.ups.ctrl["Charger Ibat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibat Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibat Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: ff1efb29444b45b69151ed78698b32cf
       name: Charger Ibat Real (error)
       type: DEPENDENT
-      key: wb.err["Charger Ibat Real"]
+      key: wb.ups.err["Charger Ibat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Charger Ibat Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Charger Ibat Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 8cc64f7b04d7453b9e8833e230398284
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Charger Ibat Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Charger Ibat Real"]))>0
         name: 'WB {HOST.HOST}: error on "Charger Ibat Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 398528716a9247788d43232428068a8d
       name: Discharger Vbus Real
       type: DEPENDENT
-      key: wb.ctrl["Discharger Vbus Real"]
+      key: wb.ups.ctrl["Discharger Vbus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbus Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbus Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 4d1237be949b4504af0b005445378bd0
       name: Discharger Vbus Real (error)
       type: DEPENDENT
-      key: wb.err["Discharger Vbus Real"]
+      key: wb.ups.err["Discharger Vbus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbus Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbus Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: bb69ad8874c04ee08bbb6c8d5b5d4fc6
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Vbus Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Vbus Real"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Vbus Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 141d52c05e87446fbc1abffac21bef84
       name: Discharger Vbat Real
       type: DEPENDENT
-      key: wb.ctrl["Discharger Vbat Real"]
+      key: wb.ups.ctrl["Discharger Vbat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbat Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbat Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 915b93499b754ea39b31abf70a87643a
       name: Discharger Vbat Real (error)
       type: DEPENDENT
-      key: wb.err["Discharger Vbat Real"]
+      key: wb.ups.err["Discharger Vbat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Vbat Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Vbat Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: d4ad7b5bc3d44c5ab8f88f6a3f788776
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Vbat Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Vbat Real"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Vbat Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 525ae86f6b0f4db4bd423d719ccec192
       name: Discharger Ibus Real
       type: DEPENDENT
-      key: wb.ctrl["Discharger Ibus Real"]
+      key: wb.ups.ctrl["Discharger Ibus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibus Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibus Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: c83ba4547334419f8727ad7952e368c0
       name: Discharger Ibus Real (error)
       type: DEPENDENT
-      key: wb.err["Discharger Ibus Real"]
+      key: wb.ups.err["Discharger Ibus Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibus Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibus Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 44c644ed528f4a4bbb04f7cf75574490
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Ibus Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Ibus Real"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Ibus Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 200ba80023b34c2e8567e5f7f3b918c4
       name: Discharger Ibat Real
       type: DEPENDENT
-      key: wb.ctrl["Discharger Ibat Real"]
+      key: wb.ups.ctrl["Discharger Ibat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: A
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibat Real']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibat Real']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: c53f97dca52e40eb902999159a1c75ad
       name: Discharger Ibat Real (error)
       type: DEPENDENT
-      key: wb.err["Discharger Ibat Real"]
+      key: wb.ups.err["Discharger Ibat Real"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Discharger Ibat Real/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Discharger Ibat Real/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: faa1592f9c694ab3bed3ce2eab00808a
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Discharger Ibat Real"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Discharger Ibat Real"]))>0
         name: 'WB {HOST.HOST}: error on "Discharger Ibat Real" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 1233db28871e46bfba9167e19ac401eb
       name: Serial
       type: DEPENDENT
-      key: wb.ctrl["Serial"]
+      key: wb.ups.ctrl["Serial"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: TEXT
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Serial']
+        - $['/devices/{$UPS.DEVICE}/controls/Serial']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: c52dc74d9d014d13a33fa48b7ec6e485
       name: Serial (error)
       type: DEPENDENT
-      key: wb.err["Serial"]
+      key: wb.ups.err["Serial"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Serial/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Serial/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 5b43df47daf344ce9114c0b08f15537d
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Serial"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Serial"]))>0
         name: 'WB {HOST.HOST}: error on "Serial" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 4bed236b037c41a8bdb7ca122ff09761
       name: HW Batch Number
       type: DEPENDENT
-      key: wb.ctrl["HW Batch Number"]
+      key: wb.ups.ctrl["HW Batch Number"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: TEXT
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/HW Batch Number']
+        - $['/devices/{$UPS.DEVICE}/controls/HW Batch Number']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 5abb8d3c3ce14a34abfc99595e745a81
       name: HW Batch Number (error)
       type: DEPENDENT
-      key: wb.err["HW Batch Number"]
+      key: wb.ups.err["HW Batch Number"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/HW Batch Number/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/HW Batch Number/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: f8348d78c43745edbfb89dd1b88e32c5
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["HW Batch Number"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["HW Batch Number"]))>0
         name: 'WB {HOST.HOST}: error on "HW Batch Number" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: f64d27562df74944a9a677575d9a4833
       name: FW Version
       type: DEPENDENT
-      key: wb.ctrl["FW Version"]
+      key: wb.ups.ctrl["FW Version"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: TEXT
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/FW Version']
+        - $['/devices/{$UPS.DEVICE}/controls/FW Version']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 869de2848bca476bb9bf3cf099ded8e1
       name: FW Version (error)
       type: DEPENDENT
-      key: wb.err["FW Version"]
+      key: wb.ups.err["FW Version"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/FW Version/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/FW Version/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: a4980a60eedb48d3a0609520e6e9b7ee
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["FW Version"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["FW Version"]))>0
         name: 'WB {HOST.HOST}: error on "FW Version" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 4e6fd70edf5a4201ade1ff78d338f5e9
       name: Uptime
       type: DEPENDENT
-      key: wb.ctrl["Uptime"]
+      key: wb.ups.ctrl["Uptime"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: s
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Uptime']
+        - $['/devices/{$UPS.DEVICE}/controls/Uptime']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 1a536dd8e4664b33b359284cff0444c5
       name: Uptime (error)
       type: DEPENDENT
-      key: wb.err["Uptime"]
+      key: wb.ups.err["Uptime"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/Uptime/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/Uptime/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: 3529abdb24b9434bb2da811ee04c839b
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["Uptime"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["Uptime"]))>0
         name: 'WB {HOST.HOST}: error on "Uptime" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: 6db94f82704b4e0ba0b422b74d452c97
       name: MCU Temperature
       type: DEPENDENT
-      key: wb.ctrl["MCU Temperature"]
+      key: wb.ups.ctrl["MCU Temperature"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: °C
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/MCU Temperature']
+        - $['/devices/{$UPS.DEVICE}/controls/MCU Temperature']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 6d13282e230b468e9bf50505dd52f5e2
       name: MCU Temperature (error)
       type: DEPENDENT
-      key: wb.err["MCU Temperature"]
+      key: wb.ups.err["MCU Temperature"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/MCU Temperature/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/MCU Temperature/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: e113f9b66004489894d543538858f86c
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["MCU Temperature"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["MCU Temperature"]))>0
         name: 'WB {HOST.HOST}: error on "MCU Temperature" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
     - uuid: a3fbfa3285f546aeafbf8a3b82aa892b
       name: MCU Voltage
       type: DEPENDENT
-      key: wb.ctrl["MCU Voltage"]
+      key: wb.ups.ctrl["MCU Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: FLOAT
       units: V
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/MCU Voltage']
+        - $['/devices/{$UPS.DEVICE}/controls/MCU Voltage']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
     - uuid: 20d8aee81dc344559febe96010cd3fdd
       name: MCU Voltage (error)
       type: DEPENDENT
-      key: wb.err["MCU Voltage"]
+      key: wb.ups.err["MCU Voltage"]
+      tags:
+      - tag: device
+        value: wb-ups
       history: 7d
       value_type: CHAR
       trends: '0'
       preprocessing:
       - type: JSONPATH
         parameters:
-        - $['/devices/{$DEVICE}/controls/MCU Voltage/meta/error']
+        - $['/devices/{$UPS.DEVICE}/controls/MCU Voltage/meta/error']
         error_handler: DISCARD_VALUE
       master_item:
-        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$DEVICE}/#]
+        key: mqtt.get[tcp://{$MQTT.BROKER}:{$MQTT.PORT},/devices/{$UPS.DEVICE}/#]
       triggers:
       - uuid: b98285182d184d76be698f6c3df1c2fa
-        expression: length(last(/WB-UPS v.3 by MQTT/wb.err["MCU Voltage"]))>0
+        expression: length(last(/WB-UPS v.3 by MQTT/wb.ups.err["MCU Voltage"]))>0
         name: 'WB {HOST.HOST}: error on "MCU Voltage" ({ITEM.VALUE1})'
         priority: AVERAGE
         manual_close: 'YES'
@@ -1646,7 +1972,7 @@ zabbix_export:
       value: 127.0.0.1
     - macro: '{$MQTT.PORT}'
       value: '1883'
-    - macro: '{$DEVICE}'
+    - macro: '{$UPS.DEVICE}'
       value: wb_ups_v3
     valuemaps:
     - uuid: 20b9879dd6c64251933dbede3805150b
